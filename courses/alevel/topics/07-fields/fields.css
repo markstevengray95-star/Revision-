@@ -1,0 +1,100 @@
+
+:root{
+  --field-gold:#f2c14e;
+  --field-cyan:#67c7ff;
+  --field-green:#72e0a3;
+  --field-red:#ff8b8b;
+}
+textarea{width:100%;min-height:92px;resize:vertical;background:#071522;color:#eef7ff;border:1px solid var(--border);border-radius:10px;padding:10px;font:inherit}
+.field-workspace-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.field-workspace-grid>div{display:grid;gap:7px}
+.spec-grid{display:grid;gap:10px}
+.spec-card{display:grid;grid-template-columns:150px 1.4fr 1fr 1fr;gap:12px;align-items:start;padding:14px;border:1px solid var(--border);border-radius:14px;background:#0a182a}
+.spec-card strong{color:#bce8ff}
+.mastery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mastery-grid ul,.lesson-panel ul{padding-left:20px}
+.check-card{padding:12px;border-radius:12px;background:#071522;border:1px solid var(--border);margin:10px 0}
+.check-options{display:grid;gap:7px;margin-top:8px}
+.check-options button{text-align:left}
+.check-result{margin-top:8px;font-size:.85rem}
+.lesson-card.complete{border-color:rgba(114,224,163,.65);box-shadow:0 0 0 1px rgba(114,224,163,.2) inset}
+.lesson-card.active{border-color:var(--accent);background:#0d2136}
+.lesson-card .lesson-card-row{display:flex;gap:9px;justify-content:space-between;align-items:flex-start}
+.lesson-card .lesson-code{font-size:.7rem;color:#8ea7bd}
+.lesson-card .lesson-title{font-weight:700;color:#eef7ff}
+.lesson-card .lesson-status{font-size:.72rem;color:#8ea7bd}
+.lesson-section{margin:12px 0;padding:14px;border:1px solid var(--border);border-radius:14px;background:#0a182a}
+.lesson-section h3{margin:0 0 8px;color:#bce8ff}
+.retrieval-grid{display:grid;gap:8px}
+.retrieval-item details{padding:9px;border:1px solid var(--border);border-radius:10px;background:#071522}
+.equation-chip{display:inline-flex;padding:6px 9px;margin:4px;border:1px solid #35516d;border-radius:999px;background:#071522;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dff3ff}
+.lesson-footer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.sim-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sim-tab{padding:8px 11px;border-radius:999px;border:1px solid var(--border);background:#091a2b;color:#dceaff;cursor:pointer}
+.sim-tab.active{background:rgba(103,199,255,.16);border-color:var(--accent)}
+#simCanvas{width:100%;height:520px;display:block;border-radius:14px;background:radial-gradient(circle at 50% 30%,#102a45 0,#071522 55%,#04101b 100%)}
+.viewer-wrap{min-height:520px}
+.sim-control{padding:11px;border:1px solid var(--border);border-radius:12px;background:#071522}
+.sim-control label{display:grid;gap:7px}
+.sim-control output{font-size:.78rem;color:#bce8ff}
+.snapshot strong{color:#bce8ff}
+.formula-card{padding:12px;border:1px solid var(--border);border-radius:12px;background:#071522}
+.formula-card .eq{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#bce8ff}
+.worked .working-line{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.worked .working-line:last-child{border-bottom:0}
+.practical-switch{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.mini-graph canvas{width:100%;height:100%;display:block}
+.diagnostic-answer{display:none;margin-top:10px;padding:10px;border-radius:10px;background:#071522}
+.diagnostic-answer.show{display:block}
+.checklist-item{display:flex;gap:8px;align-items:flex-start;margin:8px 0}
+.comparison-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.comparison-grid .mini{padding:10px;border:1px solid var(--border);border-radius:12px;background:#071522}
+@media (max-width:900px){
+  .field-workspace-grid,.mastery-grid,.comparison-grid{grid-template-columns:1fr}
+  .spec-card{grid-template-columns:1fr}
+  #simCanvas{height:420px}.viewer-wrap{min-height:420px}
+}
+@media (max-width:600px){
+  #simCanvas{height:350px}.viewer-wrap{min-height:350px}
+  .lesson-panel{min-height:0}
+}
+
+/* Further Mechanics lesson-flow parity */
+.chunk-strip{display:flex;gap:7px;overflow-x:auto;padding:10px 0 12px;scrollbar-width:thin;position:sticky;top:0;z-index:5;background:linear-gradient(180deg,#091726 82%,rgba(9,23,38,0))}
+.chunk-button{flex:0 0 auto;border:1px solid var(--border);background:#071522;color:#cfe2f3;border-radius:999px;padding:7px 10px;font-size:.76rem;cursor:pointer}
+.chunk-button.active{background:rgba(103,199,255,.17);border-color:var(--accent);color:#fff}
+.chunk{display:none}.chunk.active{display:block}
+.lesson-block{padding:15px;border:1px solid var(--border);border-radius:14px;background:#0a182a;margin:10px 0}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lesson-block.remember{border-left:4px solid var(--field-green)}
+.lesson-block.warning{border-left:4px solid var(--field-red)}
+.lesson-block.exam-box{border-left:4px solid var(--field-cyan)}
+.lesson-block.worked-block{border-left:4px solid var(--field-gold)}
+.chapter-section{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.chapter-number{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#071522;border:1px solid var(--border);color:#8fd8ff;font-size:.76rem}
+.chapter-section h3{margin:0 0 5px;color:#c5edff}.chapter-section p{margin:0}
+.textbook-hook{padding:16px;border:1px solid var(--border);border-radius:15px;background:linear-gradient(135deg,#0a1c30,#0a1728);margin-bottom:12px}
+.hook-question{margin-top:10px;padding:10px;border-radius:10px;background:#071522}
+.chapter-two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.chapter-key,.chapter-exam,.chapter-summary{padding:14px;border:1px solid var(--border);border-radius:14px;background:#071522}
+.chapter-summary{margin-top:12px}.chapter-summary li{margin:7px 0}
+.formula-row{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 2px}
+.formula-chip{display:inline-flex;padding:5px 8px;border-radius:999px;background:rgba(242,193,78,.08);border:1px solid rgba(242,193,78,.28);font-size:.72rem;color:#f6df9c}
+.equation-intro{margin:10px 0}.equation-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.equation-card{padding:14px;border:1px solid var(--border);border-radius:14px;background:#071522}
+.equation-card-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.equation-source{font-size:.68rem;color:#8ea7bd}
+.big-equation{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:1.05rem;color:#bce8ff;padding:10px 0}
+.calc-practice{padding:12px;border:1px solid var(--border);border-radius:12px;background:#071522;margin:10px 0}
+.calc-solution{display:none;margin-top:10px;padding:10px;border-radius:10px;background:#0a1a2d}.calc-solution.visible{display:block}
+.answer-reveal{display:none;margin-top:8px;padding:10px;border-radius:10px;background:#071522;color:#dceaff}.answer-reveal.visible{display:block}
+.mini-question{padding:12px;border:1px solid var(--border);border-radius:12px;background:#0a182a;margin:9px 0}
+.mini-options{display:grid;gap:8px}.mini-option,.choice-button{width:100%;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#071522;color:#dceaff;cursor:pointer}
+.mini-option.correct,.choice-button.correct{border-color:rgba(114,224,163,.8);background:rgba(114,224,163,.12)}
+.mini-option.wrong,.choice-button.wrong{border-color:rgba(255,139,139,.8);background:rgba(255,139,139,.12)}
+.student-answer{width:100%;min-height:88px;margin:8px 0}.compact-answer{min-height:68px}
+.self-check{display:grid;gap:8px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#071522}
+.lesson-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.quiz-layout{display:grid;grid-template-columns:minmax(210px,.35fr) 1fr;gap:14px}
+.quiz-stats{align-self:start;position:sticky;top:18px}.quiz-main h3{font-size:1.25rem}.choice-list{display:grid;gap:9px;margin:14px 0}
+.feedback,.hint{padding:11px;border-radius:10px;background:#071522;border:1px solid var(--border);margin:10px 0}
+@media(max-width:900px){.lesson-grid,.chapter-two-col,.equation-card-grid,.quiz-layout{grid-template-columns:1fr}.quiz-stats{position:static}.chunk-strip{position:static}}

@@ -1,0 +1,17 @@
+.simulation-investigation-cycle{display:grid;gap:11px;border-color:rgba(126,216,255,.24)}
+.investigation-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.investigation-head h3{margin:2px 0 4px}.investigation-head p{margin:0}
+.investigation-badge{font-size:.74rem;font-weight:800;padding:6px 9px;border-radius:999px;background:rgba(103,215,255,.11);border:1px solid rgba(103,215,255,.22);color:#ccefff;max-width:42%;text-align:right}
+.investigation-progress{display:grid;grid-template-columns:auto minmax(90px,1fr);align-items:center;gap:10px;font-size:.78rem;color:#9fb8cb}
+.investigation-track{height:7px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+.investigation-fill{height:100%;width:0;background:linear-gradient(90deg,#67d7ff,#7ef0b2);transition:width .2s ease}
+.investigation-step{border:1px solid rgba(255,255,255,.09);border-radius:13px;background:rgba(3,13,23,.28);overflow:hidden}
+.investigation-step summary{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 11px;cursor:pointer;list-style:none}
+.investigation-step summary::-webkit-details-marker{display:none}
+.investigation-step summary span{font-size:.76rem;color:#9fb8cb;text-align:right}
+.investigation-step p{margin:0;padding:0 11px 9px;color:#cbd8e4;font-size:.86rem;line-height:1.45}
+.investigation-step textarea{width:calc(100% - 22px);margin:0 11px 11px;box-sizing:border-box;resize:vertical;border-radius:10px;border:1px solid rgba(126,216,255,.2);background:rgba(4,16,27,.86);color:#edfaff;padding:9px;font:inherit;line-height:1.4}
+.investigation-step textarea:focus{outline:2px solid rgba(103,215,255,.3);border-color:#67d7ff}
+.investigation-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.simulation-investigation-cycle.investigation-complete{border-color:rgba(126,240,178,.5);box-shadow:0 0 0 1px rgba(126,240,178,.08) inset}
+@media(max-width:760px){.investigation-head{flex-direction:column}.investigation-badge{max-width:100%;text-align:left}.investigation-progress{grid-template-columns:1fr}.investigation-step summary{align-items:flex-start;flex-direction:column}.investigation-step summary span{text-align:left}}

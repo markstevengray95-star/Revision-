@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="application-name" content="AQA Waves Learning Lab">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="physics-icon.svg" type="image/svg+xml">
+  <title>AQA A-Level Physics Waves Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.3 Waves learning lab with guided lessons, simulations, practicals, formula coaching and exam practice.">
+  <link rel="manifest" href="../../../../shared/../manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="advanced-features.css?v=1">
+  <!-- unified-course-topic-theme -->
+<link rel="stylesheet" href="unified-course-theme.css?v=22">
+<link rel="stylesheet" href="unified-course-focus.css?v=22">
+<script>if(window.self!==window.top)document.documentElement.classList.add('unified-course-embedded');</script>
+<script src="unified-course-embedded.js?v=22" defer></script>
+<link rel="stylesheet" href="../../../../shared/revision-shell.css">
+<script src="../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Waves Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.3 · AS + A-level core</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA 3.3 aligned</span>
+      <span class="pill">12 sequenced lessons</span>
+      <span class="pill">9 interactive models</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.3 · Waves</span>
+      <h1>See the wave, change the variables, then explain the physics.</h1>
+      <p>Guided teaching for progressive and stationary waves, phase, polarisation, superposition, interference, diffraction, refraction and fibre optics. Each lesson links the theory to a simulation, worked calculations, AQA exam language and practical skills.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Open simulation lab</button>
+        <button class="button" data-jump="practical">Required practicals</button>
+      </div>
+    </article>
+
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Section 3.3 progress</strong><span id="progressText">0 / 12 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>12</strong><span>guided lessons</span></div>
+        <div><strong>9</strong><span>interactive models</span></div>
+        <div><strong>10</strong><span>formula tools</span></div>
+        <div><strong>2</strong><span>required practicals</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav compact-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Learn</button>
+    <button class="nav-button" data-view="textbook">Textbook</button>
+    <button class="nav-button" data-view="lab">Simulations</button>
+    <button class="nav-button" data-view="practical">Practicals</button>
+    <button class="nav-button" data-view="formula">Formula Coach</button>
+    <button class="nav-button" data-view="exam">Exam Practice</button>
+    <button class="nav-button" data-view="spec">AQA Map</button>
+  </nav>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Guided learning</span><h2>Full AQA Waves lesson sequence</h2></div>
+      <p class="muted">Move from wave fundamentals to interference, diffraction and fibre optics. Lessons include retrieval, explanation, calculations, simulation missions and checks.</p>
+    </div>
+    <div class="wave-topic-filter">
+      <button class="button primary" data-course-filter="all">All Waves</button>
+      <button class="button" data-course-filter="progressive">Progressive & stationary</button>
+      <button class="button" data-course-filter="optics">Refraction, diffraction & interference</button>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-textbook">
+    <div class="section-head">
+      <div><span class="eyebrow">Student textbook</span><h2>Waves: full AQA 7408 study text</h2></div>
+      <p class="muted">Eight detailed chapters with original diagrams, key equations, worked examples, specification checkpoints and exam-focused explanations.</p>
+    </div>
+    <div class="textbook-tools panel">
+      <label class="textbook-search"><span>Search textbook</span><input id="textbookSearch" type="search" placeholder="Try phase difference, diffraction, fibre optics..."></label>
+      <div class="pills">
+        <span class="pill">AQA 3.3.1</span>
+        <span class="pill">AQA 3.3.2</span>
+        <span class="pill">RP1 + RP2</span>
+      </div>
+    </div>
+    <div class="textbook-layout">
+      <aside class="textbook-toc panel" id="textbookToc"></aside>
+      <article class="textbook-reader panel" id="textbookReader"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Learning through models</span><h2>Interactive Waves simulation lab</h2></div>
+      <p class="muted">Use mouse, touch and sliders to change the wave. Read directly from the model and use each mission to connect observations to the equation.</p>
+    </div>
+    <div class="sim-tabs" id="simTabs"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive waves simulation"></canvas>
+          <div class="viewer-badges">
+            <span class="pill" id="simSpec">AQA 3.3</span>
+            <span class="pill" id="simState">Running</span>
+          </div>
+          <div class="drag-hint">Adjust the controls · drag where available · works with touch</div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="playPause">Pause</button>
+          <button class="button" id="resetSim">Reset</button>
+          <button class="button" id="slowMotion">Slow motion</button>
+          <button class="button" id="snapshotSim">Capture reading</button>
+        </div>
+        <div id="snapshotTray" class="snapshot-tray"></div>
+        <p class="model-note">Models are schematic and rescaled for learning. Use the displayed physical relationships and equations for assessed calculations.</p>
+      </div>
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+        <article class="panel mission-card">
+          <span class="eyebrow">Simulation mission</span>
+          <h3 id="missionGoal"></h3>
+          <ol id="missionSteps"></ol>
+          <p class="small"><strong>Conclude:</strong> <span id="missionConclusion"></span></p>
+          <button class="button hidden" id="backToLesson">Back to lesson</button>
+        </article>
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+        <article class="panel learning-box simple-box"><h3>What the model shows</h3><div id="simpleExplain"></div></article>
+        <article class="panel learning-box exam-box"><h3>AQA exam language</h3><div id="examExplain"></div></article>
+        <article class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></article>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">AQA practical skills</span><h2>Required Practicals 1 and 2</h2></div>
+      <p class="muted">Practise the relationships, table design, graph choice, uncertainties and evaluation before completing the real laboratory work.</p>
+    </div>
+    <div class="practical-switch">
+      <button class="button primary" data-practical="standing">RP1 · Stationary waves</button>
+      <button class="button" data-practical="young">RP2 · Young double slit</button>
+      <button class="button" data-practical="grating">RP2 · Diffraction grating</button>
+    </div>
+    <div class="practical-layout">
+      <article class="panel pad">
+        <span class="eyebrow" id="practicalCode">Required Practical 1</span>
+        <h3 id="practicalTitle">Stationary waves on a string</h3>
+        <p class="muted" id="practicalIntro"></p>
+        <div id="practicalControls" class="control-stack"></div>
+        <div class="button-row">
+          <button class="button primary" id="takePracticalReading">Take reading</button>
+          <button class="button" id="clearPracticalData">Clear data</button>
+        </div>
+        <div class="practical-guidance" id="practicalGuidance"></div>
+      </article>
+      <article class="panel pad">
+        <div class="practical-canvas-wrap"><canvas id="practicalCanvas"></canvas></div>
+        <div class="result-grid" id="practicalStats"></div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead id="practicalHead"></thead>
+            <tbody id="practicalRows"></tbody>
+          </table>
+        </div>
+        <div class="equation" id="practicalSummary">Collect several readings to reveal the relationship.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Waves Formula Coach</h2></div>
+      <p class="muted">Choose a relationship, enter known values and see the rearrangement, substitution, units and final result.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-exam">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Mixed AQA Waves practice</h2></div>
+      <p class="muted">Short calculations and written explanations with instant checking and mark-scheme language.</p>
+    </div>
+    <div class="quiz-layout">
+      <aside class="panel quiz-stats pad">
+        <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 12</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+        <div class="stat-grid">
+          <div><strong id="quizScore">0</strong><span>correct</span></div>
+          <div><strong id="quizStreak">0</strong><span>streak</span></div>
+        </div>
+        <button class="button" id="restartQuiz">Restart practice</button>
+      </aside>
+      <article class="panel quiz-main pad">
+        <span class="eyebrow" id="quizSpec"></span>
+        <h3 id="quizQuestion"></h3>
+        <button class="text-button" id="showHint">Show hint</button>
+        <div class="hint hidden" id="quizHint"></div>
+        <div class="choice-list" id="quizChoices"></div>
+        <div class="feedback hidden" id="quizFeedback"></div>
+        <button class="button primary hidden" id="nextQuestion">Next question</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 Section 3.3 checklist</h2></div>
+      <p class="muted">Use this map to check that each assessed statement has a linked lesson, model or practical activity.</p>
+    </div>
+    <div class="spec-grid" id="specGrid"></div>
+    <div class="aqa-source-note">This teaching tool follows AQA A-level Physics 7408 Section 3.3 Waves and the associated required practical activities. It is an independent learning resource and not an official AQA product.</div>
+  </section>
+</main>
+
+<footer class="wrap footer">A-Level Waves Learning Lab · AQA Physics 7408 Section 3.3 · Built from the Further Mechanics Learning Lab layout.</footer>
+<script src="waves-data.js?v=2"></script>
+<script src="textbook-data.js?v=1"></script>
+<script src="app.js?v=2"></script>
+<script src="textbook.js?v=1"></script>
+<script src="advanced-features.js?v=1"></script>
+<script src="integration-patches.js?v=1"></script>
+</body>
+</html>

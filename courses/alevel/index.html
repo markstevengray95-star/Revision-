@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08111d">
+  <title>AQA A-level Physics Course</title>
+  <meta name="description" content="Unified AQA A-level Physics 7408 course with lessons, simulations, required practicals, exam marking, a student notebook and an AI study coach.">
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="subjects/science-study.css">
+  <link rel="stylesheet" href="course-enhancements.css">
+  <link rel="stylesheet" href="focus-layout.css">
+  <link rel="stylesheet" href="student-notebook.css">
+  <link rel="stylesheet" href="course-tools.css">
+  <link rel="stylesheet" href="mobile-mode.css">
+  <link rel="stylesheet" href="experience-polish.css">
+  <link rel="stylesheet" href="curriculum-map.css">
+  <link rel="stylesheet" href="lesson-content.css">
+<link rel="stylesheet" href="../../shared/revision-shell.css">
+<script src="../../shared/revision-shell.js" defer></script>
+</head>
+<body class="home-mode">
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <button class="brand-block brand-button" id="brandHome" type="button" aria-label="Return to course home">
+      <span class="brand-mark">φ</span>
+      <span><strong class="brand">A-Level Physics</strong><small>AQA 7408</small></span>
+    </button>
+    <nav class="global-course-nav" aria-label="Course areas">
+      <button class="course-area-button" id="navLearn" type="button" data-area="learn" aria-current="page">Learn</button>
+      <button class="course-area-button" type="button" data-area="practicals" data-course-tool="practicals">Practicals</button>
+      <button class="course-area-button" type="button" data-area="marking" data-course-tool="marking">Marking</button>
+    </nav>
+    <div class="header-progress" aria-label="Course progress">
+      <span id="progressText">0 / 8 complete</span>
+      <div class="progress-track compact"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="course-jumpbar" id="courseJumpbar" aria-label="Focused topic navigation" hidden>
+  <div class="wrap course-jump-inner">
+    <button class="exit-course-button" id="exitCourse" type="button" title="Return to Course Home (Esc)">← Course home</button>
+    <button class="nav-square topic-step" id="prevCourse" type="button" aria-label="Previous topic">←</button>
+    <div class="course-picker-wrap">
+      <span class="course-picker-label">Topic</span>
+      <select id="quickCourseSelect" class="course-picker" aria-label="Change topic"></select>
+    </div>
+    <div class="course-position" id="coursePosition" aria-live="polite">1 / 8</div>
+    <button class="nav-square topic-step" id="nextCourse" type="button" aria-label="Next topic">→</button>
+    <button class="button complete-action jump-complete" id="markComplete" type="button">Mark complete</button>
+    <button class="button area-tool-button" type="button" data-course-tool="practicals">⚗ Practicals</button>
+    <button class="button area-tool-button" type="button" data-course-tool="marking">✓ Marking</button>
+    <button class="button notebook-button" id="notebookToggle" type="button" title="Open student notebook"><span>▤</span> Notebook</button>
+    <button class="button ai-button" id="coachToggle" type="button"><span>✦</span> AI Coach</button>
+    <details class="workspace-more shell-more">
+      <summary aria-label="More topic actions">•••</summary>
+      <div class="workspace-menu">
+        <button class="menu-action" id="mobileModeToggle" type="button" aria-pressed="false">Turn on mobile mode</button>
+        <button class="menu-action" id="reloadFrame" type="button">Reload topic</button>
+        <a class="menu-action" id="openModule" target="_blank" rel="noopener">Open full page ↗</a>
+        <a class="menu-action" id="sourceLink" target="_blank" rel="noopener">Source repository ↗</a>
+      </div>
+    </details>
+    <div id="courseRail" hidden></div>
+  </div>
+</nav>
+
+<main class="wrap main">
+  <div id="courseHome" class="course-home">
+    <section class="home-intro">
+      <div>
+        <span class="eyebrow">AQA A-level Physics 7408</span>
+        <h1>Your Physics course.</h1>
+        <p>Move smoothly from learning the physics, to practising it experimentally, to answering and marking exam questions.</p>
+      </div>
+      <div class="home-actions">
+        <button class="button primary" id="continueBtn">Continue learning</button>
+        <button class="button quiet" id="homeNotebookBtn">▤ Notebook</button>
+        <button class="button quiet" id="heroCoachBtn">✦ Ask AI</button>
+        <button class="button quiet" id="homeMobileModeBtn" type="button" aria-pressed="false">▣ Mobile mode</button>
+      </div>
+    </section>
+
+    <section class="study-cycle" aria-label="Course study cycle">
+      <button class="study-cycle-step" id="cycleLearn" type="button">
+        <span class="study-cycle-number">1</span><span class="study-cycle-copy"><strong>Learn</strong><span>Lessons · textbook · simulations</span></span><span class="study-cycle-arrow">→</span>
+      </button>
+      <button class="study-cycle-step" type="button" data-course-tool="practicals">
+        <span class="study-cycle-number">2</span><span class="study-cycle-copy"><strong>Practise</strong><span>12 required practicals · CPAC · data</span></span><span class="study-cycle-arrow">→</span>
+      </button>
+      <button class="study-cycle-step" type="button" data-course-tool="marking">
+        <span class="study-cycle-number">3</span><span class="study-cycle-copy"><strong>Assess</strong><span>Exam questions · marking · feedback</span></span><span class="study-cycle-arrow">→</span>
+      </button>
+    </section>
+
+    <section id="courseMap" class="course-map-block" aria-label="AQA core topics">
+      <div class="home-section-head">
+        <strong>Core topics</strong>
+        <span id="homeProgressSummary">8 topics · AQA 3.1–3.8</span>
+      </div>
+      <div class="topic-grid" id="topicGrid"></div>
+    </section>
+
+    <section id="courseTools" class="course-tools-block" aria-label="Course tools">
+      <div class="home-section-head">
+        <strong>Practice and assessment</strong>
+        <span>Use these from any point in the course</span>
+      </div>
+      <div class="course-tool-grid">
+        <button type="button" class="course-tool-card practicals" data-course-tool="practicals" aria-label="Open AQA Required Practicals">
+          <div class="course-tool-top"><span class="course-tool-icon" aria-hidden="true">⚗</span><span class="course-tool-status">Practise</span></div>
+          <h3>AQA Required Practicals</h3>
+          <p>All 12 required practicals with interactive apparatus, data collection, uncertainty, CPAC skills, graphs and practical exam practice.</p>
+          <div class="course-tool-footer"><span>Integrated Practical Lab</span><strong>Open Practical Lab →</strong></div>
+        </button>
+        <button type="button" class="course-tool-card marking" data-course-tool="marking" aria-label="Open A-Level Exam Practice and Marking">
+          <div class="course-tool-top"><span class="course-tool-icon" aria-hidden="true">✓</span><span class="course-tool-status">Assess</span></div>
+          <h3>Exam Practice &amp; Marking</h3>
+          <p>AQA-style questions, calculations, extended responses, examiner feedback, offline marking and AI-supported answer analysis.</p>
+          <div class="course-tool-footer"><span>Full marking app</span><strong>Open Marking →</strong></div>
+        </button>
+      </div>
+    </section>
+
+    <div class="home-footer-tools">
+      <span>Progress, notebook notes, Mobile Mode and your last position are saved on this device.</span>
+      <button class="text-button danger-subtle" id="resetProgress">Reset progress</button>
+    </div>
+  </div>
+
+  <section class="workspace-section" id="workspaceSection" hidden>
+    <div class="workspace-head">
+      <div class="workspace-heading">
+        <div class="workspace-kicker"><span class="eyebrow" id="workspaceCode">AQA 3.1</span><span class="workspace-year" id="workspaceYear">Year 12</span></div>
+        <h1 id="workspaceTitle">Measurements and their errors</h1>
+        <p class="muted" id="workspaceDescription"></p>
+      </div>
+    </div>
+
+    <div id="moduleTabs" class="module-tabs hidden"></div>
+
+    <div class="workspace-shell panel">
+      <iframe id="topicFrame" title="A-level Physics topic app" loading="lazy"></iframe>
+    </div>
+
+    <div class="legacy-hidden-controls" aria-hidden="true">
+      <span id="moduleLabel"></span><span id="modulePosition"></span>
+      <button id="workspacePrev" type="button"></button><button id="workspaceNext" type="button"></button>
+      <button id="modulePrev" type="button"></button><button id="moduleNext" type="button"></button>
+      <button id="workspaceCoachBtn" type="button"></button>
+    </div>
+  </section>
+</main>
+
+<section class="tool-workspace" id="toolWorkspace" hidden aria-label="Course tool workspace">
+  <div class="tool-bar">
+    <button class="tool-back" id="toolBack" type="button">← Course home</button>
+    <div class="tool-identity"><span id="toolEyebrow">AQA Physics 7408</span><strong id="toolTitle">Course tool</strong></div>
+    <div class="tool-area-switcher" role="group" aria-label="Course areas">
+      <button type="button" id="toolAreaLearn" data-tool-area="learn">Learn</button>
+      <button type="button" id="toolAreaPracticals" data-tool-area="practicals">Practicals</button>
+      <button type="button" id="toolAreaMarking" data-tool-area="marking">Marking</button>
+    </div>
+    <label class="practical-section-wrap" id="practicalSectionWrap" hidden><span>Section</span><select class="practical-section-picker" id="practicalSectionPicker" aria-label="Practical Lab section"><option value="home">Practicals</option><option value="skills">Skills hub</option><option value="quiz">Quiz studio</option><option value="equations">Equations</option><option value="circuit">Circuit lab</option></select></label>
+    <button class="tool-action accent" id="toolNotebook" type="button" data-icon="▤" aria-label="Open notebook">Notebook</button>
+    <button class="tool-action accent" id="toolAI" type="button" data-icon="✦" aria-label="Open AI Coach">AI Coach</button>
+    <button class="tool-action" id="toolReload" type="button" data-icon="↻" aria-label="Reload tool">Reload</button>
+    <a class="tool-action tool-open-full" id="toolOpenFull" target="_blank" rel="noopener">Open full app ↗</a>
+    <a class="tool-action" id="toolSource" target="_blank" rel="noopener" data-icon="⌘" aria-label="Open source repository">Source</a>
+  </div>
+  <div class="tool-frame-wrap">
+    <iframe class="tool-frame" id="toolFrame" title="Course tool" loading="eager" allow="clipboard-read; clipboard-write"></iframe>
+    <div class="tool-loading" id="toolLoading"><div class="tool-loading-inner"><span class="tool-spinner" aria-hidden="true"></span><strong id="toolLoadingText">Opening course tool…</strong></div></div>
+    <div class="tool-external-note" id="toolExternalNote" hidden></div>
+  </div>
+</section>
+
+<nav class="mobile-study-dock" id="mobileStudyDock" aria-label="Mobile study controls" hidden>
+  <button class="mobile-dock-button" id="mobileDockHome" type="button" aria-label="Course home"><span>⌂</span><b>Home</b></button>
+  <button class="mobile-dock-button" id="mobileDockTopic" type="button" aria-label="Change topic"><span>☰</span><b>Topic</b></button>
+  <button class="mobile-dock-button" id="mobileDockTools" type="button" aria-label="Course tools"><span>▦</span><b>Tools</b></button>
+  <button class="mobile-dock-button primary-mobile" id="mobileDockNotebook" type="button" aria-label="Open notebook"><span>▤</span><b>Notes</b></button>
+  <button class="mobile-dock-button primary-mobile" id="mobileDockAI" type="button" aria-label="Open AI Coach"><span>✦</span><b>AI</b></button>
+  <button class="mobile-dock-button" id="mobileDockComplete" type="button" aria-label="Mark topic complete"><span>✓</span><b>Done</b></button>
+</nav>
+
+<div class="notebook-backdrop" id="notebookBackdrop" hidden></div>
+<aside class="notebook-panel" id="notebookPanel" aria-hidden="true" aria-label="Student notebook">
+  <div class="notebook-head">
+    <div><span class="eyebrow">Across the whole course</span><h2>Student Notebook</h2><p>Save, organise and revise key ideas, lesson text and AI explanations from any AQA topic.</p></div>
+    <button class="nav-square" id="notebookClose" type="button" aria-label="Close notebook">×</button>
+  </div>
+  <div class="notebook-context">
+    <strong id="notebookContextLabel">AQA 3.1 · Measurements and their errors</strong>
+    <select id="notebookFilter" aria-label="Filter notebook notes by topic"><option value="all">All topics</option></select>
+  </div>
+  <div class="notebook-tools">
+    <label class="notebook-search"><span class="sr-only">Search notebook</span><input id="notebookSearch" type="search" maxlength="120" autocomplete="off" placeholder="Search notes, lessons or topics…"></label>
+    <span class="notebook-count" id="notebookCount" aria-live="polite">0 notes</span>
+    <button class="text-button notebook-export" id="notebookExport" type="button">Export .md</button>
+  </div>
+  <div class="notebook-compose">
+    <label><span>Add your own note</span><textarea id="notebookInput" maxlength="5000" placeholder="Write a key idea, method, definition or reminder…"></textarea></label>
+    <div class="notebook-compose-row"><small>Ctrl/⌘ + Enter to save</small><button class="button primary notebook-save" id="notebookSave" type="button">Save note</button></div>
+  </div>
+  <div class="notebook-list" id="notebookList" aria-live="polite"></div>
+</aside>
+<div class="notebook-toast" id="notebookToast" role="status" aria-live="polite">Saved to notebook</div>
+
+<button class="coach-fab" id="coachFab" type="button" aria-label="Open AI Physics Coach">✦ <span>AI Coach</span></button>
+<div class="coach-backdrop" id="coachBackdrop" hidden></div>
+<aside class="coach-panel" id="coachPanel" aria-hidden="true" aria-label="AI Physics Coach">
+  <div class="coach-head">
+    <div><span class="eyebrow">Study support</span><h2>AI Physics Coach</h2><p class="muted small" id="coachContextLabel">AQA 3.1 · Measurements and their errors</p></div>
+    <button class="nav-square" id="coachClose" type="button" aria-label="Close AI coach">×</button>
+  </div>
+  <div class="coach-controls">
+    <label><span>Mode</span><select id="coachMode"><option value="explain">Explain clearly</option><option value="hint">Hint-first help</option><option value="quiz">Quiz me</option><option value="worked">Worked example</option><option value="exam">Exam-answer feedback</option></select></label>
+    <div class="coach-status" id="coachStatus"><span class="status-dot"></span><span>Ready</span></div>
+  </div>
+  <div class="coach-quick" aria-label="Quick AI prompts">
+    <button type="button" data-coach-prompt="Explain the most important idea on the current page in simple steps.">Explain page</button>
+    <button type="button" data-coach-prompt="Give me one AQA-style retrieval question from this topic. Do not give the answer until I respond.">Quiz me</button>
+    <button type="button" data-coach-prompt="What are the most common exam mistakes students make in this topic?">Exam mistakes</button>
+    <button type="button" data-coach-prompt="Give me a calculation to practise from this topic, with a hint available but not the final answer yet.">Calculation</button>
+  </div>
+  <div class="coach-messages" id="coachMessages" aria-live="polite"><div class="coach-message assistant"><strong>Physics Coach</strong><p>Ask for an explanation, hint, calculation, question or feedback on the topic you are studying.</p></div></div>
+  <form class="coach-compose" id="coachForm"><textarea id="coachInput" rows="3" maxlength="3000" placeholder="Ask about this topic…"></textarea><div class="coach-compose-row"><button class="text-button" id="coachClear" type="button">Clear</button><button class="button primary" id="coachSend" type="submit">Send</button></div></form>
+</aside>
+
+<script src="subjects/chemistry-physical-detail.js"></script>
+<script src="subjects/chemistry-inorganic-detail.js"></script>
+<script src="subjects/chemistry-organic-detail.js"></script>
+<script src="subjects/chemistry-detail.js"></script>
+<script src="course-config.js"></script>
+<script src="app.js"></script>
+<script src="curriculum-map.js"></script>
+<script src="lesson-content.js"></script>
+<script src="student-notebook.js"></script>
+<script src="ai-coach.js"></script>
+<script src="course-tools.js"></script>
+<script src="mobile-mode.js"></script>
+<script src="presentation-mode.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+
+.exam-skills-shell{display:grid;gap:10px}
+.exam-skills-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.exam-skill-card{padding:10px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:#081726}
+.exam-skill-card h3{font-size:.74rem;margin:.15rem 0 .4rem}
+.exam-skill-card p,.exam-skill-card li{font-size:.63rem;line-height:1.43;color:#c6d5e2}
+.exam-skill-card ul,.exam-skill-card ol{margin:4px 0;padding-left:18px}
+.command-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px}
+.command-card{padding:8px;border:1px solid rgba(255,255,255,.065);border-radius:9px;background:rgba(255,255,255,.02)}
+.command-card strong{display:block;font-size:.65rem;color:#9edfff;margin-bottom:2px}
+.command-card span{display:block;font-size:.57rem;color:#aebfd0;line-height:1.34}
+.worked-tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin;margin-bottom:7px}
+.worked-tabs button{flex:0 0 auto;border:1px solid rgba(255,255,255,.08);background:#0b1d2f;color:#aebfd0;border-radius:8px;padding:5px 7px;font-size:.58rem;font-weight:800;cursor:pointer}
+.worked-tabs button.active{color:#fff;background:#173d5b;border-color:#5c91b2}
+.worked-example{padding:10px;border:1px solid rgba(103,199,255,.13);border-radius:11px;background:rgba(103,199,255,.035)}
+.worked-example h3{margin:.1rem 0 .4rem}
+.worked-question{padding:8px;border-left:3px solid #ffd56a;background:rgba(255,213,106,.04);font-size:.64rem;line-height:1.42}
+.worked-steps{display:grid;gap:6px;margin-top:7px}
+.worked-step{display:grid;grid-template-columns:24px 1fr;gap:7px;padding:7px;border:1px solid rgba(255,255,255,.06);border-radius:8px;background:#071522}
+.worked-step>span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#0d2b42;color:#9edfff;font-size:.56rem;font-weight:900}
+.worked-step strong{display:block;font-size:.62rem;color:#e8f5ff}
+.worked-step p{margin:2px 0 0;font-size:.58rem;color:#aebfd0}
+.long-answer-builder{display:grid;gap:6px}
+.long-answer-row{padding:8px;border:1px solid rgba(255,255,255,.065);border-radius:9px;background:rgba(255,255,255,.02)}
+.long-answer-row strong{display:block;font-size:.62rem;color:#dff3ff;margin-bottom:2px}
+.long-answer-row span{font-size:.58rem;color:#9fb3c6;line-height:1.34}
+.mark-killer{padding:8px;border-left:3px solid #ff8e99;background:rgba(255,123,135,.045);border-radius:8px}
+.mark-killer strong{display:block;font-size:.62rem}.mark-killer p{margin:2px 0;font-size:.58rem}
+@media(max-width:760px){.exam-skills-grid{grid-template-columns:1fr}}

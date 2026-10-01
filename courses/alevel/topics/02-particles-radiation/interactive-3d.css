@@ -1,0 +1,154 @@
+
+/* Clickable 3D simulation guidance */
+.live-3d-panel{
+  position:absolute;
+  z-index:6;
+  left:12px;
+  right:12px;
+  bottom:12px;
+  display:grid;
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+  gap:7px 10px;
+  padding:9px 10px;
+  border:1px solid rgba(126,216,255,.34);
+  border-radius:13px;
+  background:linear-gradient(135deg,rgba(5,15,26,.94),rgba(10,27,45,.9));
+  box-shadow:0 16px 40px rgba(0,0,0,.28);
+  backdrop-filter:blur(12px);
+  pointer-events:none;
+}
+.live-3d-head{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  grid-column:1/-1;
+  min-width:0;
+}
+.live-3d-head .eyebrow{
+  flex:0 0 auto;
+  font-size:.56rem;
+}
+.live-3d-head strong{
+  color:#eaf7ff;
+  font-size:.68rem;
+  line-height:1.25;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.live-3d-now{
+  padding:6px 8px;
+  border-radius:9px;
+  background:rgba(103,199,255,.07);
+  border:1px solid rgba(103,199,255,.16);
+  color:#dff3ff;
+  font-size:.65rem;
+  line-height:1.3;
+}
+.live-3d-selected{
+  padding:6px 8px;
+  border-radius:9px;
+  background:rgba(154,134,255,.08);
+  border:1px solid rgba(154,134,255,.18);
+  color:#e9e4ff;
+  font-size:.65rem;
+  line-height:1.3;
+}
+.live-3d-selected strong{
+  color:#d8ceff;
+}
+.live-3d-grid{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+.live-3d-grid>div{
+  padding:6px 8px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;
+  background:rgba(3,10,18,.45);
+}
+.live-3d-grid span{
+  display:block;
+  margin-bottom:2px;
+  color:#8edcff;
+  font-size:.55rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.live-3d-grid p{
+  margin:0;
+  color:#d9e8f7;
+  font-size:.62rem;
+  line-height:1.28;
+}
+#hotspotToggle.active{
+  border-color:#8edcff;
+  background:rgba(103,199,255,.1);
+}
+#sceneCanvas{
+  cursor:grab;
+}
+#sceneCanvas:active{
+  cursor:grabbing;
+}
+#view-lab .viewer-help{
+  bottom:auto;
+  top:48px;
+}
+#view-lab .viewer-help span:last-child::after{
+  content:" · click numbered markers";
+}
+.ruth-click-card{
+  border-left:4px solid #8edcff;
+}
+.ruth-click-card h3{
+  margin:.25rem 0 .4rem;
+}
+.ruth-click-card p{
+  line-height:1.45;
+}
+.ruth-click-science{
+  margin-top:8px;
+  padding:8px 9px;
+  border-radius:10px;
+  background:rgba(103,199,255,.07);
+  border:1px solid rgba(103,199,255,.17);
+  color:#dff3ff;
+  font-size:.82rem;
+  line-height:1.4;
+}
+#rutherfordExperimentCanvas{
+  cursor:pointer;
+}
+.ruth-canvas-wrap::after{
+  content:"Click the numbered hotspots to inspect the experiment";
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  z-index:4;
+  padding:5px 8px;
+  border-radius:999px;
+  background:rgba(5,14,24,.88);
+  border:1px solid rgba(126,216,255,.25);
+  color:#bfeaff;
+  font-size:.66rem;
+  pointer-events:none;
+}
+@media(max-width:1000px){
+  .live-3d-panel{
+    position:relative;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    margin:8px;
+    grid-template-columns:1fr;
+  }
+  .live-3d-head,.live-3d-grid{grid-column:1}
+}
+@media(max-width:650px){
+  .live-3d-grid{grid-template-columns:1fr}
+  .live-3d-selected{display:none}
+}

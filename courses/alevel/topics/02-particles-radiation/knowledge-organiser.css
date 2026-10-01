@@ -1,0 +1,26 @@
+
+.ko-view{display:grid;gap:10px}
+.ko-toolbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ko-sheet{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;
+  padding:10px;border:1px solid rgba(255,255,255,.075);border-radius:14px;background:#f7fbff;color:#102030
+}
+.ko-block{padding:9px;border:1px solid #c7d8e5;border-radius:10px;background:#fff}
+.ko-block h3{margin:0 0 5px;font-size:.78rem;color:#12334a}
+.ko-block p,.ko-block li{font-size:.6rem;line-height:1.38;color:#263a48}
+.ko-block ul{margin:4px 0;padding-left:17px}
+.ko-equation{display:block;margin:4px 0;padding:5px 6px;border-radius:7px;background:#edf7fc;font-family:"Cambria Math","Times New Roman",serif;font-size:.65rem;color:#12334a}
+.ko-table{width:100%;border-collapse:collapse;font-size:.56rem}
+.ko-table th,.ko-table td{padding:4px;border-bottom:1px solid #e0e8ee;text-align:left}
+.ko-table th{color:#174c6b}
+.ko-warning{border-left:3px solid #d89b1d;background:#fff9e7}
+.ko-extension{border-left:3px solid #8e69cc;background:#f7f2ff}
+@media(max-width:900px){.ko-sheet{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.ko-sheet{grid-template-columns:1fr}}
+@media print{
+  body *{visibility:hidden!important}
+  #knowledgeOrganiser,#knowledgeOrganiser *{visibility:visible!important}
+  #knowledgeOrganiser{position:absolute;inset:0;width:100%;padding:0;border:none;background:#fff}
+  #knowledgeOrganiser .ko-sheet{grid-template-columns:repeat(3,1fr);gap:4mm;border:none;padding:0}
+  #knowledgeOrganiser .ko-block{break-inside:avoid}
+}

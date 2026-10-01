@@ -1,0 +1,18 @@
+{
+  "name": "AQA Fields & Their Consequences Learning Lab",
+  "short_name": "Fields Lab",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "description": "Interactive AQA A-level Physics 7408 Section 3.7 Fields and their consequences learning lab.",
+  "icons": [
+    {
+      "src": "physics-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>AQA Nuclear Physics Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Nuclear Physics learning lab with guided lessons, simulations, calculations and exam practice.">
+  <link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="../../../../../shared/revision-shell.css">
+<script src="../../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Nuclear Physics Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.8 · Paper 2</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA aligned</span>
+      <span class="pill">9 interactive models</span>
+      <span class="pill">Exam practice</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.8 · Nuclear physics</span>
+      <h1>See what the nucleus is doing — then learn how AQA expects you to explain it.</h1>
+      <p>Explore radioactivity, decay, nuclear stability, radius, binding energy, fission and reactors using interactive teaching models. Each simulation includes a short explanation, exam wording and a quick check.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Open simulation lab</button>
+      </div>
+    </article>
+
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Topic progress</strong><span id="progressText">0 / 8 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>8</strong><span>AQA sections</span></div>
+        <div><strong>9</strong><span>interactive models</span></div>
+        <div><strong>8</strong><span>formula tools</span></div>
+        <div><strong>20</strong><span>exam checks</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Guided course</button>
+    <button class="nav-button" data-view="lab">Simulation lab</button>
+    <button class="nav-button" data-view="formula">Formula coach</button>
+    <button class="nav-button" data-view="practical">Required practical 12</button>
+    <button class="nav-button" data-view="exam">Exam practice</button>
+    <button class="nav-button" data-view="spec">AQA checklist</button>
+  </nav>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Recommended route</span><h2>Learn the full topic in specification order</h2></div>
+      <p class="muted">Read the core idea, open its model, then mark the lesson complete.</p>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Interactive learning</span><h2>Nuclear simulation lab</h2></div>
+      <p class="muted">Teaching models exaggerate nuclear size and timescales so the physics can be seen clearly.</p>
+    </div>
+
+    <div class="sim-tabs" id="simTabs"></div>
+
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive nuclear physics simulation"></canvas>
+          <div class="viewer-badges">
+            <span class="pill" id="simSpec">AQA 3.8</span>
+            <span class="pill" id="simState">Running</span>
+          </div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="playPause">Pause</button>
+          <button class="button" id="resetSim">Reset</button>
+          <button class="button" id="slowMotion">Slow motion</button>
+        </div>
+        <p class="model-note">Visual scale is not literal. Nuclei, particles, distances and times are enlarged or slowed for teaching.</p>
+      </div>
+
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+
+        <article class="panel learning-box simple-box">
+          <h3>In simple words</h3><div id="simpleExplain"></div>
+        </article>
+        <article class="panel learning-box exam-box">
+          <h3>Say it like this in an exam</h3><div id="examExplain"></div>
+        </article>
+        <article class="panel learning-box mistake-box">
+          <h3>Common mistake</h3><div id="mistakeExplain"></div>
+        </article>
+        <article class="panel learning-box checkpoint-box">
+          <h3>Quick check</h3><div id="simCheck"></div>
+        </article>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div>
+      <p class="muted">Enter values and see a substitution, calculation and AQA-style interpretation.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">Required practical 12</span><h2>Virtual inverse-square gamma investigation</h2></div>
+      <p class="muted">Collect simulated count-rate data, subtract background and test whether corrected count rate is proportional to 1/r².</p>
+    </div>
+
+    <div class="practical-grid">
+      <article class="panel pad">
+        <h3>Virtual setup</h3>
+        <div class="practical-rig">
+          <div class="virtual-source" aria-label="virtual gamma source">γ</div>
+          <div class="distance-line"><span id="distanceLabel">0.30 m</span></div>
+          <div class="virtual-detector"><span>GM</span><small>detector</small></div>
+        </div>
+        <label class="field">
+          <span>Source–detector distance</span>
+          <input type="range" id="distanceSlider" min="20" max="100" value="30" step="5">
+          <output id="distanceOutput">0.30 m</output>
+        </label>
+        <div class="button-row">
+          <button class="button primary" id="takeReading">Take 30 s reading</button>
+          <button class="button" id="measureBackground">Measure background</button>
+          <button class="button" id="clearPractical">Clear data</button>
+        </div>
+        <div class="safety-note"><strong>Virtual practical only.</strong> Real ionising-radiation work must follow your school's approved procedures and teacher supervision.</div>
+      </article>
+
+      <article class="panel pad">
+        <h3>Results</h3>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>r / m</th><th>1/r² / m⁻²</th><th>Count / 30 s</th><th>Background-corrected / s⁻¹</th></tr></thead>
+            <tbody id="practicalRows"></tbody>
+          </table>
+        </div>
+        <div class="equation" id="backgroundReadout">Background not measured yet.</div>
+      </article>
+    </div>
+
+    <article class="panel chart-panel">
+      <div class="chart-head">
+        <div><h3>Corrected count rate against 1/r²</h3><p class="muted small">A straight-line trend through the origin supports the inverse-square relationship.</p></div>
+        <strong id="fitReadout">Collect at least 3 distances</strong>
+      </div>
+      <canvas id="practicalCanvas" aria-label="Graph of corrected count rate against inverse square distance"></canvas>
+    </article>
+  </section>
+
+  <section class="view" id="view-exam">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Exam practice</h2></div>
+      <p class="muted">Questions mix calculations, definitions, interpretation and common AQA command-word patterns.</p>
+    </div>
+    <div class="quiz-layout">
+      <aside class="panel quiz-stats pad">
+        <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 20</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+        <div class="stat-grid">
+          <div><strong id="quizScore">0</strong><span>correct</span></div>
+          <div><strong id="quizStreak">0</strong><span>streak</span></div>
+        </div>
+        <button class="button" id="restartQuiz">Restart practice</button>
+      </aside>
+      <article class="panel quiz-main pad">
+        <span class="eyebrow" id="quizSpec"></span>
+        <h3 id="quizQuestion"></h3>
+        <button class="text-button" id="showHint">Show hint</button>
+        <div class="hint hidden" id="quizHint"></div>
+        <div class="choice-list" id="quizChoices"></div>
+        <div class="feedback hidden" id="quizFeedback"></div>
+        <button class="button primary hidden" id="nextQuestion">Next question</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.8 checklist</h2></div>
+      <p class="muted">Use this as a revision map. Each card links back to the relevant model or lesson.</p>
+    </div>
+    <div class="spec-grid" id="specGrid"></div>
+  </section>
+</main>
+
+<footer class="wrap footer">
+  Built as an educational model for AQA A-level Physics. Microscopic scales are schematic rather than literal.
+</footer>
+
+<script src="app.js?v=1"></script>
+</body>
+</html>

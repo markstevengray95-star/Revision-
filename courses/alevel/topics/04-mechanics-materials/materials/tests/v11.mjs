@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const lesson=fs.readFileSync(path.join(root,'lesson-depth-v11.js'),'utf8');
+const sim=fs.readFileSync(path.join(root,'simulation-suite-v11.js'),'utf8');
+const css=fs.readFileSync(path.join(root,'learning-3d-v11.css'),'utf8');
+const runtime=fs.readFileSync(path.join(root,'netlify-runtime.js'),'utf8');
+const sw=fs.readFileSync(path.join(root,'service-worker.js'),'utf8');
+for(const id of ['density','hooke','force-extension','energy','stress-strain','young','curves','rp4']) if(!lesson.includes(`${id}:`)&&!lesson.includes(`'${id}':`)) throw new Error(`Missing v11 lesson depth: ${id}`);
+for(const feature of ['More worked examples','Guided thinking','Exam language & technique','Stretch / A* challenge','Open this lesson in 3D']) if(!lesson.includes(feature)) throw new Error(`Missing v11 lesson feature: ${feature}`);
+for(const id of ['density','hooke','deformation','energy','stress','young','curves','rp4']) if(!sim.includes(`id:'${id}'`)) throw new Error(`Missing v11 3D scene: ${id}`);
+for(const builder of ['buildDensity','buildHooke','buildDeformation','buildEnergy','buildStress','buildYoung','buildCurves','buildRp4']) if(!sim.includes(builder)) throw new Error(`Missing v11 3D builder: ${builder}`);
+for(const behavior of ['new THREE.WebGLRenderer','Animate experiment','Record reading','Show 2D graph/data analysis tools','materials-v11-open-scene']) if(!sim.includes(behavior)) throw new Error(`Missing v11 3D behavior: ${behavior}`);
+for(const ref of ['learning-3d-v11.css','lesson-depth-v11.js','simulation-suite-v11.js']) if(!runtime.includes(ref)) throw new Error(`Runtime does not load ${ref}`);
+for(const selector of ['.simulation-suite-v11','.lesson-depth-v11','.v11-stage']) if(!css.includes(selector)) throw new Error(`Missing v11 style ${selector}`);
+for(const ref of ['learning-3d-v11.css','lesson-depth-v11.js','simulation-suite-v11.js']) if(!sw.includes(ref)) throw new Error(`Service worker does not cache ${ref}`);
+console.log('v11 lesson-depth and complete 3D simulation checks passed');

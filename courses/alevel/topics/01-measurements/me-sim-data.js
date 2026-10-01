@@ -1,0 +1,35 @@
+'use strict';
+  const sims = [
+    {id:'resolution',code:'3.1.2',title:'Resolution & Instruments',subtitle:'Compare ruler, vernier and micrometer-style measurement.',goal:'See how resolution limits what can be reported.',steps:['Change the object length.','Switch instrument resolution.','Notice the displayed rounding and uncertainty scale.'],conclusion:'Higher resolution reveals smaller changes, but it does not automatically remove systematic error.',controls:[['value','Object length / mm',25,5,80,.1],['res','Resolution / mm',1,.01,2,.01]],simple:'The instrument can only distinguish changes at or above its resolution.',exam:'State the resolution and explain why the reported precision should be consistent with it.',mistake:'More displayed digits do not prove that a measurement is more accurate.'},
+    {id:'errors',code:'3.1.2',title:'Random vs Systematic',subtitle:'Separate scatter from offset.',goal:'Recognise the signature of different error types.',steps:['Increase random scatter.','Add systematic offset.','Increase repeats and compare the mean.'],conclusion:'More repeats stabilise the mean against random scatter, but a systematic offset remains.',controls:[['true','True value',10,5,15,.1],['scatter','Random scatter σ',.3,0,1,.05],['offset','Systematic offset',0,-2,2,.1],['n','Repeats',8,3,30,1]],simple:'Random error changes direction between readings; systematic error shifts the set.',exam:'Recommend repeats for random error and calibration/zero correction for systematic error.',mistake:'A precise cluster can still be wrong if it is systematically shifted.'},
+    {id:'uncertainty',code:'3.1.2',title:'Uncertainty Explorer',subtitle:'Compare absolute and percentage uncertainty.',goal:'Build intuition for relative uncertainty.',steps:['Hold absolute uncertainty fixed.','Change measured value.','Compare the percentage uncertainty.'],conclusion:'The same absolute uncertainty matters less, in percentage terms, for a larger measured value.',controls:[['x','Measured value',20,1,100,1],['dx','Absolute uncertainty',.5,.01,5,.01]],simple:'Percentage uncertainty scales the uncertainty relative to the size of the measurement.',exam:'Use (Δx/x)×100%. Include units only for the absolute uncertainty.',mistake:'Do not write % uncertainty with the unit of the measured quantity.'},
+    {id:'propagation',code:'3.1.2',title:'Propagation Builder',subtitle:'See how operation choice changes the rule.',goal:'Choose the correct uncertainty rule automatically.',steps:['Select an operation.','Change input uncertainties.','Predict the output uncertainty before reading the result.'],conclusion:'Addition/subtraction uses absolute uncertainty; multiplication/division uses percentage uncertainty; powers multiply percentage uncertainty.',controls:[['ua','A uncertainty %',2,.1,10,.1],['ub','B uncertainty %',3,.1,10,.1],['power','Power on A',2,1,4,1]],simple:'Uncertainty propagation depends on the mathematical operation used to form the final quantity.',exam:'For powers, multiply the percentage uncertainty by the magnitude of the power.',mistake:'Using the same rule for every operation is a common exam error.'},
+    {id:'graph',code:'3.1.2',title:'Error Bars, Gradients & Intercepts',subtitle:'Explore limiting acceptable lines.',goal:'See why error bars create a range of possible gradients.',steps:['Increase the y uncertainty.','Increase scatter.','Compare best, maximum and minimum gradients.'],conclusion:'Larger uncertainty bars permit a larger range of acceptable gradients and intercepts.',controls:[['slope','True slope',2,.5,4,.1],['yunc','Y uncertainty',.3,.05,1,.05],['scatter','Scatter',.15,0,.7,.05]],simple:'A line is acceptable when it remains consistent with the uncertainty represented by the data.',exam:'Use large triangles for gradients and quote uncertainties in both gradient and intercept from limiting lines.',mistake:'Do not use just two neighbouring points to determine a best-fit gradient.'},
+    {id:'estimate',code:'3.1.3',title:'Estimation Challenge',subtitle:'Build a Fermi-style estimate from assumptions.',goal:'Check scale before chasing precision.',steps:['Adjust people, events per minute and duration.','Read the calculated annual total.','Compare with the nearest power of ten.'],conclusion:'An estimate is useful when its assumptions are clear and its scale is physically sensible.',controls:[['rate','Events per minute',70,10,150,5],['hours','Hours per day',24,1,24,1],['days','Days',365,30,365,5]],simple:'Orders of magnitude describe scale. Exact-looking digits are not meaningful when inputs are approximate.',exam:'State assumptions and quote a sensible order of magnitude.',mistake:'Do not present an estimate to many significant figures.'}
+  ];
+
+  const instrumentTasks = [
+    {task:'Diameter of a 0.45 mm wire',best:'Micrometer screw gauge',choices:['Metre rule','Vernier calipers','Micrometer screw gauge','30 cm ruler'],why:'A micrometer has a suitable range and much finer resolution for a sub-millimetre wire diameter.'},
+    {task:'External diameter of a 22 mm metal cylinder',best:'Vernier calipers',choices:['Micrometer screw gauge','Vernier calipers','Stopwatch','Protractor'],why:'Vernier calipers combine a suitable range with finer resolution than a ruler for a diameter of a few centimetres.'},
+    {task:'Length of a 1.20 m pendulum',best:'Metre rule',choices:['Micrometer screw gauge','Metre rule','Vernier calipers','Balance'],why:'A metre rule has the required range and suitable millimetre-scale resolution.'},
+    {task:'Period of a pendulum where reaction time matters',best:'Time many oscillations with a stopwatch',choices:['Time one oscillation with a stopwatch','Time many oscillations with a stopwatch','Use a metre rule','Use a micrometer'],why:'Timing many oscillations increases the measured interval, reducing percentage timing uncertainty when divided back to one period.'},
+    {task:'Short transit time where manual reaction time would dominate',best:'Light gate / electronic timer',choices:['Analogue wall clock','Hand stopwatch','Light gate / electronic timer','Metre rule'],why:'Electronic timing avoids human reaction time and gives suitable time resolution for a short interval.'}
+  ];
+
+  const safeStorage = {
+    get(key, fallback='[]'){ try { return window.localStorage.getItem(key) ?? fallback; } catch { return fallback; } },
+    set(key, value){ try { window.localStorage.setItem(key,value); } catch {} }
+  };
+  let savedCompleted=[];
+  try { savedCompleted=JSON.parse(safeStorage.get('meCompleted','[]')); } catch { savedCompleted=[]; }
+  const state = {
+    completed:new Set(Array.isArray(savedCompleted)?savedCompleted:[]),
+    lesson:0, chapter:0, sim:0, simVals:{}, snapshots:[],
+    quizIndex:0, quizScore:0, quizStreak:0, extendedIndex:0,
+    timing:[], micro:[], graphData:[]
+  };
+
+  function saveProgress(){ safeStorage.set('meCompleted',JSON.stringify([...state.completed])); updateProgress(); }
+  function updateProgress(){
+    const n=state.completed.size; $('#progressText').textContent=`${n} / ${lessons.length} complete`; $('#progressFill').style.width=`${n/lessons.length*100}%`;
+  }

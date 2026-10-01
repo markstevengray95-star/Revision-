@@ -1,0 +1,56 @@
+{
+  "modules": [
+    {
+      "path": "topics/01-measurements",
+      "commit": "ce18c1358f3c552247c10c0a538452e2ba9beb12",
+      "url": "https://github.com/markstevengray95-star/Alevelmesurments-and-erros.git"
+    },
+    {
+      "path": "topics/02-particles-radiation",
+      "commit": "0f53f83cba4cbec133dbcb4478dc8cc9308ee0c1",
+      "url": "https://github.com/markstevengray95-star/Practical-and-radiation.git"
+    },
+    {
+      "path": "topics/03-waves",
+      "commit": "8c9068a367e346e45e709a7af5e5ba0a7b539f09",
+      "url": "https://github.com/markstevengray95-star/alevel-Wave.git"
+    },
+    {
+      "path": "topics/04-mechanics-materials/mechanics",
+      "commit": "21d84c8a3563480aa589d6d9fc6827232424f01f",
+      "url": "https://github.com/markstevengray95-star/mechanicsnew.git"
+    },
+    {
+      "path": "topics/04-mechanics-materials/materials",
+      "commit": "6c5b4edb215f2330b49dfe745557ca0ad4a230a5",
+      "url": "https://github.com/markstevengray95-star/Alevelmaterials.git"
+    },
+    {
+      "path": "topics/05-electricity",
+      "commit": "abcd545fd970ba7e0d1488c82e2d3152ea05b61a",
+      "url": "https://github.com/markstevengray95-star/alevel-electricity.git"
+    },
+    {
+      "path": "topics/06-further-mechanics-thermal",
+      "commit": "0e879a45dbd86e7679c957661fd4af223ec7588a",
+      "url": "https://github.com/markstevengray95-star/furthermechanics.git"
+    },
+    {
+      "path": "topics/07-fields",
+      "commit": "d2ffb12233f70fc8b6c350a7076747ffc9ec3bd3",
+      "url": "https://github.com/markstevengray95-star/alevel-fields-.git"
+    },
+    {
+      "path": "topics/08-nuclear",
+      "commit": "50be1638129177ac4a4af7c4357168fb2c20a494",
+      "url": "https://github.com/markstevengray95-star/nuclear-physicsalevel.git"
+    },
+    {
+      "path": "tools/practicals",
+      "commit": "7aef6a8ae09b7e511a81a6a73594d07f7291cd0c",
+      "url": "https://github.com/markstevengray95-star/Alevel-prac.git"
+    }
+  ],
+  "alevel": "27892ec06ad2a152b592ab8477cae75317c35cf6",
+  "gcse": "47cd5cb32b14d48082569168e723d776fbcf4c7d"
+}

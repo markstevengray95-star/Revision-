@@ -1,0 +1,1 @@
+{"name":"alevel-measurements-errors","version":"8.0.0","private":true,"scripts":{"start":"npx serve . -l 3000","test":"node test-smoke.js"}}

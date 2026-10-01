@@ -1,0 +1,372 @@
+
+/* Simulation presentation polish */
+#view-lab .lab-side{min-width:0}
+#view-lab .panel,
+#view-lab .learning-box,
+#view-lab #simReadout,
+#view-lab #stepGuide{min-width:0;overflow:hidden}
+
+#view-lab .sim-heading h2,
+#view-lab .learning-box h3,
+#view-lab #stepGuide h3,
+#view-lab #stepGuide h4{
+  text-wrap:balance;
+}
+#view-lab .sim-heading p,
+#view-lab .learning-box p,
+#view-lab .learning-box div,
+#view-lab #stepGuide p,
+#view-lab #simReadout{
+  overflow-wrap:anywhere;
+  hyphens:auto;
+}
+
+.sim-key-strip{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+}
+.sim-key-item{
+  min-width:0;
+  padding:7px 8px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:rgba(5,15,26,.72);
+}
+.sim-key-item span{
+  display:block;
+  margin-bottom:2px;
+  color:#8edcff;
+  font-size:.54rem;
+  font-weight:900;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.sim-key-item strong{
+  display:block;
+  color:#eaf6ff;
+  font-size:.66rem;
+  line-height:1.32;
+  font-weight:700;
+}
+
+#view-lab #simReadout{
+  background:linear-gradient(135deg,rgba(8,24,40,.96),rgba(10,31,51,.92));
+  border:1px solid rgba(103,199,255,.22);
+}
+.sim-readout-flow{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  gap:5px;
+}
+.sim-readout-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:27px;
+  max-width:100%;
+  padding:4px 7px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(3,11,19,.48);
+  color:#dff3ff;
+  font-size:.66rem;
+  line-height:1.3;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.sim-readout-chip:first-child{
+  border-color:rgba(103,199,255,.3);
+  background:rgba(103,199,255,.075);
+  color:#f0fbff;
+}
+.sim-readout-chip strong{color:#fff}
+.sim-readout-chip sub,
+.sim-readout-chip sup{font-size:.72em;line-height:0}
+
+.physics-math{
+  font-family:"STIX Two Math","Cambria Math","Times New Roman",serif;
+  font-style:normal;
+  letter-spacing:.005em;
+  white-space:normal;
+}
+.physics-unit{
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+
+#view-lab .simple-box{border-left:3px solid rgba(103,199,255,.72)}
+#view-lab .exam-box{border-left:3px solid rgba(99,217,164,.72)}
+#view-lab .mistake-box{border-left:3px solid rgba(255,213,106,.72)}
+#view-lab .checkpoint-box{border-left:3px solid rgba(184,149,255,.72)}
+
+#view-lab .learning-box h3{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+#view-lab .simple-box h3::before{content:"◉";color:#8edcff}
+#view-lab .exam-box h3::before{content:"✓";color:#8fe6ba}
+#view-lab .mistake-box h3::before{content:"!";color:#ffd56a}
+#view-lab .checkpoint-box h3::before{content:"?";color:#c9b7ff}
+
+#view-lab #simControls .field{
+  background:linear-gradient(145deg,rgba(9,25,42,.96),rgba(7,19,32,.95));
+  border:1px solid rgba(255,255,255,.075);
+}
+#view-lab #simControls .field>span{
+  color:#dff3ff;
+  font-weight:800;
+}
+#view-lab #simControls input[type="range"]{
+  accent-color:var(--accent);
+}
+#view-lab #simControls select{
+  text-overflow:ellipsis;
+}
+
+#view-lab .viewer-wrap{
+  isolation:isolate;
+}
+.sim-corner-badge{
+  position:absolute;
+  z-index:5;
+  left:12px;
+  top:12px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 7px;
+  border-radius:9px;
+  border:1px solid rgba(99,217,164,.28);
+  background:rgba(5,15,26,.82);
+  color:#dffaf0;
+  font-size:.59rem;
+  font-weight:850;
+  pointer-events:none;
+  backdrop-filter:blur(8px);
+}
+.sim-corner-badge::before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:#63d9a4;
+  box-shadow:0 0 10px rgba(99,217,164,.72);
+}
+
+#view-lab #stepGuide .step-card{
+  border:1px solid rgba(255,255,255,.075);
+  background:linear-gradient(145deg,rgba(9,25,42,.94),rgba(7,19,32,.92));
+}
+#view-lab #stepGuide .step-equation{
+  font-family:"STIX Two Math","Cambria Math","Times New Roman",serif;
+  font-size:.66rem;
+  line-height:1.4;
+  background:rgba(103,199,255,.055);
+  border:1px solid rgba(103,199,255,.12);
+}
+
+#view-lab .quick-option{
+  min-height:32px;
+  white-space:normal;
+}
+#view-lab .quick-option.correct{
+  border-color:rgba(99,217,164,.72);
+  background:rgba(99,217,164,.11);
+}
+#view-lab .quick-option.wrong{
+  border-color:rgba(255,123,135,.72);
+  background:rgba(255,123,135,.09);
+}
+
+@media(max-width:1100px){
+  .sim-key-strip{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  .sim-key-strip{grid-template-columns:1fr}
+  .sim-key-item{padding:7px}
+  .sim-corner-badge{top:8px;left:8px}
+}
+
+
+.sim-particle-legend{
+  grid-column:1/-1;
+  padding:8px 9px;
+  border:1px solid rgba(103,199,255,.18);
+  border-radius:11px;
+  background:rgba(6,17,29,.82);
+}
+.sim-legend-title{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
+}
+.sim-legend-title strong{
+  color:#eaf7ff;
+  font-size:.7rem;
+}
+.sim-legend-title span{
+  color:#91a8bd;
+  font-size:.57rem;
+}
+.sim-legend-items{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:5px;
+}
+.sim-legend-item{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:5px 6px;
+  border-radius:8px;
+  background:rgba(255,255,255,.025);
+}
+.sim-legend-item>div{
+  min-width:0;
+}
+.sim-legend-item strong{
+  display:block;
+  color:#dff3ff;
+  font-size:.62rem;
+  line-height:1.2;
+}
+.sim-legend-item span{
+  display:block;
+  color:#9db1c4;
+  font-size:.55rem;
+  line-height:1.25;
+}
+.sim-legend-dot{
+  flex:0 0 auto;
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:var(--legend-colour);
+  box-shadow:0 0 0 2px rgba(255,255,255,.12),0 0 12px color-mix(in srgb,var(--legend-colour) 55%,transparent);
+}
+.sim-legend-target{
+  position:relative;
+  flex:0 0 auto;
+  width:16px;
+  height:16px;
+  border:2px solid #bbeaff;
+  border-radius:50%;
+  box-shadow:0 0 10px rgba(187,234,255,.42);
+}
+.sim-legend-target::before,
+.sim-legend-target::after{
+  content:"";
+  position:absolute;
+  background:#bbeaff;
+  opacity:.85;
+}
+.sim-legend-target::before{
+  width:20px;height:1px;left:-4px;top:6px;
+}
+.sim-legend-target::after{
+  width:1px;height:20px;left:6px;top:-4px;
+}
+@media(max-width:650px){
+  .sim-legend-title{
+    display:block;
+  }
+  .sim-legend-title span{
+    display:block;
+    margin-top:2px;
+  }
+  .sim-legend-items{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+
+.sim-object-guide{
+  grid-column:1/-1;
+  padding:8px 9px;
+  border:1px solid rgba(154,134,255,.20);
+  border-radius:11px;
+  background:rgba(9,18,33,.82);
+}
+.sim-guide-title{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
+}
+.sim-guide-title strong{
+  color:#f1edff;
+  font-size:.7rem;
+}
+.sim-guide-title span{
+  color:#a9a1c6;
+  font-size:.57rem;
+}
+.sim-guide-buttons{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:5px;
+}
+.sim-guide-button{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 7px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:rgba(255,255,255,.025);
+  color:#dfe7f2;
+  cursor:pointer;
+  text-align:left;
+}
+.sim-guide-button:hover,
+.sim-guide-button.active{
+  border-color:rgba(154,134,255,.58);
+  background:rgba(154,134,255,.10);
+}
+.sim-guide-button>span{
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  width:21px;height:21px;
+  border-radius:50%;
+  border:1px solid rgba(201,183,255,.55);
+  color:#dcd3ff;
+  font-size:.61rem;
+  font-weight:900;
+}
+.sim-guide-button strong{
+  min-width:0;
+  font-size:.62rem;
+  line-height:1.22;
+}
+.model-guide-hint{
+  cursor:default!important;
+  opacity:.8;
+  pointer-events:none;
+}
+@media(max-width:650px){
+  .sim-guide-title{display:block}
+  .sim-guide-title span{display:block;margin-top:2px}
+  .sim-guide-buttons{grid-template-columns:1fr 1fr}
+}
+
+/* Defensive sizing: every lab-side card must shrink inside the two-column teaching layout. */
+#view-lab .lab-side > *{min-width:0;max-width:100%}
+#view-lab .lab-side input,
+#view-lab .lab-side select,
+#view-lab .lab-side textarea,
+#view-lab .lab-side button{max-width:100%}
+#view-lab .atom-practice,
+#view-lab .atom-practice-body,
+#view-lab .atom-progress,
+#view-lab .atom-progress-track,
+#view-lab .atom-task-route,
+#view-lab .atom-isotope-actions{min-width:0;max-width:100%}
+#view-lab .sim-readout-flow,
+#view-lab .sim-readout-chip{min-width:0;max-width:100%;overflow-wrap:anywhere}
+#view-lab .sim-readout-chip .physics-unit{white-space:normal;overflow-wrap:anywhere}

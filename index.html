@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a1422">
+  <meta name="description" content="Your AQA GCSE and A-level Biology, Chemistry and Physics courses, together. Lessons, textbooks, practicals, simulations and exam practice.">
+  <title>Revision · GCSE & A-level Science</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="shared/revision-shell.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="shared/revision-shell.js" defer></script>
+  <script src="catalog.js" defer></script>
+  <script src="dashboard.js" defer></script>
+</head>
+<body class="revision-dashboard">
+  <a class="revision-skip" href="#main">Skip to content</a>
+  <main id="main" class="dashboard-wrap">
+    <section class="dashboard-hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="dashboard-eyebrow"><span class="live-dot"></span> AQA SCIENCE · GCSE & A-LEVEL</span>
+        <h1 id="hero-title">A little focus.<br><span>A lot of progress.</span></h1>
+        <p>Your science courses, together. Find a topic, understand the ideas, and put your knowledge to work.</p>
+        <div class="hero-actions"><a class="revision-button primary" href="#courses">Choose your course <span aria-hidden="true">↗</span></a><a id="resume-link" class="revision-button" href="#topics" hidden>Continue studying <span aria-hidden="true">→</span></a></div>
+        <div class="hero-features"><span>Guided lessons</span><span>Interactive practicals</span><span>Exam practice</span></div>
+      </div>
+      <aside class="progress-card" aria-label="Your revision progress">
+        <div class="progress-card-heading"><span>YOUR STUDY SNAPSHOT</span><span aria-hidden="true">◷</span></div>
+        <div class="progress-number"><strong id="total-completed">0</strong><span>topics completed</span></div>
+        <div class="dashboard-track"><span id="total-progress"></span></div>
+        <p id="progress-caption">Choose a course to get started.</p>
+        <div class="progress-levels"><div><span>GCSE</span><strong id="gcse-progress">0 / 25</strong></div><div><span>A-level</span><strong id="alevel-progress">0 / 19</strong></div></div>
+        <small>Progress is saved on this device.</small>
+      </aside>
+    </section>
+
+    <section id="courses" class="dashboard-section" aria-labelledby="courses-title">
+      <div class="section-heading"><div><span class="dashboard-eyebrow">YOUR NEXT CHAPTER</span><h2 id="courses-title">Choose your course</h2></div><span class="section-note">Three subjects. Two levels. One place.</span></div>
+      <div class="course-filters"><div class="level-filter" role="group" aria-label="Filter by qualification"><button type="button" data-level="all" aria-pressed="true">All courses</button><button type="button" data-level="gcse" aria-pressed="false">GCSE</button><button type="button" data-level="alevel" aria-pressed="false">A-level</button></div><label class="mode-filter">GCSE pathway <select id="gcse-mode"><option value="combined">Combined Science</option><option value="triple">Separate / Triple Science</option></select></label></div>
+      <div id="course-grid" class="course-grid"></div>
+    </section>
+
+    <section id="topics" class="dashboard-section" aria-labelledby="topics-title">
+      <div class="section-heading"><div><span class="dashboard-eyebrow">GO STRAIGHT TO THE IDEA</span><h2 id="topics-title">Find your next topic</h2></div><span id="result-count" class="section-note" role="status" aria-live="polite"></span></div>
+      <div class="topic-toolbar"><label class="topic-search"><span aria-hidden="true">⌕</span><span class="revision-sr-only">Search all science topics and lessons</span><input id="topic-search" type="search" placeholder="Search topics, lessons or key ideas…" autocomplete="off"></label><label class="subject-filter"><span class="revision-sr-only">Filter by subject</span><select id="topic-subject"><option value="all">All subjects</option><option value="biology">Biology</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option></select></label></div>
+      <div id="topic-list" class="topic-list"></div>
+      <div id="empty-state" class="empty-state" hidden><h3>No topics found</h3><p>Try another search or choose a different course filter.</p><button class="revision-button" id="reset-filters" type="button">Clear filters</button></div>
+    </section>
+    <footer class="dashboard-footer"><span class="revision-wordmark">Revision<span>.</span></span><p>AQA Biology, Chemistry & Physics · GCSE to A-level</p><a href="https://github.com/markstevengray95-star/Revision-" target="_blank" rel="noopener">View source ↗</a></footer>
+  </main>
+  <noscript><p class="noscript-note">Enable JavaScript to search topics and see progress. You can open <a href="courses/gcse/index.html">GCSE Science</a> or <a href="courses/alevel/index.html">A-level Science</a> directly.</p></noscript>
+</body>
+</html>

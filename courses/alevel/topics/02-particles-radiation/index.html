@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>AQA Particles & Radiation Learning Lab</title>
+<meta name="description" content="A complete guided AQA A-level Physics Particles and Radiation learning app with interactive 3D simulations, worked examples and exam practice.">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="rutherford-experiment.css?v=3d-local-1">
+<link rel="stylesheet" href="simulation-screen.css?v=3d-local-1">
+<link rel="stylesheet" href="interactive-3d.css?v=polish-2">
+<link rel="stylesheet" href="particle-depth.css?v=polish-2">
+<link rel="stylesheet" href="simulation-presentation.css?v=student-ui-1">
+<link rel="stylesheet" href="learning-tools.css?v=feature-suite-1">
+<link rel="stylesheet" href="learning-hub.css?v=feature-suite-1">
+<link rel="stylesheet" href="simulation-essentials.css?v=student-ui-1">
+<link rel="stylesheet" href="student-ui-polish.css?v=student-ui-1">
+<link rel="stylesheet" href="simulation-change-coach.css?v=refine-1">
+<link rel="stylesheet" href="lesson-sequence.css?v=final-flow-1">
+<link rel="stylesheet" href="textbook-chapters.css?v=full-textbook-1">
+<link rel="stylesheet" href="lesson-sequence-resilience.css?v=full-lessons-1">
+<link rel="stylesheet" href="simulation-missions.css?v=missions-1">
+<link rel="stylesheet" href="simulation-investigation-cycle.css?v=investigate-1">
+<link rel="stylesheet" href="start-here.css?v=complete-learning-1">
+<link rel="stylesheet" href="revision-hub.css?v=complete-learning-1">
+<link rel="stylesheet" href="exam-skills.css?v=complete-learning-1">
+<link rel="stylesheet" href="knowledge-organiser.css?v=complete-learning-2">
+<link rel="stylesheet" href="atom-builder-practice.css?v=isotope-fix-1">
+<link rel="stylesheet" href="atom-drag-builder.css?v=drag-atom-1">
+  <!-- unified-course-topic-theme -->
+<link rel="stylesheet" href="unified-course-theme.css?v=22">
+<link rel="stylesheet" href="unified-course-focus.css?v=22">
+<script>if(window.self!==window.top)document.documentElement.classList.add('unified-course-embedded');</script>
+<script src="unified-course-embedded.js?v=22" defer></script>
+<link rel="stylesheet" href="../../../../shared/revision-shell.css">
+<script src="../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Particles & Radiation Learning Lab</div>
+      <div class="subtle small">AQA A-level Physics 7408 · complete section 3.2 · Year 12 guided learning</div>
+    </div>
+    <div class="header-actions">
+      <span class="pill">AQA linked</span>
+      <span class="pill">3D simulations</span>
+      <span class="pill">Guided mode</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid hero-grid">
+    <div class="panel hero-copy">
+      <span class="eyebrow">AQA 3.2 · Particles and radiation</span>
+      <h1>See the physics, then learn how to explain it.</h1>
+      <p>This version is built to make the topic easier to follow: short explanations first, animated models second, then the exact exam language and a quick check.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Explore simulations</button>
+      </div>
+    </div>
+    <div class="panel progress-card">
+      <div class="progress-head"><strong>Your topic progress</strong><span id="overallProgressText">0 / 11 complete</span></div>
+      <div class="progress-track"><div id="overallProgressBar" class="progress-fill"></div></div>
+      <div class="stat-grid">
+        <div><strong id="simCount">13</strong><span>interactive models</span></div>
+        <div><strong>11</strong><span>AQA spec sections</span></div>
+        <div><strong id="quizCount">24</strong><span>checkpoint questions</span></div>
+        <div><strong>6</strong><span>formula helpers</span></div>
+      </div>
+      <button id="resetProgress" class="text-button">Reset my progress</button>
+    </div>
+  </section>
+
+  <nav class="main-nav" aria-label="Main app navigation">
+    <button class="nav-button active" data-view="course">Guided course</button>
+    <button class="nav-button" data-view="lab">Simulation lab</button>
+    <button class="nav-button" data-view="map">Topic map</button>
+    <button class="nav-button" data-view="atlas">Particle atlas</button>
+    <button class="nav-button" data-view="conserve">Conservation</button>
+    <button class="nav-button" data-view="formula">Formula coach</button>
+    <button class="nav-button" data-view="quiz">Practice quiz</button>
+    <button class="nav-button" data-view="spec">AQA checklist</button>
+  </nav>
+
+  <section id="view-course" class="view active-view">
+    <div class="section-head">
+      <div><span class="eyebrow">Recommended route</span><h2>Learn the whole topic in a sensible order</h2></div>
+      <p class="subtle">Start with zero assumed knowledge, master each learning chunk, use the simulation to investigate the physics, then pass the lesson check before moving on.</p>
+    </div>
+    <div class="course-layout">
+      <div id="courseList" class="course-list"></div>
+      <article id="lessonPanel" class="panel lesson-panel"></article>
+    </div>
+  </section>
+
+  <section id="view-lab" class="view">
+    <div class="section-head">
+      <div><span class="eyebrow">Interactive learning</span><h2>Simulation lab</h2></div>
+      <p class="subtle">Use each 3D model as an investigation: predict first, change one variable, inspect labelled objects, then explain the result in AQA language.</p>
+    </div>
+    <div id="simNav" class="sim-nav"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="sceneCanvas" aria-label="Interactive physics simulation"></canvas>
+          <span id="renderStatus" class="viewer-status">Loading 3D engine…</span>
+          <div class="viewer-help"><span>Drag to rotate</span><span>Wheel to zoom</span></div>
+        </div>
+        <div class="viewer-buttons">
+          <button id="rotateLeft" class="button">↶ Rotate</button>
+          <button id="rotateRight" class="button">Rotate ↷</button>
+          <button id="resetView" class="button">Reset view</button>
+          <button id="pauseMotion" class="button">Pause motion</button>
+        </div>
+        <p class="model-note">These are teaching models. Nuclear and atomic scales are deliberately exaggerated. Quarks and exchange particles are represented schematically because they are not tiny visible balls.</p>
+      </div>
+      <aside class="lab-side">
+        <div class="panel sim-heading">
+          <span id="specCode" class="eyebrow"></span>
+          <h2 id="simTitle"></h2>
+          <p id="simSubtitle" class="subtle"></p>
+        </div>
+        <div id="simControls" class="control-stack"></div>
+        <div id="simReadout" class="equation"></div>
+        <div class="panel learning-box simple-box"><h3>In simple words</h3><div id="simpleExplain"></div></div>
+        <div class="panel learning-box exam-box"><h3>Say it like this in an exam</h3><div id="examExplain"></div></div>
+        <div class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></div>
+        <div class="panel learning-box checkpoint-box"><h3>Quick check</h3><div id="simCheck"></div></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-map" class="view">
+    <div class="section-head"><div><span class="eyebrow">Big picture</span><h2>Interactive topic map</h2></div><p class="subtle">Choose any box to see why it matters and jump to the relevant simulation.</p></div>
+    <div class="map-layout">
+      <div class="panel map-card"><svg id="conceptMap" viewBox="0 0 1100 760" role="img" aria-label="Concept map of AQA Particles and Radiation"></svg></div>
+      <aside class="panel" id="mapInfo"></aside>
+    </div>
+  </section>
+
+  <section id="view-atlas" class="view">
+    <div class="section-head"><div><span class="eyebrow">Reference</span><h2>Particle atlas</h2></div><p class="subtle">Compare families, charge, quark content and quantum numbers without memorising a giant table all at once.</p></div>
+    <div id="particleFilters" class="filter-row"></div>
+    <div id="particleButtons" class="particle-grid"></div>
+    <article id="particleInfo" class="panel particle-info"></article>
+  </section>
+
+  <section id="view-conserve" class="view">
+    <div class="section-head"><div><span class="eyebrow">AQA 3.2.1.7</span><h2>Conservation-law checker</h2></div><p class="subtle">Work across the reaction one quantity at a time: charge, baryon number, lepton number and strangeness.</p></div>
+    <div class="two-col">
+      <div class="panel">
+        <label class="field"><span>Choose a reaction</span><select id="reactionSelect"></select></label>
+        <div id="reactionEquation" class="equation"></div>
+        <div class="tip"><strong>Method:</strong> add each quantum number on the left, then on the right. If one conserved quantity changes, the reaction is not allowed.</div>
+      </div>
+      <div id="conservationResult" class="panel"></div>
+    </div>
+  </section>
+
+  <section id="view-formula" class="view">
+    <div class="section-head"><div><span class="eyebrow">Maths support</span><h2>Formula coach</h2></div><p class="subtle">Pick a calculation, enter values and the app shows the substitution as well as the answer.</p></div>
+    <div class="formula-layout">
+      <div class="panel"><label class="field"><span>Calculation</span><select id="formulaSelect"></select></label><div id="formulaInputs" class="control-stack"></div></div>
+      <div class="panel"><h3>Worked calculation</h3><div id="formulaWorking" class="worked"></div></div>
+    </div>
+    <div id="formulaCards" class="formula-cards"></div>
+  </section>
+
+  <section id="view-quiz" class="view">
+    <div class="section-head"><div><span class="eyebrow">Practice</span><h2>Low-pressure knowledge check</h2></div><p class="subtle">You get feedback immediately. Use the hint if you need it before answering.</p></div>
+    <div class="quiz-layout">
+      <div class="panel quiz-stats">
+        <div><span>Question</span><strong id="quizProgressText">1 / 24</strong></div>
+        <div class="progress-track"><div id="quizProgressBar" class="progress-fill"></div></div>
+        <div class="stat-grid two"><div><strong id="quizScore">0</strong><span>correct</span></div><div><strong id="quizStreak">0</strong><span>streak</span></div></div>
+        <button id="restartQuiz" class="button">Restart quiz</button>
+      </div>
+      <div class="panel quiz-main">
+        <span id="quizSpec" class="eyebrow"></span>
+        <h3 id="quizQuestion"></h3>
+        <button id="showHint" class="text-button">Show a hint</button>
+        <div id="quizHint" class="hint hidden"></div>
+        <div id="quizChoices" class="choice-list"></div>
+        <div id="quizFeedback" class="feedback hidden"></div>
+        <button id="nextQuestion" class="button primary hidden">Next question</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-spec" class="view">
+    <div class="section-head"><div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.2 checklist</h2></div><p class="subtle">Every core Particles and Radiation section is included. Rutherford is kept as a clearly labelled Nuclear Physics extension.</p></div>
+    <div id="specGrid" class="spec-grid"></div>
+    <div class="panel extension-note"><strong>Useful extension:</strong> Rutherford alpha scattering is in AQA 3.8.1.1 Nuclear Physics, not 3.2. It remains in this app because it helps students understand how the nuclear model developed.</div>
+  </section>
+</main>
+
+<footer class="wrap footer">Built as a teaching model for AQA A-level Physics. Always use your teacher's course materials alongside the simulations.</footer>
+<script src="tab-resilience.js?v=course-sections-1"></script>
+<script type="module" src="app.js?v=full-zh-11"></script>
+<script src="fallback-engine.js?v=3d-local-1"></script>
+<script src="aqa-deep-dive.js"></script>
+<script src="simulation-guide.js"></script>
+<script src="accuracy-visuals.js"></script>
+<script src="classroom-upgrades.js"></script>
+<script src="spec-mastery.js"></script>
+<script src="advanced-learning.js"></script>
+<script src="diagnostic-teacher.js"></script>
+<script src="rutherford-experiment.js?v=polish-2"></script>
+<script src="simulation-audio.js?v=clean-guide-sound-3"></script>
+<script src="particle-depth.js?v=polish-2"></script>
+<script src="simulation-presentation.js?v=student-ui-1"></script>
+<script src="learning-tools.js?v=feature-suite-1"></script>
+<script src="mandarin-global.js?v=final-flow-1"></script>
+<script src="mandarin-lessons.js?v=full-zh-6"></script>
+<script src="learning-hub.js?v=final-flow-1"></script>
+<script src="simulation-essentials.js?v=complete-learning-3"></script>
+<script src="simulation-change-coach.js?v=isotope-fix-1"></script>
+<script src="lesson-sequence.js?v=final-flow-1"></script>
+<script src="textbook-chapters.js?v=full-textbook-1"></script>
+<script src="simulation-missions.js?v=missions-1"></script>
+<script src="simulation-investigation-cycle.js?v=investigate-1"></script>
+<script src="start-here.js?v=complete-learning-1"></script>
+<script src="revision-hub.js?v=complete-learning-2"></script>
+<script src="exam-skills.js?v=complete-learning-1"></script>
+<script src="atom-builder-practice.js?v=atom-builder-2"></script>
+<script src="atom-drag-builder.js?v=drag-atom-2"></script>
+</body>
+</html>

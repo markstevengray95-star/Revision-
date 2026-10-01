@@ -1,0 +1,149 @@
+
+.atom-practice{
+  grid-column:1/-1;
+  border:1px solid rgba(103,199,255,.17);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(8,24,40,.97),rgba(6,18,31,.96));
+  overflow:hidden;
+}
+.atom-practice[hidden]{display:none!important}
+.atom-practice-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.055)
+}
+.atom-practice-head h3{margin:.1rem 0;font-size:.8rem}
+.atom-practice-head span{font-size:.56rem;color:#8edcff;font-weight:850}
+.atom-practice-body{padding:8px 9px 9px;display:grid;gap:8px}
+.atom-knowledge-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.atom-rule{
+  padding:7px;border:1px solid rgba(255,255,255,.065);border-radius:9px;background:rgba(255,255,255,.022)
+}
+.atom-rule strong{display:block;font-size:.62rem;color:#e7f5ff;margin-bottom:2px}
+.atom-rule span{font-size:.56rem;line-height:1.34;color:#aebfd0}
+.atom-challenge-card{
+  padding:9px;border:1px solid rgba(99,217,164,.13);border-radius:10px;background:rgba(99,217,164,.035)
+}
+.atom-challenge-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.atom-challenge-top h4{margin:.15rem 0 .3rem;font-size:.74rem}
+.atom-level{font-size:.54rem;color:#83d6ab;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+.atom-target{
+  padding:8px;border-radius:9px;border:1px solid rgba(255,255,255,.065);background:#071522;
+  font-size:.66rem;line-height:1.4;color:#dce9f5
+}
+.atom-target b{color:#fff}
+.atom-live-check{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:7px
+}
+.atom-live-check div{
+  padding:6px;border-radius:8px;border:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.02)
+}
+.atom-live-check b{display:block;font-size:.52rem;color:#83a1b7;text-transform:uppercase}
+.atom-live-check span{font-size:.62rem;color:#eaf5ff}
+.atom-practice-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.atom-feedback{
+  margin-top:7px;padding:7px 8px;border-radius:8px;font-size:.61rem;line-height:1.4;
+  border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)
+}
+.atom-feedback.good{border-color:rgba(99,217,164,.25);background:rgba(99,217,164,.07);color:#cdf3de}
+.atom-feedback.try{border-color:rgba(255,213,106,.22);background:rgba(255,213,106,.05);color:#f0dfad}
+.atom-progress{
+  display:flex;align-items:center;gap:7px
+}
+.atom-progress-track{flex:1;height:7px;border-radius:999px;overflow:hidden;background:#06111c}
+.atom-progress-fill{height:100%;background:linear-gradient(90deg,#67c7ff,#63d9a4)}
+.atom-progress span{font-size:.56rem;color:#9fb3c6;white-space:nowrap}
+.atom-builder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.atom-builder-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.atom-builder-help{
+  margin-top:5px;padding:6px 7px;border-radius:8px;background:rgba(103,199,255,.04);
+  border:1px solid rgba(103,199,255,.09);font-size:.57rem;line-height:1.35;color:#b8cbd9
+}
+@media(max-width:760px){
+  .atom-knowledge-grid,.atom-live-check,.atom-builder-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .atom-knowledge-grid,.atom-live-check,.atom-builder-grid{grid-template-columns:1fr}
+}
+
+
+.atom-task-route{
+  display:flex;
+  gap:5px;
+  overflow-x:auto;
+  padding-bottom:2px;
+  scrollbar-width:thin;
+}
+.atom-task-route span{
+  flex:0 0 auto;
+  padding:4px 6px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:999px;
+  background:#071522;
+  color:#8fa8ba;
+  font-size:.53rem;
+  white-space:nowrap;
+}
+.atom-task-route span.active{
+  color:#fff;
+  border-color:rgba(103,199,255,.32);
+  background:rgba(103,199,255,.11);
+}
+.atom-task-route span.done{
+  color:#c7f0dc;
+  border-color:rgba(99,217,164,.22);
+  background:rgba(99,217,164,.07);
+}
+
+
+.atom-isotope-intro{
+  margin-bottom:6px;
+  padding:7px 8px;
+  border:1px solid rgba(103,199,255,.16);
+  border-radius:9px;
+  background:rgba(103,199,255,.055);
+  color:#d6e9f6;
+  font-size:.61rem;
+  line-height:1.4;
+}
+.atom-isotope-actions{
+  display:flex;
+  gap:5px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:6px;
+  padding:6px 7px;
+  border:1px solid rgba(99,217,164,.13);
+  border-radius:9px;
+  background:rgba(99,217,164,.035);
+}
+.atom-isotope-actions>span:first-child{
+  color:#cce8dc;
+  font-size:.58rem;
+  font-weight:900;
+}
+.atom-isotope-note{
+  color:#8fb2a3;
+  font-size:.55rem;
+  font-weight:800;
+}
+#atomA[readonly]{
+  opacity:.82;
+  cursor:not-allowed;
+}
+
+/* The atom builder is itself a compound control, so it must span the parent auto-fit grid. */
+#view-lab #simControls .atom-isotope-intro,
+#view-lab #simControls .atom-builder-grid,
+#view-lab #simControls .atom-isotope-actions,
+#view-lab #simControls .atom-builder-actions,
+#view-lab #simControls .atom-builder-help{grid-column:1 / -1;min-width:0;max-width:100%}
+#view-lab #simControls .atom-builder-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+#view-lab #simControls .atom-builder-grid .field{min-width:0}
+#view-lab #simControls .atom-builder-grid .field>span,
+#view-lab #simControls .atom-builder-grid .field-readout{overflow-wrap:anywhere}
+@media(max-width:760px){
+  #view-lab #simControls .atom-builder-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  #view-lab #simControls .atom-builder-grid{grid-template-columns:1fr}
+}

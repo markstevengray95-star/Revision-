@@ -1,0 +1,35 @@
+.lesson-expansion-v7{margin-top:22px;padding-top:18px;border-top:1px solid rgba(148,203,255,.16)}
+.v7-section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.v7-section-title h3{margin:.25rem 0 0;font-size:1.08rem}
+.v7-visual-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:16px;align-items:stretch}
+.v7-figure,.v7-concept-card{margin:0;border:1px solid rgba(118,194,255,.18);border-radius:18px;background:linear-gradient(145deg,rgba(11,30,50,.95),rgba(7,19,31,.92));box-shadow:0 16px 38px rgba(0,0,0,.18);overflow:hidden}
+.v7-figure{padding:14px 14px 10px}.v7-figure svg{display:block;width:100%;min-height:150px;background:radial-gradient(circle at 20% 20%,rgba(81,176,255,.08),transparent 46%);border-radius:12px}
+.v7-figure figcaption{padding:10px 4px 2px;color:var(--muted,#9fb2c7);line-height:1.55;font-size:.92rem}
+.v7-concept-card{padding:17px}.v7-concept-card>p{font-size:.98rem;line-height:1.7;margin:.7rem 0 1rem}
+.v7-graph-note{border-left:3px solid #70d8ff;padding:11px 13px;background:rgba(87,186,255,.07);border-radius:0 12px 12px 0}.v7-graph-note p{margin:.35rem 0 0;color:var(--muted,#b7c5d6)}
+.v7-worked-steps{display:grid;gap:9px;counter-reset:v7step;margin:0 0 14px;padding:0;list-style:none}.v7-worked-steps li{counter-increment:v7step;position:relative;padding:12px 14px 12px 48px;border:1px solid rgba(115,194,255,.15);background:rgba(9,27,44,.72);border-radius:13px;line-height:1.55}.v7-worked-steps li:before{content:counter(v7step);position:absolute;left:12px;top:10px;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#62c8ff,#7c8cff);color:#04131f;font-weight:900;font-size:.8rem}
+.v7-transfer{display:grid;grid-template-columns:minmax(0,.8fr) minmax(280px,1.2fr);gap:16px;padding:17px;border:1px solid rgba(255,207,102,.22);background:linear-gradient(135deg,rgba(255,197,88,.08),rgba(108,128,255,.06));border-radius:17px}.v7-transfer h3{margin:.3rem 0 .5rem}.v7-transfer p{line-height:1.65}.v7-transfer textarea{min-height:120px}
+.v7-axis{stroke:#526c86;stroke-width:2}.v7-guide{stroke:#93a9bd;stroke-width:1.5;stroke-dasharray:6 6}.v7-wave{stroke:#65cdfc;stroke-width:4;fill:none;filter:drop-shadow(0 0 7px rgba(101,205,252,.3))}.v7-ray{stroke:#ffd167;stroke-width:3;fill:none}.v7-screen{stroke:#d8e8f7;stroke-width:4}.v7-source{fill:#77d9ff}.v7-nodes circle{fill:#ff7887}.v7-grating line{stroke:#d8e8f7;stroke-width:2}.v7-clad{fill:rgba(129,107,255,.22);stroke:#9b8eff}.v7-core{fill:rgba(91,199,255,.17);stroke:#66cfff}.v7-pulley{fill:#1b3347;stroke:#d7e9f8;stroke-width:2}.v7-mass{fill:#ffcf67}.v7-figure text{fill:#dcecff;font:700 13px system-ui,sans-serif}
+
+/* Stronger visual hierarchy across the learning app */
+.lesson-panel{background:linear-gradient(180deg,rgba(11,28,46,.98),rgba(7,18,30,.98));box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.lesson-content-card{position:relative;overflow:hidden}.lesson-content-card:after{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,#66cfff,transparent);opacity:.65}.lesson-content-card h3{letter-spacing:-.01em}.lesson-content-card p{line-height:1.72}
+.lesson-path-step{transition:transform .15s ease,border-color .15s ease,background .15s ease}.lesson-path-step:hover{transform:translateY(-1px)}.lesson-path-step.active{box-shadow:0 10px 24px rgba(53,164,255,.12)}
+.textbook-reader{background:linear-gradient(180deg,rgba(12,29,47,.98),rgba(7,19,31,.98))}.textbook-section{border-radius:15px;padding:14px 12px}.textbook-section:hover{background:rgba(96,186,255,.035)}
+.textbook-equation,.formula-chip,.equation[data-equation-key]{box-shadow:inset 0 0 0 1px rgba(104,202,255,.12);transition:transform .15s ease,box-shadow .15s ease}.textbook-equation:hover,.formula-chip:hover,.equation[data-equation-key]:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(69,170,255,.12),inset 0 0 0 1px rgba(104,202,255,.24)}
+
+/* Simulation visual polish */
+.viewer-wrap{position:relative;isolation:isolate;border:1px solid rgba(102,201,255,.19);background:radial-gradient(circle at 35% 18%,rgba(54,164,255,.12),transparent 38%),linear-gradient(180deg,#0c2136,#06111d);box-shadow:0 26px 60px rgba(0,0,0,.25),inset 0 0 42px rgba(76,174,255,.035)}
+.viewer-wrap:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;background:linear-gradient(90deg,rgba(119,210,255,.035) 1px,transparent 1px),linear-gradient(rgba(119,210,255,.03) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.72),transparent)}
+#simCanvas{position:relative;z-index:0;filter:saturate(1.08) contrast(1.025)}
+.viewer-badges,.drag-hint{z-index:3}.viewer-badges .pill{backdrop-filter:blur(8px);background:rgba(6,20,33,.72)}
+.sim-tabs{gap:8px}.sim-tab{border-radius:999px;transition:transform .14s ease,background .14s ease,border-color .14s ease}.sim-tab:hover{transform:translateY(-1px)}.sim-tab.active{box-shadow:0 8px 18px rgba(60,173,255,.14)}
+.control-stack .field{padding:12px 13px;border:1px solid rgba(113,190,255,.12);border-radius:13px;background:rgba(9,25,40,.68)}
+.control-stack input[type="range"]{accent-color:#73d1ff}.control-stack output{font-variant-numeric:tabular-nums}
+.sim-heading{overflow:hidden;position:relative}.sim-heading:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-50px;top:-60px;background:radial-gradient(circle,rgba(91,199,255,.16),transparent 68%)}
+.mission-card{border-color:rgba(255,207,103,.19);background:linear-gradient(160deg,rgba(255,193,73,.055),rgba(8,23,37,.94))}.learning-box{position:relative;overflow:hidden}.learning-box:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#67c7ff}.exam-box:before{background:#66d99f}.mistake-box:before{background:#ff7e8a}
+
+/* Compact, readable mobile visuals */
+@media(max-width:900px){.v7-visual-grid,.v7-transfer{grid-template-columns:1fr}.v7-figure svg{min-height:130px}.lesson-content-card p,.v7-concept-card>p{line-height:1.62}.viewer-wrap:before{background-size:34px 34px}}
+@media(max-width:600px){.lesson-expansion-v7{margin-top:16px}.v7-figure,.v7-concept-card,.v7-transfer{border-radius:14px}.v7-figure{padding:9px}.v7-worked-steps li{padding-left:44px}.v7-transfer textarea{min-height:105px}.sim-tab{font-size:.83rem}.viewer-wrap:before{opacity:.7}}
+@media(prefers-reduced-motion:reduce){.lesson-path-step,.sim-tab,.textbook-equation,.formula-chip,.equation[data-equation-key]{transition:none!important}.lesson-path-step:hover,.sim-tab:hover,.textbook-equation:hover,.formula-chip:hover{transform:none!important}}

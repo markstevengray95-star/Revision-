@@ -1,0 +1,17 @@
+{
+  "name": "alevel-materials",
+  "version": "10.0.0",
+  "private": true,
+  "dependencies": {
+    "three": "0.186.0",
+    "xlsx": "0.18.5"
+  },
+  "scripts": {
+    "vendor": "node scripts/vendor-assets.mjs",
+    "test": "node tests/smoke.mjs && node tests/netlify.mjs && node tests/v11.mjs",
+    "check:syntax": "node --check app.js && node --check materials-data.js && node --check textbook-visuals-v3.js && node --check textbook-part1-v3.js && node --check textbook-part2-v3.js && node --check extended-bank-v3.js && node --check simulation-upgrade-v3.js && node --check exam-coach-v3.js && node --check learning-system-v4.js && node --check lesson-visuals-v5.js && node --check three-lab-v5.js && node --check lesson-depth-v6.js && node --check simulation-lab-v6.js && node --check textbook-depth-v6.js && node --check simulation-studio-v7.js && node --check practical-studio-v8.js && node --check micrometer-3d-v8.js && node --check simulation-fidelity-v9.js && node --check asset-loader-v10.js && node --check three-performance-v10.js && node --check learning-system-v10.js && node --check lesson-depth-v11.js && node --check simulation-suite-v11.js && node --check netlify-runtime.js && node --check service-worker.js",
+    "check": "npm run check:syntax && npm test",
+    "build": "npm run vendor && npm run check",
+    "serve": "python3 -m http.server 4173"
+  }
+}

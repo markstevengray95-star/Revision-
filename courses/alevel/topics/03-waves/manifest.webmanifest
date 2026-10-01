@@ -1,0 +1,12 @@
+{
+  "name": "AQA A-Level Physics Waves Learning Lab",
+  "short_name": "Waves Lab",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "description": "Interactive AQA A-level Physics 7408 Section 3.3 Waves teaching and revision app.",
+  "icons": [
+    {"src":"physics-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

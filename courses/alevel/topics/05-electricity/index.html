@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="application-name" content="AQA Electricity Learning Lab">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="physics-icon.svg" type="image/svg+xml">
+  <title>AQA A-level Electricity Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.5 Electricity teaching, simulation, practical and assessment app.">
+  <link rel="manifest" href="../../../../shared/../manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="electricity.css?v=6">
+  <link rel="stylesheet" href="textbook.css?v=6">
+  <link rel="stylesheet" href="enhanced-sim.css?v=6">
+  <link rel="stylesheet" href="simulation-depth.css?v=6">
+  <!-- unified-course-topic-theme -->
+<link rel="stylesheet" href="unified-course-theme.css?v=22">
+<link rel="stylesheet" href="unified-course-focus.css?v=22">
+<script>if(window.self!==window.top)document.documentElement.classList.add('unified-course-embedded');</script>
+<script src="unified-course-embedded.js?v=22" defer></script>
+<link rel="stylesheet" href="../../../../shared/revision-shell.css">
+<script src="../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Electricity Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.5 · Current electricity</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA 3.5 aligned</span>
+      <span class="pill">11 sequenced lessons</span>
+      <span class="pill">8 textbook chapters</span>
+      <span class="pill">6 interactive models</span>
+      <span class="pill">Virtual Lab+</span>
+      <span class="pill">Real Equipment Bench</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.5 · Electricity</span>
+      <h1>Learn the circuit physics, manipulate the model, then explain the evidence.</h1>
+      <p>A guided course for current, charge, potential difference, resistance, I–V characteristics, resistivity, circuit combinations, power, potential dividers, sensors, emf and internal resistance. Lessons link directly to simulations, calculations, practical work and AQA exam language.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Open simulation lab</button>
+        <button class="button" data-jump="practical">Required practicals</button>
+      </div>
+    </article>
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Section 3.5 progress</strong><span id="progressText">0 / 11 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>11</strong><span>sequenced lessons</span></div>
+        <div><strong>6</strong><span>interactive models</span></div>
+        <div><strong>14</strong><span>formula tools</span></div>
+        <div><strong>2</strong><span>required practicals</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav compact-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Learn</button>
+    <button class="nav-button" data-view="textbook">Textbook</button>
+    <button class="nav-button" data-view="lab">Simulations</button>
+    <button class="nav-button" data-view="formula">Formula Coach</button>
+    <button class="nav-button" data-view="practical">Practicals</button>
+    <button class="nav-button" data-view="mastery">Mastery Hub</button>
+    <button class="nav-button" data-view="spec">AQA Map</button>
+  </nav>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Guided learning</span><h2>Full AQA 3.5 teaching sequence</h2></div>
+      <p class="muted">Each lesson follows retrieval → core teaching → equations → worked example → simulation mission → exam check → exit question.</p>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-textbook">
+    <div class="section-head">
+      <div><span class="eyebrow">Full teaching notes</span><h2>AQA Electricity textbook</h2></div>
+      <p class="muted">Detailed explanations, original teaching diagrams, equations, worked examples, practical guidance and exam traps for every point in AQA 7408 section 3.5.</p>
+    </div>
+    <div class="textbook-layout">
+      <aside class="textbook-sidebar" id="textbookList" aria-label="Textbook chapters"></aside>
+      <article class="panel textbook-article" id="textbookArticle"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Learning through models</span><h2>Interactive electricity simulation lab</h2></div>
+      <p class="muted">Use the teaching model, Virtual Lab+, Real Equipment Bench and guided practical layer to manipulate apparatus, collect data, graph results and explain the physics.</p>
+    </div>
+    <div class="sim-tabs" id="simTabs"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive electricity simulation"></canvas>
+          <div class="viewer-badges"><span class="pill" id="simSpec">AQA 3.5</span><span class="pill" id="simState">Live model</span></div>
+          <div class="drag-hint">Use the sliders and component selector · works with mouse or touch</div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="resetSim">Reset model</button>
+          <button class="button" id="snapshotSim">Capture reading</button>
+          <button class="button" id="predictPrompt">Prediction prompt</button>
+        </div>
+        <div class="snapshot-tray" id="snapshotTray"></div>
+        <p class="model-note">Models are teaching models. Required-practical bench layouts follow the AQA apparatus arrangement and keep assessed circuit connections explicit.</p>
+      </div>
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+        <article class="panel mission-card">
+          <span class="eyebrow">Linked learning mission</span>
+          <h3 id="missionGoal">Explore the model</h3>
+          <ol id="missionSteps"></ol>
+          <p class="small"><strong>Conclude:</strong> <span id="missionConclusion"></span></p>
+        </article>
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+        <article class="panel learning-box simple-box"><h3>What the model shows</h3><div id="simpleExplain"></div></article>
+        <article class="panel learning-box exam-box"><h3>AQA exam language</h3><div id="examExplain"></div></article>
+        <article class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></article>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div>
+      <p class="muted">Choose a relationship, enter values and follow equation selection, substitution, unit handling and the final result.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">AQA practical skills</span><h2>Required Practicals 5 and 6</h2></div>
+      <p class="muted">Generate readings, identify controls, linearise relationships and interpret gradients/intercepts.</p>
+    </div>
+    <div class="practical-switch">
+      <button class="button primary" data-practical="rp5">RP5 · Resistivity of a wire</button>
+      <button class="button" data-practical="rp6">RP6 · EMF & internal resistance</button>
+    </div>
+
+    <div class="practical-panel" id="practical-rp5">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP5 · Determine wire resistivity</h3>
+          <p class="muted small">Measure diameter with a micrometer, vary wire length, measure V and I, calculate R, then use ρ = RA/L.</p>
+          <label class="field"><span>Wire length</span><input type="range" id="rp5Length" min="0.20" max="1.00" value="0.50" step="0.05"><output id="rp5LengthOut">0.50 m</output></label>
+          <label class="field"><span>Diameter</span><input type="range" id="rp5Diameter" min="0.20" max="0.60" value="0.40" step="0.01"><output id="rp5DiameterOut">0.40 mm</output></label>
+          <label class="field"><span>Supply p.d.</span><input type="range" id="rp5Voltage" min="0.5" max="3.0" value="1.5" step="0.1"><output id="rp5VoltageOut">1.5 V</output></label>
+          <div class="practical-rig wire-bench"><div class="wire-line"></div><div class="wire-slider" id="wireSlider"></div><span class="ammeter">A</span><span class="voltmeter">V</span></div>
+          <div class="button-row"><button class="button primary" id="takeRp5Reading">Take reading</button><button class="button" id="clearRp5Data">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> measure diameter at several positions and orientations, avoid heating the wire, use a long length range, repeat readings and switch off between measurements.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and analysis</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>L / m</th><th>d / mm</th><th>V / V</th><th>I / A</th><th>R / Ω</th><th>ρ / Ω m</th></tr></thead><tbody id="rp5Rows"></tbody></table></div>
+          <div class="equation" id="rp5Summary">Collect at least four lengths.</div>
+          <div class="mini-graph"><canvas id="rp5Graph"></canvas></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practical-rp6">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP6 · Determine emf and internal resistance</h3>
+          <p class="muted small">Vary the external resistance and record terminal p.d. and current. Plot V against I: intercept = ε and gradient = −r.</p>
+          <label class="field"><span>Load resistance</span><input type="range" id="rp6Load" min="1" max="20" value="8" step="1"><output id="rp6LoadOut">8 Ω</output></label>
+          <div class="cell-rig"><div class="cell-symbol">ε, r</div><div class="load-box" id="loadBox">8 Ω</div><div class="meter-strip"><span>A</span><span>V</span></div></div>
+          <div class="button-row"><button class="button primary" id="takeRp6Reading">Take reading</button><button class="button" id="clearRp6Data">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> use a wide current range, avoid leaving the circuit connected, repeat readings, monitor cell heating and use a high-resistance voltmeter.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and graph</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>Rload / Ω</th><th>I / A</th><th>V / V</th><th>lost volts / V</th></tr></thead><tbody id="rp6Rows"></tbody></table></div>
+          <div class="equation" id="rp6Summary">Collect at least five load values.</div>
+          <div class="mini-graph"><canvas id="rp6Graph"></canvas></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-mastery">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Electricity mastery hub</h2></div>
+      <p class="muted">Original AQA-style practice with instant feedback, score tracking and targeted misconceptions.</p>
+    </div>
+    <div class="quiz-layout">
+      <aside class="panel quiz-stats pad">
+        <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 16</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+        <div class="stat-grid"><div><strong id="quizScore">0</strong><span>correct</span></div><div><strong id="quizStreak">0</strong><span>streak</span></div></div>
+        <button class="button" id="restartQuiz">Restart practice</button>
+      </aside>
+      <article class="panel quiz-main pad">
+        <span class="eyebrow" id="quizSpec"></span>
+        <h3 id="quizQuestion"></h3>
+        <div class="choice-list" id="quizChoices"></div>
+        <div class="feedback hidden" id="quizFeedback"></div>
+        <button class="button primary hidden" id="nextQuestion">Next question</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.5 checklist</h2></div>
+      <p class="muted">Covers 3.5.1.1–3.5.1.6 plus Required Practicals 5 and 6.</p>
+    </div>
+    <div class="spec-grid" id="specGrid"></div>
+  </section>
+</main>
+
+<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.5 · Electricity Learning Lab v6 · Real Equipment Bench edition.</footer>
+<script src="electricity-data.js?v=6"></script>
+<script src="textbook-data.js?v=6"></script>
+<script src="app.js?v=6"></script>
+<script src="textbook.js?v=6"></script>
+<script src="enhanced-sim.js?v=6"></script>
+<script src="real-lab.js?v=6"></script>
+<script src="circuit-sandbox.js?v=6"></script>
+<script src="simulation-depth.js?v=6"></script>
+</body>
+</html>

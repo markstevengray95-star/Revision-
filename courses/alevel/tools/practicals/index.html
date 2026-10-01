@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#234e40">
+<title>Practical Lab · AQA A-Level Physics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="visual-upgrades.css">
+<link rel="stylesheet" href="../../../../shared/revision-shell.css">
+<script src="../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="lab-header">
+  <button class="brand" data-view="home" aria-label="Practical Lab home"><span class="brand-icon">⚛</span><span>practical<span class="brand-light">lab</span><small>AQA A-LEVEL PHYSICS</small></span></button>
+  <nav aria-label="Main navigation">
+    <button data-view="home">Practicals</button><button data-view="skills">Skills hub</button><button data-view="quiz">Quiz studio</button><button data-view="equations">Equations</button><button data-view="circuit">Circuit lab</button>
+  </nav>
+  <div class="header-tools"><span id="appVersionBadge" class="tiny-btn" aria-label="Loaded app version">Photo 3D v14.3</span><button id="soundBtn" class="tiny-btn">Sound off</button><button id="themeBtn" class="icon-btn" aria-label="Toggle theme">◐</button></div>
+</header>
+<main>
+  <section id="view-home" class="view active">
+    <div class="lab-intro"><span class="eyebrow">AQA REQUIRED PRACTICAL WORKSPACE</span><span class="course-badge">Physics 7408 · Practicals 1–12</span></div>
+    <section class="hero-panel"><div class="hero-copy"><span class="pill">AQA-aligned apparatus · animation · data · CPAC</span><h1>See the setup.<br>Run the physics.</h1><p>Interactive simulations model the relationships in AQA’s apparatus set-up guides. Explore the apparatus, run the experiment, collect repeat readings, analyse uncertainty and practise the exam skills that sit behind each required practical.</p><button class="primary-btn" id="continueBtn">Continue practical <span>→</span></button><span class="hero-note">Progress and notes save on this device</span></div><div class="hero-art"><svg viewBox="0 0 440 285" aria-hidden="true"><defs><linearGradient id="heroMetal" x1="0" x2="1"><stop stop-color="#dce6e2"/><stop offset=".45" stop-color="#8fa69c"/><stop offset="1" stop-color="#edf4ef"/></linearGradient></defs><ellipse cx="220" cy="254" rx="160" ry="18" fill="#143f35" opacity=".3"/><rect x="54" y="220" width="330" height="16" rx="5" fill="#bb8b5d"/><rect x="82" y="68" width="10" height="152" rx="3" fill="url(#heroMetal)"/><rect x="66" y="62" width="70" height="9" rx="3" fill="url(#heroMetal)"/><circle cx="138" cy="105" r="18" fill="#243e36" stroke="#d3eca6" stroke-width="4"/><line x1="156" y1="105" x2="337" y2="105" stroke="#dbe9df" stroke-width="3"/><circle cx="342" cy="105" r="18" fill="none" stroke="#dbe9df" stroke-width="6"/><line x1="360" y1="105" x2="360" y2="184" stroke="#dbe9df" stroke-width="3"/><rect x="341" y="184" width="38" height="28" rx="5" fill="#d3eca6"/><rect x="170" y="151" width="112" height="52" rx="8" fill="#e8a24c" stroke="#192c28" stroke-width="3"/><circle cx="195" cy="177" r="10" fill="#263a35"/><circle cx="225" cy="177" r="10" fill="#263a35"/><rect x="248" y="166" width="22" height="17" rx="2" fill="#bce5b0"/><path d="M109 104 Q160 65 211 104 T313 104" stroke="#d3eca6" stroke-width="3" fill="none" opacity=".9"/><text x="220" y="35" fill="#a5bda8" font-size="9" text-anchor="middle" letter-spacing="2">OBSERVE · RUN · MEASURE · EVALUATE</text></svg><span class="art-caption">Built around the AQA practical set-ups.</span></div></section>
+    <section class="summary-grid"><div><span class="summary-icon">▦</span><span><strong>12</strong><small>required practicals</small></span></div><div><span class="summary-icon">◷</span><span><strong id="startedCount">0</strong><small>started</small></span></div><div><span class="summary-icon">✓</span><span><strong id="confidentCount">0</strong><small>confident</small></span></div><div class="summary-tip"><span>✧</span><p id="nextTip">Choose a practical to begin.</p></div></section>
+    <div class="library-heading"><div><span class="eyebrow">THE PRACTICAL LIBRARY</span><h2>Required practicals 1–12</h2></div><p>AS covers 1–6; full A-level covers 1–12.</p></div>
+    <div class="library-controls"><div class="subject-tabs"><button class="active" data-filter="all">All</button><button data-filter="as">AS + A-level</button><button data-filter="a2">A-level only</button><button data-filter="saved">Saved</button></div><label class="search-box">⌕ <input id="searchInput" type="search" placeholder="Search practicals or apparatus…"></label><select id="progressFilter"><option value="all">Any progress</option><option value="new">Not started</option><option value="started">In progress</option><option value="confident">Confident</option></select></div>
+    <p class="result-count" id="resultCount"></p><div class="practical-grid" id="practicalGrid"></div>
+    <details class="glossary-panel"><summary>Working scientifically glossary <span>Search practical vocabulary ↗</span></summary><input id="glossarySearch" placeholder="Search uncertainty, gradient, parallax…"><div id="glossaryGrid"></div></details>
+    <div class="source-note"><b>AQA alignment</b><p>The apparatus layouts and practical coverage are based on AQA’s Physics 7407/7408 required-practical and set-up guidance. The simulation is a learning model, not a substitute for teacher-supervised laboratory work.</p><a href="https://www.aqa.org.uk/resources/science/as-and-a-level/physics-7407-7408/teach/practicals-apparatus-set-up-guides" target="_blank" rel="noopener">Open AQA apparatus set-up guides ↗</a></div>
+  </section>
+
+  <section id="view-practical" class="view">
+    <div class="revision-toolbar"><button class="secondary-btn" data-view="home">← All practicals</button><button class="secondary-btn" id="savePracticalBtn">☆ Save</button><label>My confidence <select id="confidenceSelect"><option value="started">Still practising</option><option value="confident">Feeling confident ✓</option></select></label></div>
+    <div class="experiment-title"><div><span class="eyebrow" id="practicalEyebrow"></span><h2 id="practicalTitle"></h2><p id="practicalSpec"></p></div><span class="lab-model-badge">INTERACTIVE SIMULATION · AQA-ALIGNED SETUP</span></div>
+    <div id="modeTabs" class="mode-tabs"></div>
+    <div class="lab-layout">
+      <div>
+        <section class="workbench"><div class="bench-top"><span id="benchTitle"></span><small id="benchStatus">READY · CLICK RUN EXPERIMENT</small></div><div class="scene" id="scene"></div><div class="apparatus-key" id="apparatusKey"></div><div class="runbar"><button class="run-btn" id="runBtn">▶ Run experiment</button><button class="pause-btn" id="pauseBtn">Ⅱ Pause</button><button class="ghost-btn" id="resetBtn">↺ Reset</button><button class="ghost-btn" id="stepBtn">Next method step →</button><select id="speedSelect"><option value="0.5">0.5×</option><option value="1" selected>1× speed</option><option value="1.5">1.5×</option><option value="2">2×</option></select></div></section>
+        <div class="control-grid" id="controls"></div><div class="readouts" id="readouts"></div>
+        <div class="action-strip"><button class="success-btn" id="recordBtn">Record reading</button><button class="secondary-btn" id="repeatsBtn">Take 3 repeats</button><button class="secondary-btn" id="clearDataBtn">Clear data</button><button class="secondary-btn" id="exportBtn">Export CSV</button></div>
+      </div>
+      <aside class="panel coach-panel"><div class="coach-head"><div><span class="eyebrow">METHOD COACH</span><h3>AQA-aligned sequence</h3></div><span id="stepCounter" class="step-counter"></span></div><div id="methodCoach"></div><div class="equipment-inspector" id="equipmentInspector"><b>Equipment inspector</b><p>Click a labelled item in the apparatus to see its purpose and a measurement detail.</p></div><div class="safety-note" id="safetyNote"></div></aside>
+    </div>
+    <div class="data-grid"><section class="data-card"><h3>Results table</h3><div id="resultsTable"></div></section><section class="data-card"><div class="graph-head"><h3>Live graph</h3><span id="fitText"></span></div><canvas id="graphCanvas" class="graph" width="700" height="320"></canvas><div class="analysis-summary" id="analysisSummary"></div></section></div>
+    <section class="learning-panel"><div class="learning-tabs"><button class="tab-btn active" data-tab="understand">Understand</button><button class="tab-btn" data-tab="calculate">Calculate</button><button class="tab-btn" data-tab="test">Test yourself</button><button class="tab-btn" data-tab="evaluate">Evaluate</button><button class="tab-btn" data-tab="record">Practical record</button></div><div id="learningContent" class="tab-content"></div></section>
+  </section>
+
+  <section id="view-skills" class="view"><div class="page-heading"><span class="eyebrow">PRACTICAL ENDORSEMENT</span><h1>Skills hub</h1><p>Use AQA’s apparatus and techniques alongside CPAC habits: follow procedures, use equipment methodically, work safely, record observations accurately and process/report evidence.</p></div><div id="skillsGrid" class="skills-grid"></div></section>
+  <section id="view-quiz" class="view"><div class="page-heading"><span class="eyebrow">RETRIEVAL PRACTICE</span><h1>Quiz studio</h1><p>Questions are drawn from all 12 practicals, including apparatus, graph choice, uncertainty and evaluation.</p></div><div class="study-card" id="globalQuiz"></div></section>
+  <section id="view-equations" class="view"><div class="page-heading"><span class="eyebrow">PRACTICAL MATHS</span><h1>Equation practice</h1><p>Practise the relationships most often used when processing required-practical data.</p></div><div class="equation-grid" id="equationGrid"></div></section>
+  <section id="view-circuit" class="view"><div class="page-heading"><span class="eyebrow">ELECTRICITY PRACTICALS</span><h1>Circuit lab</h1><p>Explore the circuit relationships used in practicals 5, 6 and 9. This virtual board uses low-voltage educational models.</p></div><div class="circuit-lab"><div class="circuit-presets" id="circuitPresets"></div><div class="circuit-board" id="circuitBoard"></div><aside class="panel" id="circuitInfo"></aside></div></section>
+</main>
+<footer>Practical Lab · AQA A-Level Physics · Simulation for learning and revision. Follow your school/college procedures and teacher/technician instructions in real laboratory work.</footer>
+<script src="data-base.js"></script>
+<script src="p1.js"></script>
+<script src="p2.js"></script>
+<script src="p3.js"></script>
+<script src="p4.js"></script>
+<script src="p5.js"></script>
+<script src="p6.js"></script>
+<script src="p7.js"></script>
+<script src="p8.js"></script>
+<script src="p9.js"></script>
+<script src="p10.js"></script>
+<script src="p11.js"></script>
+<script src="p12.js"></script>
+<script src="data-extra.js"></script>
+<script src="core-a.js"></script>
+<script src="core-b.js"></script>
+<script src="scene-helpers.js"></script>
+<script src="scene-p1-4.js"></script>
+<script src="scene-p5-8.js"></script>
+<script src="scene-p9-12.js"></script>
+<script src="scene-dispatch.js"></script>
+<script src="scenes-b.js"></script>
+<script src="accuracy-fixes.js"></script>
+<script src="accuracy-p2-p6.js"></script>
+<script src="accuracy-p7-p12.js"></script>
+<script src="accuracy-final.js"></script>
+<script src="accuracy-browser-fixes.js"></script>
+<script src="visual-upgrades.js"></script>
+<script>
+(()=>{
+  if(!('serviceWorker' in navigator))return;
+  // Do not force a reload on controllerchange. The current page already uses
+  // revisioned dynamic assets, so a surprise reload can interrupt students mid-task.
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    document.documentElement.dataset.swUpdated='true';
+  });
+  navigator.serviceWorker.register('./sw.js?v=20260921-labgraphs-r1',{scope:'./'}).then(r=>r?.update?.()).catch(err=>console.warn('Service worker unavailable:',err));
+})();
+</script>
+</body>
+</html>

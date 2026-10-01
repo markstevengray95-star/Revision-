@@ -1,0 +1,49 @@
+/* Student mastery pathway: compact, readable, and deliberately separate from the simulation controls. */
+.student-mastery-summary{margin:10px 0 14px;padding:14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,260px);gap:14px;align-items:center}
+.student-mastery-summary h3,.student-mastery-summary p{margin:.2rem 0}
+.student-mastery-meter{display:grid;gap:7px;text-align:right}.student-mastery-meter>strong{font-size:1.45rem}
+.student-mastery-path{margin:12px 0 14px;padding:14px;border:1px solid rgba(126,216,255,.26);border-radius:16px;background:linear-gradient(180deg,rgba(8,26,43,.97),rgba(6,18,31,.96));box-shadow:0 16px 40px rgba(0,0,0,.16)}
+.mastery-path-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.mastery-path-head h3{margin:.2rem 0 .3rem;font-size:1.15rem}.mastery-path-head p{margin:0;color:var(--muted);max-width:780px}
+.mastery-path-score{min-width:100px;padding:9px 11px;border:1px solid var(--border);border-radius:12px;background:#091a2b;text-align:center}
+.mastery-path-score strong{display:block;font-size:1.25rem}.mastery-path-score span{font-size:.72rem;color:var(--muted)}
+.mastery-chunk-tabs{display:flex;gap:7px;overflow:auto;padding:10px 0 7px;scrollbar-width:thin}
+.mastery-chunk-tab{min-width:145px;display:flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:11px;background:#0a1a2c;color:#dceaf6;padding:8px 10px;text-align:left;font:inherit;font-weight:750;cursor:pointer}
+.mastery-chunk-tab span{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#102a43;color:#bceaff;flex:none}
+.mastery-chunk-tab.active{border-color:#7ed8ff;background:#10324e}.mastery-chunk-tab.secure{border-color:rgba(107,224,167,.55)}.mastery-chunk-tab.secure span{background:#173b31;color:#8af0bc}
+.mastery-chunk-tab.locked{opacity:.45;cursor:not-allowed}
+.mastery-chunk-card{margin-top:8px;padding:14px;border-radius:14px;border:1px solid var(--border);background:#071725;display:grid;gap:10px}
+.mastery-chunk-card.is-secure{border-color:rgba(107,224,167,.42)}
+.mastery-chunk-card h3{margin:0}.mastery-chunk-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:#8edcff;font-weight:850}
+.mastery-learn,.mastery-do,.mastery-retrieve{padding:11px;border-radius:12px;background:#0a1d30;border:1px solid rgba(255,255,255,.07)}
+.mastery-learn>strong,.mastery-do>strong,.mastery-retrieve>strong{display:block;margin-bottom:4px;color:#dff5ff}.mastery-learn p,.mastery-do p,.mastery-retrieve p{margin:.25rem 0;line-height:1.5}
+.mastery-equations{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mastery-equations code{padding:7px 9px;border-radius:8px;background:#06111d;border:1px solid rgba(126,216,255,.17);color:#d8f3ff}
+.mastery-retrieve textarea{width:100%;resize:vertical;min-height:68px;margin-top:7px;border-radius:10px;border:1px solid var(--border);background:#061523;color:#eef7ff;padding:9px;font:inherit}
+.mastery-inline-actions,.mastery-path-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.mastery-path-actions{justify-content:space-between}
+.mastery-key{margin-top:8px;padding:9px;border-radius:9px;background:#10263b;color:#eaf6ff}.mastery-key[hidden]{display:none!important}
+.mastery-gate{margin-top:12px;padding:13px;border:1px solid rgba(255,215,111,.28);border-radius:13px;background:#141d27}.mastery-gate h3{margin:.2rem 0 .6rem}
+.mastery-exit-grid{display:grid;gap:7px}.mastery-exit{display:flex;gap:9px;align-items:flex-start;padding:9px;border-radius:9px;border:1px solid rgba(255,255,255,.08);background:#0a1724;cursor:pointer}.mastery-exit.secure{border-color:rgba(107,224,167,.4);background:#0d211d}.mastery-exit input{margin-top:3px}
+.mastery-core-note{padding:11px;border:1px solid rgba(255,205,110,.28);border-radius:11px;background:#211a10;color:#f2e5c8}
+@media(max-width:820px){.student-mastery-summary{grid-template-columns:1fr}.student-mastery-meter{text-align:left}.mastery-chunk-tab{min-width:132px}.mastery-path-actions .button{flex:1}.student-mastery-path{padding:11px}}
+
+.mastery-retrieval-status{margin-top:6px;font-size:.7rem;color:#9fb5c8}
+.mastery-gate-instruction{font-size:.76rem;color:#c5d5e3;line-height:1.45}
+.mastery-unlock-status{margin-top:9px;padding:8px 9px;border-radius:9px;border:1px solid rgba(126,216,255,.16);background:#081827;font-size:.74rem}
+.mastery-unlock-status strong{color:#e7f7ff}
+
+.mastery-spec-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mastery-spec-links span{padding:5px 7px;border-radius:999px;border:1px solid rgba(126,216,255,.18);background:#081a2a;color:#bcd7e9;font-size:.66rem}
+.mastery-stretch{margin-top:10px;padding:10px;border-radius:11px;border:1px solid rgba(196,169,255,.3);background:#17162a}.mastery-stretch>summary{display:flex;gap:8px;align-items:center;cursor:pointer}.mastery-stretch>summary strong{color:#e6ddff}.mastery-stretch p{font-size:.78rem;line-height:1.5}
+.mastery-stretch-answer{margin-top:7px;padding:8px;border-radius:8px;background:#0e1830}.mastery-stretch-answer summary{cursor:pointer;font-weight:800;font-size:.72rem;color:#c6d9ff}
+
+
+/* Deeper mastery chunk learning + application */
+.mastery-deeper{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid rgba(148,163,184,.22);background:rgba(15,23,42,.3)}
+.mastery-deeper p{margin:.45rem 0 0}
+.mastery-apply{margin-top:14px;padding:14px;border-radius:14px;border:1px solid rgba(96,165,250,.3);background:rgba(30,41,59,.42)}
+.mastery-apply>p{margin:.45rem 0 .7rem}
+.mastery-task-check{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border-radius:10px;background:rgba(15,23,42,.4);cursor:pointer}
+.mastery-task-check input{margin-top:3px}
+.mastery-apply details{margin-top:10px}
+.mastery-apply summary{cursor:pointer;font-weight:700}
+.mastery-exam-link{margin-top:12px;padding-top:10px;border-top:1px solid rgba(148,163,184,.2)}
+.mastery-exam-link p{margin:.35rem 0 0}

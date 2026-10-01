@@ -1,0 +1,27 @@
+/* Measurements & Errors v8 — expanded lessons + full 3D simulations */
+.v8-lesson-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;padding:1rem 1.1rem;margin:-.25rem -.25rem .85rem;border:1px solid rgba(87,211,255,.22);border-radius:18px;background:linear-gradient(135deg,rgba(87,211,255,.08),rgba(140,233,154,.04))}
+.v8-lesson-hero h2{margin:.25rem 0}.v8-lesson-hero p{margin:.25rem 0;color:var(--muted,#9fb0c6)}
+.v8-lesson-badge{white-space:nowrap;border:1px solid rgba(140,233,154,.35);background:rgba(140,233,154,.08);padding:.55rem .75rem;border-radius:999px;font-size:.78rem;color:#bff6c8}
+.v8-lesson-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.v8-lesson-flow .lesson-block{margin:0;min-width:0}.v8-span{grid-column:1/-1}
+.v8-lead{font-size:1.04rem;line-height:1.72}
+.v8-question-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}
+.v8-q{display:flex;gap:.65rem;align-items:flex-start;padding:.7rem;border-radius:12px;background:rgba(10,29,45,.7);border:1px solid rgba(123,158,187,.18)}
+.v8-q strong{display:grid;place-items:center;min-width:1.55rem;height:1.55rem;border-radius:50%;background:rgba(87,211,255,.16);color:#7de0ff}
+.v8-chunks{display:grid;gap:.65rem}.v8-chunks article{display:grid;grid-template-columns:auto 1fr;gap:.8rem;padding:.8rem .9rem;border:1px solid rgba(111,151,180,.18);border-radius:14px;background:rgba(6,19,31,.54)}
+.v8-chunks h4,.v8-example h4{margin:0 0 .35rem}.v8-chunks p,.v8-example p{margin:.2rem 0;line-height:1.66}
+.v8-step{display:grid;place-items:center;width:1.8rem;height:1.8rem;border-radius:9px;background:linear-gradient(135deg,#168db8,#295bc6);font-weight:800;color:white;font-size:.82rem}
+.v8-example-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.v8-example{padding:.85rem;border-radius:14px;background:rgba(11,31,48,.76);border:1px solid rgba(87,211,255,.18)}
+.v8-example>span{display:inline-block;margin-bottom:.45rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:#7de0ff}
+.v8-practice{display:grid;gap:.55rem}.v8-practice details{border:1px solid rgba(123,158,187,.22);border-radius:12px;background:rgba(4,15,26,.5);padding:.65rem .8rem}.v8-practice summary{cursor:pointer;font-weight:700}.v8-practice details[open] summary{color:#7de0ff}
+.v8-warning-list{margin:.2rem 0;padding-left:1.2rem}.v8-warning-list li{margin:.45rem 0;line-height:1.55}
+.v8-textbook-extra{margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(123,158,187,.24)}.v8-textbook-extra>h3{margin-top:1.4rem}
+.v8-sim-stage{position:relative;width:100%;height:480px;min-height:420px;border-radius:18px;overflow:hidden;background:#06101b;touch-action:none}
+.v8-sim-stage canvas{display:block;width:100%;height:100%}
+.v8-3d-hud{position:absolute;z-index:5;left:16px;right:16px;top:14px;display:flex;align-items:center;gap:.45rem;pointer-events:none}.v8-3d-hud>span{margin-right:auto;padding:.4rem .65rem;border-radius:999px;background:rgba(5,15,25,.78);border:1px solid rgba(87,211,255,.25);color:#d9f7ff;font-size:.78rem;backdrop-filter:blur(7px)}
+.v8-hud-btn{pointer-events:auto;border:1px solid rgba(151,180,203,.28);background:rgba(7,21,34,.8);color:#d7e8f5;border-radius:999px;padding:.38rem .62rem;font:inherit;font-size:.75rem;cursor:pointer}.v8-hud-btn:hover,.v8-hud-btn.active{background:rgba(87,211,255,.18);border-color:rgba(87,211,255,.55);color:white}
+.v8-snapshot{width:140px;aspect-ratio:16/10;object-fit:cover;border-radius:10px;border:1px solid rgba(111,151,180,.28);margin:.25rem}
+#simCanvas{display:none!important}.viewer-wrap{min-height:480px}.drag-hint{z-index:6}.viewer-badges{z-index:6}
+.sim-tab{position:relative}.sim-tab[data-v8label="1"]{border-color:rgba(87,211,255,.28)}
+@media(max-width:900px){.v8-lesson-flow{grid-template-columns:1fr}.v8-span{grid-column:auto}.v8-example-grid,.v8-question-grid{grid-template-columns:1fr}.v8-lesson-hero{display:block}.v8-lesson-badge{display:inline-block;margin-top:.65rem}.v8-sim-stage{height:420px}.v8-3d-hud{flex-wrap:wrap}.v8-3d-hud>span{width:100%;margin:0}.viewer-wrap{min-height:420px}}
+@media(max-width:560px){.v8-sim-stage{height:380px;min-height:360px}.viewer-wrap{min-height:380px}.v8-lesson-flow{gap:.6rem}.v8-chunks article{grid-template-columns:1fr}.v8-step{margin-bottom:.1rem}}

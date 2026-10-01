@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="application-name" content="AQA Physics 3.6 Lab">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="physics-icon.svg" type="image/svg+xml">
+  <title>AQA Further Mechanics & Thermal Physics Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.6 Further Mechanics and Thermal Physics learning lab.">
+  <link rel="manifest" href="../../../../shared/../manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="further.css?v=10">
+  <link rel="stylesheet" href="assessment-equation-v11.css?v=11">
+  <!-- unified-course-topic-theme -->
+<link rel="stylesheet" href="unified-course-theme.css?v=22">
+<link rel="stylesheet" href="unified-course-focus.css?v=22">
+<script>if(window.self!==window.top)document.documentElement.classList.add('unified-course-embedded');</script>
+<script src="unified-course-embedded.js?v=22" defer></script>
+<link rel="stylesheet" href="../../../../shared/revision-shell.css">
+<script src="../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Further Mechanics & Thermal Physics Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.6 · Paper 1 + Paper 2</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA 3.6 aligned</span>
+      <span class="pill">24 sequenced lessons</span>
+      <span class="pill">17 interactive models</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.6 · Further mechanics and thermal physics</span>
+      <h1>Learn the physics, manipulate the model, then explain the result.</h1>
+      <p>Complete guided teaching for Periodic Motion and Thermal Physics: circular motion, SHM, damping and resonance, internal energy, heat capacity, latent heat, ideal gases, gas laws, Brownian motion and kinetic theory. Every lesson links directly to a simulation mission, worked examples, activities and exam language.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Open simulation lab</button>
+        <button class="button" data-filter-jump="thermal">Jump to Thermal Physics</button>
+      </div>
+    </article>
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Section 3.6 progress</strong><span id="progressText">0 / 24 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>24</strong><span>sequenced lessons</span></div>
+        <div><strong>17</strong><span>interactive models</span></div>
+        <div><strong>25</strong><span>formula tools</span></div>
+        <div><strong>2</strong><span>required practicals</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav compact-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Learn</button>
+    <button class="nav-button" data-view="lab">Simulations</button>
+    <button class="nav-button" data-view="practical">Practicals</button>
+    <button class="nav-button" data-view="mastery">Mastery Hub</button>
+    <button class="nav-button" data-view="spec">AQA Map</button>
+  </nav>
+  <details class="assignment-shell panel">
+    <summary>Teacher assignment code <span class="muted">optional</span></summary>
+    <div id="assignmentImport"></div>
+  </details>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Guided learning</span><h2>Full AQA 3.6 lesson sequence</h2></div>
+      <p class="muted">Every lesson now includes a full mini-textbook chapter with a hook, detailed explanation, original diagrams, key ideas and quick recall, followed by equations, calculations, simulations and exam mastery.</p>
+    </div>
+    <div class="topic-filter">
+      <button class="button primary" data-course-filter="all">All 3.6</button>
+      <button class="button" data-course-filter="mechanics">3.6.1 Periodic Motion</button>
+      <button class="button" data-course-filter="thermal">3.6.2 Thermal Physics</button>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Learning through models</span><h2>Interactive simulation lab</h2></div>
+      <p class="muted">Use mouse, touch and sliders. When opened from a lesson, the lab gives a specific learning mission and sends you back to that lesson.</p>
+    </div>
+    <div class="sim-tabs" id="simTabs"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive AQA physics simulation"></canvas><canvas id="measureCanvas" aria-label="Simulation measurement overlay"></canvas>
+          <div class="viewer-badges">
+            <span class="pill" id="simSpec">AQA 3.6</span>
+            <span class="pill" id="simState">Running</span>
+          </div>
+          <div class="drag-hint" id="dragHint">Drag the model where shown • sliders work with mouse or touch</div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="playPause">Pause</button>
+          <button class="button" id="resetSim">Reset</button>
+          <button class="button" id="slowMotion">Slow motion</button>
+          <button class="button" id="stepBack">− frame</button>
+          <button class="button" id="stepForward">+ frame</button>
+          <button class="button" id="snapshotSim">Capture reading</button>
+        </div>
+        <div class="sim-transport panel">
+          <div><strong>Replay controls</strong><span id="simClock">0.00 s</span></div>
+          <button class="text-button" id="setSimStart">Set current setup as start</button>
+          <button class="text-button" id="replaySimStart">Replay from saved start</button>
+          <button class="text-button" id="lapSimTimer">Lap time</button>
+          <span id="simLaps" class="muted small"></span>
+        </div>
+        <div class="sim-visual-tools panel">
+          <span class="small"><strong>Learning overlays</strong></span>
+          <label><input type="checkbox" id="showLabels" checked> labels</label>
+          <label><input type="checkbox" id="showVectors" checked> vectors</label>
+          <label><input type="checkbox" id="showTrails" checked> motion trails</label>
+          <span class="muted small">vector length follows magnitude where the quantity varies</span>
+        </div>
+        <div class="measurement-toolbar panel">
+          <span class="small"><strong>Measurement tools</strong></span>
+          <button class="tool-chip active" data-measure-tool="off">Direct drag</button>
+          <button class="tool-chip" data-measure-tool="ruler">Ruler</button>
+          <button class="tool-chip" data-measure-tool="protractor">Protractor</button>
+          <button class="tool-chip" data-measure-tool="cursor">Graph cursor</button>
+          <span id="measureReadout" class="measure-readout">Drag the model directly.</span>
+        </div>
+        <div id="snapshotTray" class="snapshot-tray"></div>
+        <p class="model-note">Models are schematic and deliberately rescaled for learning. Numerical readouts are intended to preserve the displayed physical relationships.</p>
+      </div>
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+        <article class="panel mission-card" id="missionCard">
+          <span class="eyebrow">Linked learning mission</span>
+          <h3 id="missionGoal">Explore the model</h3>
+          <ol id="missionSteps"></ol>
+          <p class="small"><strong>Record:</strong> <span id="missionRecord"></span></p>
+          <p class="small"><strong>Conclude:</strong> <span id="missionConclusion"></span></p>
+          <button class="button hidden" id="backToLesson">Back to lesson</button>
+        </article>
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+        <article class="panel learning-box simple-box"><h3>What the model shows</h3><div id="simpleExplain"></div></article>
+        <article class="panel learning-box exam-box"><h3>AQA exam language</h3><div id="examExplain"></div></article>
+        <article class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></article>
+        <article class="panel learning-box checkpoint-box"><h3>Quick check</h3><div id="simCheck"></div></article>
+      </aside>
+    </div>
+    <section class="sim-learning-workspace panel">
+      <div class="workspace-head">
+        <div><span class="eyebrow">Use the simulation to learn</span><h3>Simulation learning workspace</h3></div>
+        <div class="workspace-tabs">
+          <button class="tool-chip active" data-sim-workspace="graph">Live graph</button>
+          <button class="tool-chip" data-sim-workspace="calculate">Calculate</button>
+          <button class="tool-chip" data-sim-workspace="investigate">Investigate</button>
+          <button class="tool-chip" data-sim-workspace="predict">Predict</button>
+        </div>
+      </div>
+      <div id="simWorkspaceBody"></div>
+    </section>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div>
+      <p class="muted">Select a relationship, enter values and see equation choice, substitution, unit handling and result.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Topic</span><select id="formulaTopic"><option value="all">All 3.6</option><option value="mechanics">Further Mechanics</option><option value="thermal">Thermal Physics</option></select></label>
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">AQA practical skills</span><h2>Required Practicals 7 and 8</h2></div>
+      <p class="muted">Generate data, repeat readings, linearise relationships and practise evaluation.</p>
+    </div>
+    <div class="practical-switch">
+      <button class="button primary" data-practical="spring">RP7 · Mass–spring</button>
+      <button class="button" data-practical="pendulum">RP7 · Pendulum</button>
+      <button class="button" data-practical="boyle">RP8 · Boyle's law</button>
+      <button class="button" data-practical="charles">RP8 · Charles's law</button>
+    </div>
+
+    <div class="practical-panel" id="practicalSpring">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP7 · Mass–spring system</h3>
+          <p class="muted small">Time 10 oscillations, calculate T and T², then investigate T² against mass.</p>
+          <label class="field"><span>Mass</span><input type="range" id="springMass" min="0.10" max="0.80" value="0.30" step="0.05"><output id="springMassOut">0.30 kg</output></label>
+          <label class="field"><span>Spring constant</span><input type="range" id="springK" min="8" max="40" value="20" step="1"><output id="springKOut">20 N m⁻¹</output></label>
+          <div class="practical-rig spring-rig"><div class="spring-line"></div><div class="mass-block" id="springBlock">0.30 kg</div></div>
+          <div class="button-row"><button class="button primary" id="takeSpringReading">Take repeated timing</button><button class="button" id="clearSpringData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> time many oscillations, use repeats, keep amplitude small, secure the stand, and consider reaction-time uncertainty.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and graph</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>m / kg</th><th>10T / s</th><th>T / s</th><th>T² / s²</th></tr></thead><tbody id="springRows"></tbody></table></div>
+          <div class="equation" id="springSummary">Collect at least three readings.</div>
+          <div class="mini-graph"><canvas id="springGraph"></canvas></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practicalPendulum">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP7 · Simple pendulum</h3>
+          <p class="muted small">Time 10 oscillations, calculate T² and investigate T² against length.</p>
+          <label class="field"><span>Length</span><input type="range" id="pendLength" min="0.20" max="1.20" value="0.60" step="0.05"><output id="pendLengthOut">0.60 m</output></label>
+          <label class="field"><span>Release angle</span><input type="range" id="pendAngle" min="3" max="20" value="8" step="1"><output id="pendAngleOut">8°</output></label>
+          <div class="practical-rig pend-rig"><div class="pend-string" id="pendString"></div><div class="pend-bob" id="pendBob"></div></div>
+          <div class="button-row"><button class="button primary" id="takePendReading">Take repeated timing</button><button class="button" id="clearPendData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> measure pivot-to-centre length, keep angle small, use a fiducial marker and repeat timings.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and graph</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>L / m</th><th>10T / s</th><th>T / s</th><th>T² / s²</th></tr></thead><tbody id="pendRows"></tbody></table></div>
+          <div class="equation" id="pendSummary">Collect at least three readings.</div>
+          <div class="mini-graph"><canvas id="pendGraph"></canvas></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practicalBoyle">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP8 · Boyle's law</h3>
+          <p class="muted small">Vary trapped-gas volume at approximately constant temperature and measure pressure.</p>
+          <label class="field"><span>Gas volume</span><input type="range" id="boyleVolume" min="30" max="100" value="80" step="5"><output id="boyleVolumeOut">80 cm³</output></label>
+          <label class="field"><span>Gas temperature</span><input type="range" id="boyleTemp" min="285" max="315" value="295" step="1"><output id="boyleTempOut">295 K</output></label>
+          <div class="gas-rig"><div class="gas-chamber"><div class="gas-piston" id="boylePiston"></div><div class="gas-dots" id="boyleDots"></div></div></div>
+          <div class="button-row"><button class="button primary" id="takeBoyleReading">Record settled reading</button><button class="button" id="clearBoyleData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> compress slowly, allow temperature to stabilise, check for leaks and sensor zero error.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and linearisation</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>V / cm³</th><th>p / kPa</th><th>1/V / cm⁻³</th><th>pV</th></tr></thead><tbody id="boyleRows"></tbody></table></div>
+          <div class="equation" id="boyleSummary">Collect at least five readings.</div>
+          <div class="mini-graph"><canvas id="boyleGraph"></canvas></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practicalCharles">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP8 · Charles's law</h3>
+          <p class="muted small">Change gas temperature at constant pressure and measure volume after thermal equilibrium.</p>
+          <label class="field"><span>Bath temperature</span><input type="range" id="charlesTemp" min="270" max="370" value="300" step="5"><output id="charlesTempOut">300 K</output></label>
+          <label class="field"><span>Pressure</span><input type="range" id="charlesPressure" min="95" max="110" value="101" step="1"><output id="charlesPressureOut">101 kPa</output></label>
+          <div class="gas-rig thermal"><div class="water-bath"><div class="gas-syringe"><div class="syringe-plunger" id="charlesPlunger"></div></div></div></div>
+          <div class="button-row"><button class="button primary" id="takeCharlesReading">Record equilibrated reading</button><button class="button" id="clearCharlesData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> wait for thermal equilibrium, keep pressure constant and avoid parallax when reading volume.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and graph</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>θ / °C</th><th>T / K</th><th>V / cm³</th><th>V/T</th></tr></thead><tbody id="charlesRows"></tbody></table></div>
+          <div class="equation" id="charlesSummary">Collect at least five readings.</div>
+          <div class="mini-graph"><canvas id="charlesGraph"></canvas></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-exam">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Mixed AQA 3.6 exam practice</h2></div>
+      <p class="muted">Questions span both Paper 1 Periodic Motion and Paper 2 Thermal Physics.</p>
+    </div>
+    <div class="quiz-layout">
+      <aside class="panel quiz-stats pad">
+        <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 25</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+        <div class="stat-grid"><div><strong id="quizScore">0</strong><span>correct</span></div><div><strong id="quizStreak">0</strong><span>streak</span></div></div>
+        <button class="button" id="restartQuiz">Restart practice</button>
+      </aside>
+      <article class="panel quiz-main pad">
+        <span class="eyebrow" id="quizSpec"></span>
+        <h3 id="quizQuestion"></h3>
+        <button class="text-button" id="showHint">Show hint</button>
+        <div class="hint hidden" id="quizHint"></div>
+        <div class="choice-list" id="quizChoices"></div>
+        <div class="feedback hidden" id="quizFeedback"></div>
+        <button class="button primary hidden" id="nextQuestion">Next question</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="view-mastery">
+    <div id="masteryHost"></div>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.6 checklist</h2></div>
+      <p class="muted">Periodic Motion is assessed in Paper 1. Thermal Physics is assessed in Paper 2. Practical skills can also be assessed in Paper 3.</p>
+    </div>
+    <div class="spec-grid" id="specGrid"></div>
+  </section>
+</main>
+
+<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.6 · Classroom Suite v11. Simulations are schematic; always use the stated equations and experimental conditions for assessed work.</footer>
+<script src="content-v2.js?v=10"></script>
+<script src="lesson-detail-v3.js?v=10"></script>
+<script src="calculation-detail-v4.js?v=10"></script>
+<script src="textbook-mechanics-v6.js?v=10"></script>
+<script src="textbook-thermal-v6.js?v=10"></script>
+<script src="textbook-visuals-v6.js?v=10"></script>
+<script src="app-v2.js?v=10"></script>
+<script src="sim-learning-v8.js?v=10"></script>
+<script src="mastery-core-v5.js?v=10"></script>
+<script src="mastery-practice-v5.js?v=10"></script>
+<script src="mastery-data-v5.js?v=10"></script>
+<script src="mastery-teacher-v5.js?v=10"></script>
+<script src="classroom-suite-v9.js?v=10"></script>
+<script src="assessment-equation-v11.js?v=11"></script>
+<script src="assessment-equation-fix-v11.js?v=11"></script>
+</body>
+</html>

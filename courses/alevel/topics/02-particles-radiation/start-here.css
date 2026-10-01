@@ -1,0 +1,98 @@
+
+/* Zero-prior-knowledge pathway */
+.beginner-shell{display:grid;gap:10px}
+.beginner-hero{
+  display:grid;grid-template-columns:1.25fr .75fr;gap:10px;
+}
+.beginner-card{
+  padding:12px;border:1px solid rgba(255,255,255,.075);border-radius:14px;
+  background:linear-gradient(145deg,rgba(8,23,39,.97),rgba(6,18,31,.95));
+}
+.beginner-card h2,.beginner-card h3{margin:.15rem 0 .4rem}
+.beginner-card p{margin:.2rem 0;color:#b9c9d7;font-size:.68rem;line-height:1.43}
+.beginner-progress{
+  display:grid;align-content:start;gap:7px
+}
+.beginner-progress strong{font-size:1.15rem}
+.beginner-roadmap{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px
+}
+.beginner-road-step{
+  position:relative;padding:9px;border-radius:11px;border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.022);min-height:100px
+}
+.beginner-road-step::after{
+  content:"→";position:absolute;right:-9px;top:38%;z-index:2;color:#58788e;font-weight:900
+}
+.beginner-road-step:last-child::after{display:none}
+.beginner-road-step span{
+  display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;
+  background:#0c2d43;color:#9edfff;font-size:.59rem;font-weight:900
+}
+.beginner-road-step strong{display:block;margin-top:6px;font-size:.67rem}
+.beginner-road-step p{font-size:.58rem;line-height:1.34;color:#94a9bb}
+.beginner-tabs{display:flex;gap:5px;flex-wrap:wrap}
+.beginner-tabs button{
+  border:1px solid rgba(255,255,255,.08);background:#0b1c2e;color:#aebfd0;
+  border-radius:9px;padding:6px 8px;font-size:.63rem;font-weight:850;cursor:pointer
+}
+.beginner-tabs button.active{background:#183c59;color:#fff;border-color:#5f9abc}
+.beginner-panel{display:none}.beginner-panel.active{display:block}
+.diagnostic-grid{display:grid;gap:7px}
+.diagnostic-q{
+  padding:9px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.022)
+}
+.diagnostic-q h4{margin:0 0 6px;font-size:.68rem}
+.diagnostic-options{display:flex;gap:5px;flex-wrap:wrap}
+.diagnostic-options button{
+  border:1px solid rgba(255,255,255,.08);background:#0c2033;color:#c7d5e3;
+  border-radius:8px;padding:5px 7px;font-size:.6rem;cursor:pointer
+}
+.diagnostic-options button.selected{border-color:#67c7ff;background:rgba(103,199,255,.10);color:#fff}
+.diagnostic-options button.correct{border-color:#63d9a4;background:rgba(99,217,164,.09)}
+.diagnostic-options button.wrong{border-color:#ff7b87;background:rgba(255,123,135,.08)}
+.diagnostic-result{
+  padding:10px;border-radius:11px;border:1px solid rgba(103,199,255,.15);
+  background:rgba(103,199,255,.045)
+}
+.diagnostic-result h3{margin:.1rem 0}
+.bridge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.bridge-card{
+  padding:10px;border:1px solid rgba(255,255,255,.07);border-radius:11px;background:#081726
+}
+.bridge-card.done{border-color:rgba(99,217,164,.24);background:rgba(99,217,164,.035)}
+.bridge-card h3{font-size:.72rem;margin:.15rem 0 .4rem}
+.bridge-card p,.bridge-card li{font-size:.62rem;line-height:1.42;color:#c6d5e2}
+.bridge-card ul{margin:4px 0;padding-left:17px}
+.bridge-card code{
+  display:inline-block;margin:2px 3px 2px 0;padding:4px 6px;border-radius:7px;
+  border:1px solid rgba(103,199,255,.12);background:rgba(103,199,255,.045);
+  color:#eaf7ff;font-family:"STIX Two Math","Cambria Math",serif;font-size:.65rem
+}
+.bridge-check{display:flex;gap:6px;align-items:center;margin-top:8px}
+.bridge-check button{min-height:29px}
+.beginner-vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:6px}
+.beginner-vocab{
+  padding:8px;border:1px solid rgba(255,255,255,.065);border-radius:9px;background:rgba(255,255,255,.02)
+}
+.beginner-vocab strong{display:block;color:#e6f4ff;font-size:.64rem;margin-bottom:2px}
+.beginner-vocab span{color:#9fb3c6;font-size:.58rem;line-height:1.32}
+.concept-chain{display:grid;gap:7px}
+.concept-row{
+  display:grid;grid-template-columns:165px 1fr;gap:8px;align-items:start
+}
+.concept-row>strong{
+  padding:7px 8px;border-radius:9px;background:#0d2940;color:#bfe9ff;font-size:.63rem
+}
+.concept-row>div{
+  padding:7px 8px;border-radius:9px;border:1px solid rgba(255,255,255,.06);
+  color:#c6d5e2;font-size:.61rem;line-height:1.4
+}
+@media(max-width:850px){
+  .beginner-hero,.bridge-grid{grid-template-columns:1fr}
+  .beginner-roadmap{grid-template-columns:1fr 1fr}
+  .beginner-road-step::after{display:none}
+}
+@media(max-width:560px){
+  .beginner-roadmap,.concept-row{grid-template-columns:1fr}
+}

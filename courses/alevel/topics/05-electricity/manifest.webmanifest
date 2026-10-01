@@ -1,0 +1,9 @@
+{
+  "name":"AQA A-level Electricity Learning Lab",
+  "short_name":"Electricity Lab",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "background_color":"#07111f",
+  "theme_color":"#07111f",
+  "icons":[{"src":"physics-icon.svg","sizes":"any","type":"image/svg+xml"}]
+}

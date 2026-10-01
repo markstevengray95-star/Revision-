@@ -1,0 +1,12 @@
+{
+  "id": "./",
+  "name": "Revision · GCSE & A-level Science",
+  "short_name": "Revision",
+  "description": "Biology, Chemistry and Physics revision in one place.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#0a1422",
+  "background_color": "#0a1422",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

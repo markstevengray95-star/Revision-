@@ -1,0 +1,12 @@
+{
+  "name": "revision-science",
+  "version": "1.0.0",
+  "private": true,
+  "description": "One AQA GCSE and A-level science revision app",
+  "scripts": {
+    "dev": "node scripts/serve.cjs",
+    "start": "node scripts/serve.cjs",
+    "build": "node scripts/build.cjs",
+    "test": "node tests/integration.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs"
+  }
+}

@@ -1,0 +1,221 @@
+
+/* Student-first simulation essentials */
+.sim-study-toolbar{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:7px 8px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:11px;
+  background:rgba(7,18,31,.86);
+}
+.sim-study-toolbar>div{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.sim-study-toolbar .study-label{
+  color:#9fb4c7;
+  font-size:.57rem;
+  font-weight:900;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-right:3px;
+}
+.study-mode-button{
+  border:1px solid rgba(255,255,255,.09);
+  background:#0d2033;
+  color:#b9cada;
+  border-radius:8px;
+  padding:5px 8px;
+  font-size:.61rem;
+  font-weight:850;
+  cursor:pointer;
+}
+.study-mode-button.active{
+  color:#fff;
+  background:#1b4669;
+  border-color:#6bb7e7;
+}
+.study-spec-pill{
+  white-space:nowrap;
+  padding:4px 7px;
+  border-radius:999px;
+  border:1px solid rgba(99,217,164,.24);
+  background:rgba(99,217,164,.06);
+  color:#a9efcb;
+  font-size:.56rem;
+  font-weight:850;
+}
+
+.sim-essentials{
+  grid-column:1/-1;
+  border:1px solid rgba(103,199,255,.18);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(8,24,40,.98),rgba(6,18,31,.96));
+  overflow:hidden;
+}
+.sim-essentials-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 10px 7px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+.sim-essentials-head h3{
+  margin:.15rem 0 0;
+  font-size:.84rem;
+}
+.sim-essentials-head p{
+  margin:0;
+  color:#9fb3c6;
+  font-size:.57rem;
+}
+.sim-essentials-tabs{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  padding:7px 9px 0;
+}
+.sim-essential-tab{
+  border:1px solid rgba(255,255,255,.08);
+  background:#091827;
+  color:#9fb3c6;
+  border-radius:8px 8px 0 0;
+  padding:5px 7px;
+  font-size:.58rem;
+  font-weight:850;
+  cursor:pointer;
+}
+.sim-essential-tab.active{
+  color:#fff;
+  background:#173650;
+  border-color:#4d7898;
+}
+.sim-essential-body{
+  padding:8px 9px 9px;
+}
+.essential-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+}
+.essential-card{
+  min-width:0;
+  padding:7px 8px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:9px;
+  background:rgba(255,255,255,.025);
+}
+.essential-card strong{
+  display:block;
+  margin-bottom:3px;
+  color:#dff3ff;
+  font-size:.64rem;
+}
+.essential-card p,
+.essential-card li{
+  margin:0;
+  color:#c9d8e6;
+  font-size:.61rem;
+  line-height:1.37;
+}
+.essential-card ul{
+  margin:3px 0 0;
+  padding-left:16px;
+}
+.essential-equation{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:6px 7px;
+  border-radius:8px;
+  background:rgba(103,199,255,.055);
+  border:1px solid rgba(103,199,255,.11);
+  margin-bottom:5px;
+}
+.essential-equation:last-child{margin-bottom:0}
+.essential-equation code{
+  color:#f4fbff;
+  font-family:"STIX Two Math","Cambria Math","Times New Roman",serif;
+  font-size:.72rem;
+  white-space:normal;
+}
+.essential-equation span{
+  color:#9fb3c6;
+  font-size:.56rem;
+  text-align:right;
+}
+.essential-value-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.59rem;
+}
+.essential-value-table th,
+.essential-value-table td{
+  padding:5px 6px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  text-align:left;
+}
+.essential-value-table th{color:#8edcff}
+.essential-trap{
+  border-left:3px solid #ffd56a;
+  background:rgba(255,213,106,.05);
+}
+.essential-exam{
+  border-left:3px solid #63d9a4;
+  background:rgba(99,217,164,.05);
+}
+.essential-memory{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+.memory-chip{
+  padding:5px 7px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;
+  background:#091827;
+  color:#dce9f5;
+  font-size:.58rem;
+  line-height:1.2;
+}
+
+body.sim-focus-mode #simParticleLegend,
+body.sim-focus-mode #simObjectGuide,
+body.sim-focus-mode #learningSuite,
+body.sim-focus-mode #particleDepthPanel,
+body.sim-focus-mode #stepGuide #accuracyLive,
+body.sim-focus-mode #stepGuide #accuracyNote,
+body.sim-focus-mode #accuracyVisualWrap,
+body.sim-focus-mode #aqaDeepDive,
+body.sim-focus-mode #classroomTools,
+body.sim-focus-mode #predictionBox{
+  display:none!important;
+}
+body.sim-focus-mode #view-lab .lab-side{
+  gap:6px;
+}
+body.sim-focus-mode #view-lab .learning-box{
+  min-height:auto;
+}
+body.sim-full-mode #simParticleLegend,
+body.sim-full-mode #simObjectGuide,
+body.sim-full-mode #learningSuite{
+  display:block;
+}
+
+@media(min-width:1101px){
+  body.sim-focus-mode #view-lab .lab-layout{
+    grid-template-columns:minmax(0,1.42fr) minmax(430px,.88fr);
+  }
+  body.sim-focus-mode #view-lab .viewer-wrap{
+    min-height:520px;
+  }
+}
+@media(max-width:650px){
+  .sim-study-toolbar{align-items:flex-start;flex-direction:column}
+  .essential-grid{grid-template-columns:1fr}
+  .essential-equation{align-items:flex-start;flex-direction:column}
+  .essential-equation span{text-align:left}
+}

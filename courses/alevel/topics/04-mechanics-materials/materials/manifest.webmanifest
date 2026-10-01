@@ -1,0 +1,16 @@
+{
+  "name": "AQA A-level Physics Materials Learning Lab",
+  "short_name": "Materials Lab",
+  "description": "Interactive AQA A-level Physics Materials lessons, simulations, calculations, practical work and assessment.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "categories": ["education"],
+  "icons": [
+    {"src":"physics-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>AQA Mechanics & Materials Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Mechanics and Materials learning lab with guided lessons, simulations, calculations, practicals and exam practice.">
+  <link rel="manifest" href="../../../../../shared/../manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=1">
+  <!-- unified-course-topic-theme -->
+<link rel="stylesheet" href="unified-course-theme.css?v=22">
+<link rel="stylesheet" href="unified-course-focus.css?v=22">
+<script>if(window.self!==window.top)document.documentElement.classList.add('unified-course-embedded');</script>
+<script src="unified-course-embedded.js?v=22" defer></script>
+<link rel="stylesheet" href="../../../../../shared/revision-shell.css">
+<script src="../../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Mechanics & Materials Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.4 · Paper 1</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA aligned</span>
+      <span class="pill">17 sequenced lessons</span>
+      <span class="pill">Interactive models</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.4 · Mechanics and materials</span>
+      <h1>Learn the mechanics, see the motion, then explain it like an AQA physicist.</h1>
+      <p>Work through the full AQA topic from vectors and moments to motion, projectiles, Newton's laws, momentum, energy, springs, stress–strain and Young modulus. Each lesson includes retrieval, core teaching, worked examples, student tasks, knowledge checks and an exit ticket.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start full lesson sequence</button>
+        <button class="button" data-jump="lab">Open simulation lab</button>
+      </div>
+    </article>
+
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Topic progress</strong><span id="progressText">0 / 17 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>17</strong><span>sequenced lessons</span></div>
+        <div><strong>14</strong><span>interactive models</span></div>
+        <div><strong>18</strong><span>formula tools</span></div>
+        <div><strong>2</strong><span>required practicals</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Guided course</button>
+    <button class="nav-button" data-view="lab">Simulation lab</button>
+    <button class="nav-button" data-view="formula">Formula coach</button>
+    <button class="nav-button" data-view="practical">Required practicals 3 & 4</button>
+    <button class="nav-button" data-view="exam">Exam practice</button>
+    <button class="nav-button" data-view="spec">AQA checklist</button>
+  </nav>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Recommended route</span><h2>Learn the topic in specification order</h2></div>
+      <p class="muted">Answer the retrieval questions, read the teaching, try the task, complete the check, then mark the lesson complete.</p>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Interactive learning</span><h2>Mechanics simulation lab</h2></div>
+      <p class="muted">Change the variables, watch the model update and connect the motion to equations, graphs and force diagrams.</p>
+    </div>
+    <div class="sim-tabs" id="simTabs"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive mechanics simulation"></canvas>
+          <div class="viewer-badges">
+            <span class="pill" id="simSpec">AQA 3.4</span>
+            <span class="pill" id="simState">Running</span>
+          </div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="playPause">Pause</button>
+          <button class="button" id="resetSim">Reset</button>
+          <button class="button" id="slowMotion">Slow motion</button>
+        </div>
+        <p class="model-note">Models are schematic teaching representations. Distances, object sizes and timescales may be rescaled for clarity.</p>
+      </div>
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+        <article class="panel learning-box simple-box"><h3>In simple words</h3><div id="simpleExplain"></div></article>
+        <article class="panel learning-box exam-box"><h3>Say it like this in an exam</h3><div id="examExplain"></div></article>
+        <article class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></article>
+        <article class="panel learning-box checkpoint-box"><h3>Quick check</h3><div id="simCheck"></div></article>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div>
+      <p class="muted">Choose a relationship, enter values and see substitution, units and a worked result.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">AQA practical skills</span><h2>Required practicals 3 and 4</h2></div>
+      <p class="muted">Collect simulated data, process it and identify uncertainty, random error and systematic error.</p>
+    </div>
+    <div class="practical-switch">
+      <button class="button primary" data-practical="g">RP3 · Determine g</button>
+      <button class="button" data-practical="young">RP4 · Young modulus</button>
+    </div>
+    <div id="practicalG">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP3 · Free-fall method</h3>
+          <p class="muted small">Change the drop height, take repeated timings and use h = ½gt² to estimate g.</p>
+          <label class="field"><span>Drop height</span><input type="range" id="dropHeight" min="30" max="180" value="100" step="10"><output id="dropHeightOut">1.00 m</output></label>
+          <div class="practical-rig fall-rig"><div class="drop-ball" id="dropBall"></div><div class="drop-scale"></div><div class="light-gate"></div></div>
+          <div class="button-row">
+            <button class="button primary" id="takeGReading">Take timing</button>
+            <button class="button" id="clearGData">Clear data</button>
+          </div>
+          <div class="safety-note"><strong>Virtual practical.</strong> In a real investigation secure apparatus, keep the drop area clear and follow teacher instructions.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>h / m</th><th>t / s</th><th>t² / s²</th><th>g / m s⁻²</th></tr></thead><tbody id="gRows"></tbody></table></div>
+          <canvas class="practical-chart" id="gGraph" aria-label="Graph of drop height against time squared"></canvas>
+          <div class="equation" id="gSummary">Collect at least three readings.</div>
+        </article>
+      </div>
+    </div>
+    <div id="practicalYoung" class="hidden">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP4 · Young modulus</h3>
+          <p class="muted small">Add a load to a wire, measure extension and calculate stress, strain and Young modulus.</p>
+          <label class="field"><span>Load mass</span><input type="range" id="loadMass" min="0.5" max="5" value="1" step="0.5"><output id="loadMassOut">1.0 kg</output></label>
+          <label class="field"><span>Wire diameter</span><input type="range" id="wireDiameter" min="0.30" max="0.70" value="0.50" step="0.05"><output id="wireDiameterOut">0.50 mm</output></label>
+          <div class="wire-rig"><div class="wire"></div><div class="mass-block" id="massBlock">1.0 kg</div></div>
+          <div class="button-row">
+            <button class="button primary" id="takeYReading">Take extension reading</button>
+            <button class="button" id="clearYData">Clear data</button>
+          </div>
+          <div class="safety-note"><strong>Virtual practical.</strong> In a real investigation use eye protection, keep clear of the loaded wire and follow the approved school method.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>F / N</th><th>ΔL / mm</th><th>stress / Pa</th><th>strain</th><th>E / Pa</th></tr></thead><tbody id="yRows"></tbody></table></div>
+          <canvas class="practical-chart" id="yGraph" aria-label="Stress strain graph for Young modulus practical"></canvas>
+          <div class="equation" id="ySummary">Collect at least three readings.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-exam">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Exam practice</h2></div>
+      <p class="muted">Mixed calculations, definitions, graph interpretation and application questions.</p>
+    </div>
+    <div class="quiz-layout">
+      <aside class="panel quiz-stats pad">
+        <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 32</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+        <div class="stat-grid">
+          <div><strong id="quizScore">0</strong><span>correct</span></div>
+          <div><strong id="quizStreak">0</strong><span>streak</span></div>
+        </div>
+        <button class="button" id="restartQuiz">Restart practice</button>
+        <div class="mastery-mini">
+          <span class="eyebrow">Adaptive mastery</span>
+          <strong id="masteryPercent">0%</strong>
+          <span id="masterySummary">Answer questions to build a topic profile.</span>
+        </div>
+      </aside>
+      <article class="panel quiz-main pad">
+        <span class="eyebrow" id="quizSpec"></span>
+        <h3 id="quizQuestion"></h3>
+        <button class="text-button" id="showHint">Show hint</button>
+        <div class="hint hidden" id="quizHint"></div>
+        <div class="choice-list" id="quizChoices"></div>
+        <div class="feedback hidden" id="quizFeedback"></div>
+        <button class="button primary hidden" id="nextQuestion">Next question</button>
+      </article>
+    </div>
+    <article class="panel pad mastery-panel">
+      <div class="section-head compact">
+        <div><span class="eyebrow">Personalised revision</span><h3>Topic mastery</h3></div>
+        <p class="muted" id="nextBestAction">Complete some exam questions to receive a recommended next step.</p>
+      </div>
+      <div class="mastery-grid" id="masteryGrid"></div>
+    </article>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.4 checklist</h2></div>
+      <p class="muted">Use this revision map to see what each lesson covers.</p>
+    </div>
+    <div class="spec-grid" id="specGrid"></div>
+  </section>
+</main>
+
+<footer class="wrap footer">Built as an educational model for AQA A-level Physics 7408. Simulation scales are schematic rather than literal.</footer>
+<script src="app.js?v=1"></script>
+</body>
+</html>

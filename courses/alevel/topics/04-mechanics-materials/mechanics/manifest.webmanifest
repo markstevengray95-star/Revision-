@@ -1,0 +1,9 @@
+{
+  "name": "AQA Mechanics & Materials Learning Lab",
+  "short_name": "Mechanics Lab",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "description": "Interactive AQA A-level Physics Mechanics and Materials learning lab."
+}

@@ -1,0 +1,24 @@
+.simulation-mission-panel{padding:13px;border-color:rgba(126,216,255,.3);background:linear-gradient(180deg,#0b2033,#081725)}
+.mission-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.mission-head h3{margin:.2rem 0 .35rem;font-size:1.02rem;line-height:1.3}
+.mission-score{min-width:82px;padding:7px 9px;border-radius:10px;border:1px solid var(--border);background:#071725;text-align:center}.mission-score strong{display:block}.mission-score span{font-size:.65rem;color:var(--muted)}
+.mission-extension{margin:7px 0;padding:8px;border-radius:9px;border:1px solid rgba(255,205,110,.3);background:#221c10;font-size:.76rem;color:#eedfbf}
+.mission-prediction,.mission-explain{display:block;margin-top:8px}.mission-prediction>strong,.mission-explain>strong{display:block;font-size:.78rem;margin-bottom:4px}
+.mission-prediction textarea,.mission-explain textarea{width:100%;resize:vertical;border:1px solid var(--border);border-radius:9px;background:#061523;color:#eef7ff;padding:8px;font:inherit;font-size:.8rem}
+.mission-step-list{display:grid;gap:7px;margin-top:9px}.mission-step{padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:#081a2a}.mission-step.secure{border-color:rgba(107,224,167,.42);background:#0a211c}
+.mission-step-top{display:grid;grid-template-columns:27px 1fr;gap:8px;align-items:start}.mission-step-top>span{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#123451;color:#bfeaff;font-weight:900;font-size:.73rem}.mission-step.secure .mission-step-top>span{background:#164031;color:#92f1be}
+.mission-step-top strong{font-size:.79rem}.mission-step-top p{margin:.15rem 0;font-size:.72rem;line-height:1.35;color:#c7d6e4}
+.mission-actions{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 0 35px}.mission-actions .button{padding:6px 8px;min-height:32px;font-size:.68rem}
+.mission-observation{margin:7px 0 0 35px;padding:8px;border-radius:8px;background:#10283e;font-size:.72rem;line-height:1.4}.mission-observation[hidden]{display:none!important}
+.mission-tools{display:flex;gap:8px;align-items:center;margin-top:9px;padding:8px;border-radius:9px;background:#071522;border:1px solid rgba(126,216,255,.15)}.mission-tools span{font-size:.68rem;color:var(--muted);line-height:1.3}
+.mission-check{margin-top:9px;padding:9px;border:1px solid rgba(107,224,167,.2);border-radius:10px;background:#081b22}.mission-check p{margin:.25rem 0 .45rem;font-size:.76rem}.mission-options{display:grid;gap:5px}.mission-feedback{font-size:.7rem;color:#c7d7e3;margin-top:6px;line-height:1.35}
+#toggleHotspots.primary{border-color:#7ed8ff;box-shadow:0 0 0 1px rgba(126,216,255,.14) inset}
+@media(max-width:760px){.mission-head{display:grid;grid-template-columns:1fr auto}.mission-tools{align-items:flex-start;flex-direction:column}.mission-actions{margin-left:0}.mission-observation{margin-left:0}}
+
+/* Keep the guided mission inside the simulation information column at every desktop width. */
+#view-lab #simulationMissionPanel{grid-column:1 / -1;min-width:0;max-width:100%;overflow:hidden}
+#view-lab #simulationMissionPanel *{min-width:0}
+#view-lab #simulationMissionPanel h3,
+#view-lab #simulationMissionPanel p,
+#view-lab #simulationMissionPanel strong,
+#view-lab #simulationMissionPanel span{overflow-wrap:anywhere}
+#view-lab #simulationMissionPanel textarea{display:block;max-width:100%}

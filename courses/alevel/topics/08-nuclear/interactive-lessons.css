@@ -1,0 +1,64 @@
+
+/* Complete interactive lesson workspace */
+.il-shell{margin-top:14px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(145deg,#0b1b2e,#081522);overflow:hidden}
+.il-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:16px 16px 12px;border-bottom:1px solid var(--border)}
+.il-head h3{margin:4px 0 5px}.il-head p{margin:0;color:var(--muted);font-size:.84rem}
+.il-progress{min-width:170px}.il-progress strong{font-size:.78rem}.il-track{height:8px;background:#06101c;border:1px solid #27415d;border-radius:999px;overflow:hidden;margin-top:6px}.il-track i{display:block;height:100%;background:linear-gradient(90deg,var(--good),var(--accent));width:0}
+.il-tabs{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--border);overflow:auto}.il-tab{flex:0 0 auto;border:1px solid var(--border);background:#0a1728;color:var(--text);border-radius:999px;padding:8px 11px;font-size:.76rem;font-weight:900;cursor:pointer}.il-tab.active{border-color:var(--accent);background:rgba(103,199,255,.15)}
+.il-body{padding:16px}.il-panel{display:none}.il-panel.active{display:block}
+.il-lesson-intro{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}.il-card{border:1px solid var(--border);border-radius:13px;background:#091726;padding:13px}.il-card h4{margin:0 0 7px}.il-card p{margin:6px 0;font-size:.88rem;line-height:1.55}.il-card li{margin:5px 0;font-size:.86rem;line-height:1.45}.il-card ul{padding-left:19px;margin:7px 0}
+.il-page-nav{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:12px}.il-page-dots{display:flex;gap:5px;flex-wrap:wrap}.il-dot{width:28px;height:9px;border-radius:999px;border:1px solid var(--border);background:#071321}.il-dot.done{background:var(--good);border-color:var(--good)}.il-dot.active{outline:2px solid var(--accent);outline-offset:2px}
+.il-key{margin-top:10px;padding:10px 12px;border-left:4px solid var(--accent);background:#0c2134;border-radius:9px;font-size:.85rem}.il-equation{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;padding:9px 10px;border:1px solid #29465f;background:#061421;border-radius:9px;margin:8px 0;color:#d8f1ff;overflow:auto}
+.il-vocab{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.il-vocab div{padding:9px;border:1px solid var(--border);border-radius:10px;background:#071522}.il-vocab strong{display:block;color:#bfe9ff;font-size:.78rem}.il-vocab span{font-size:.76rem;color:var(--muted)}
+.il-example-step{display:none;padding:11px;margin:8px 0;border:1px solid var(--border);border-radius:10px;background:#071522}.il-example-step.show{display:block}.il-example-step strong{color:#bfe9ff}
+.il-q{padding:13px;border:1px solid var(--border);border-radius:12px;background:#081625;margin:9px 0}.il-q h4{margin:0 0 9px;font-size:.92rem}.il-options{display:grid;gap:7px}.il-options button{min-height:42px;text-align:left;border:1px solid var(--border);border-radius:9px;background:#0b1b2e;color:var(--text);padding:8px 10px;cursor:pointer}.il-options button.correct{border-color:var(--good);background:rgba(99,217,164,.12)}.il-options button.wrong{border-color:var(--bad);background:rgba(255,123,135,.10)}.il-feedback{margin-top:8px;padding:9px 10px;border-radius:9px;background:#061421;border:1px solid var(--border);font-size:.82rem}
+.il-short textarea{width:100%;min-height:100px;resize:vertical;border:1px solid var(--border);background:#061421;color:var(--text);border-radius:10px;padding:10px;font:inherit}.il-model{margin-top:8px;padding:10px;border:1px solid #39506a;border-radius:10px;background:#0a1b2b;font-size:.84rem}
+.il-simtask{display:grid;grid-template-columns:1fr 1fr;gap:10px}.il-predict{display:grid;gap:7px}.il-predict label{font-size:.78rem;font-weight:800}.il-predict textarea{min-height:82px;background:#061421;color:var(--text);border:1px solid var(--border);border-radius:9px;padding:9px}.il-checklist{display:grid;gap:7px}.il-check{display:flex;gap:8px;align-items:flex-start;padding:8px;border:1px solid var(--border);border-radius:9px;background:#071522}.il-check input{margin-top:3px}
+.il-exit-score{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0}.il-score-ring{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;border:7px solid #29415b;font-weight:950;font-size:1.15rem}.il-score-ring.pass{border-color:var(--good)}.il-score-ring.retry{border-color:#e4b65a}
+.il-status{padding:10px 12px;border-radius:10px;background:#071522;border:1px solid var(--border);font-size:.82rem}.il-status.pass{border-left:4px solid var(--good)}.il-status.retry{border-left:4px solid #e4b65a}
+.il-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.il-badge{display:inline-flex;padding:3px 7px;border-radius:999px;border:1px solid var(--border);font-size:.67rem;font-weight:900;color:#cbeaff}
+.il-complete-banner{margin-top:10px;padding:12px;border:1px solid rgba(99,217,164,.45);border-radius:11px;background:rgba(99,217,164,.08)}.il-complete-banner strong{color:#9defbd}
+@media(max-width:800px){.il-lesson-intro,.il-simtask{grid-template-columns:1fr}.il-vocab{grid-template-columns:1fr}.il-head{display:block}.il-progress{margin-top:10px;min-width:0}}
+
+
+/* Reinforcement task stage */
+.il-reinforce-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.il-reinforce-head h4{margin:3px 0 4px;font-size:1.08rem}.il-reinforce-head p{margin:0;color:var(--muted);font-size:.84rem}
+.il-reinforce-card{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;align-items:start;margin-bottom:10px}
+.il-task-number{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#12304a;border:1px solid #3c6f96;font-weight:950;color:#d8efff}
+.il-vocab-tasks{display:grid;gap:8px}.il-vocab-q{padding:10px;border:1px solid var(--border);border-radius:10px;background:#071522}
+.il-vocab-q>strong{display:block;margin-bottom:7px;color:#cdeaff}.il-mini-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.il-mini-options button{min-height:40px;text-align:left;border:1px solid var(--border);background:#0b1b2d;color:var(--text);border-radius:9px;padding:8px;cursor:pointer;font-size:.78rem}
+.il-mini-options button.correct{border-color:var(--good);background:rgba(99,217,164,.12)}.il-mini-options button.wrong{border-color:var(--bad);background:rgba(255,123,135,.10)}
+.il-sequence-pool{display:grid;gap:7px;margin:9px 0}.il-seq-chip{border:1px solid var(--border);background:#0b1b2d;color:var(--text);border-radius:10px;padding:9px 10px;text-align:left;cursor:pointer}
+.il-seq-chip:hover{border-color:#4c789d}.il-sequence-chosen{display:grid;gap:6px;padding:9px;border-radius:10px;background:#061421;border:1px dashed #35516c;min-height:48px}
+.il-seq-picked{display:grid;grid-template-columns:27px 1fr;gap:8px;align-items:start;padding:8px;border-radius:8px;background:#0b1b2b;border:1px solid #29425c;font-size:.81rem}
+.il-seq-picked span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#173650;font-weight:900}
+.il-long-answer{width:100%;min-height:120px;resize:vertical;border:1px solid var(--border);background:#061421;color:var(--text);border-radius:10px;padding:10px;font:inherit}
+.il-keyword-strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:.76rem}.il-keyword-strip span{padding:4px 7px;border-radius:999px;border:1px solid #35536e;background:#0a1c2d;color:#ccecff}
+@media(max-width:700px){.il-reinforce-head{display:block}.il-reinforce-head .il-badge{margin-top:8px}.il-reinforce-card{grid-template-columns:1fr}.il-task-number{width:32px;height:32px}.il-mini-options{grid-template-columns:1fr}}
+
+
+/* Starter and exam-question stages */
+.il-starter-q{position:relative}.il-starter-q>.il-badge{margin-bottom:8px}
+.il-exam-card{margin-bottom:12px}.il-exam-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}
+.il-exam-head>div{display:flex;align-items:center;gap:9px}.il-exam-head .il-task-number{width:32px;height:32px}
+.il-mark-scheme{margin-top:10px;padding:12px;border:1px solid #35516b;border-radius:11px;background:#071522}
+.il-mark-scheme h4{margin:0 0 4px}.il-mark-scheme>.il-check{margin-top:6px}
+.il-exam-score{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:10px 0;padding:9px 10px;border-radius:9px;background:#0b1b2b;border:1px solid var(--border)}
+.il-exam-score strong{color:#cfeeff}.il-exam-score span{font-size:.77rem;color:var(--muted);text-align:right}
+@media(max-width:650px){.il-exam-head,.il-exam-score{align-items:flex-start;flex-direction:column}.il-exam-score span{text-align:left}}
+
+
+/* Structured lesson learning map */
+.il-start-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.il-start-grid ul{margin:6px 0 0;padding-left:20px}.il-start-grid li{margin:5px 0;line-height:1.4}
+.il-core-map{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#071522}
+.il-core-map strong{display:block;margin-bottom:6px}.il-core-map ol{margin:0;padding-left:20px}.il-core-map li{margin:5px 0;font-size:.82rem}
+.il-core-map p{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.il-core-map p span{padding:4px 7px;border:1px solid #35536e;border-radius:999px;background:#0a1c2d;font-size:.72rem;color:#cfeaff}
+.il-core-equations{display:grid;gap:5px}.il-core-equations code{display:block;padding:6px 8px;border-radius:8px;background:#061421;border:1px solid #29445e;color:#d6f1ff;white-space:normal}
+.il-learning-progress{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}
+.il-concept-check{margin-top:10px;border-left:4px solid var(--accent)}.il-concept-check .eyebrow{display:block;margin-bottom:5px}
+.seq-roadmap-steps{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.seq-roadmap-steps span{padding:5px 8px;border-radius:999px;border:1px solid var(--border);background:#081827;font-size:.74rem}
+button:disabled{cursor:not-allowed;opacity:.55}
+@media(max-width:760px){.il-start-grid,.il-core-map{grid-template-columns:1fr}.il-learning-progress{align-items:flex-start;flex-direction:column}}

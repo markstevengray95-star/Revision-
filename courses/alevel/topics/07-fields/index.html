@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="application-name" content="AQA Physics 3.7 Lab">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="physics-icon.svg" type="image/svg+xml">
+  <title>AQA Fields & Their Consequences Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.7 Fields and their consequences learning lab.">
+  <link rel="manifest" href="../../../../shared/../manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="further.css?v=2">
+  <link rel="stylesheet" href="fields.css?v=2">
+  <link rel="stylesheet" href="enhancements.css?v=2">
+  <link rel="stylesheet" href="enhancements-v3.css?v=4">
+  <link rel="stylesheet" href="enhancements-v4.css?v=4">
+  <!-- unified-course-topic-theme -->
+<link rel="stylesheet" href="unified-course-theme.css?v=22">
+<link rel="stylesheet" href="unified-course-focus.css?v=22">
+<script>if(window.self!==window.top)document.documentElement.classList.add('unified-course-embedded');</script>
+<script src="unified-course-embedded.js?v=22" defer></script>
+<link rel="stylesheet" href="../../../../shared/revision-shell.css">
+<script src="../../../../shared/revision-shell.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Fields & Their Consequences Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.7 · Paper 2</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA 3.7 aligned</span>
+      <span class="pill">18 sequenced lessons</span>
+      <span class="pill">Advanced interactive lab</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap main">
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.7 · Fields and their consequences</span>
+      <h1>See the field, manipulate the model, calculate from it, then explain the physics.</h1>
+      <p>Complete guided teaching for gravitational, electric and magnetic fields, capacitance, orbits, electromagnetic induction and alternating current. Lessons combine mini-textbook explanations, worked calculations, interactive models, practical skills and exam-language coaching.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Core simulations</button>
+        <button class="button" data-jump="advanced">Advanced Lab</button>
+        <button class="button" data-jump="practical">Required practicals</button>
+      </div>
+    </article>
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Section 3.7 progress</strong><span id="progressText">0 / 18 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>18</strong><span>sequenced lessons</span></div>
+        <div><strong>12+</strong><span>interactive models</span></div>
+        <div><strong>30</strong><span>formula tools</span></div>
+        <div><strong>3</strong><span>required practicals</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav compact-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Learn</button>
+    <button class="nav-button" data-view="lab">Simulations</button>
+    <button class="nav-button" data-view="advanced">Advanced Lab</button>
+    <button class="nav-button" data-view="formula">Formula Coach</button>
+    <button class="nav-button" data-view="practical">Practicals</button>
+    <button class="nav-button" data-view="exam">Exam Practice</button>
+    <button class="nav-button" data-view="extended">Extended Responses</button>
+    <button class="nav-button" data-view="mastery">Mastery Hub</button>
+    <button class="nav-button" data-view="spec">AQA Map</button>
+  </nav>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Guided learning</span><h2>Full AQA 3.7 lesson sequence</h2></div>
+      <p class="muted">Start with the unifying idea of a field, then move through gravitation, electrostatics, capacitance and magnetism. Each lesson contains retrieval, explanation, equations, a worked example, an activity, a simulation mission and an exit check.</p>
+    </div>
+    <div class="topic-filter">
+      <button class="button primary" data-course-filter="all">All 3.7</button>
+      <button class="button" data-course-filter="fields">3.7.1 Fields</button>
+      <button class="button" data-course-filter="gravity">3.7.2 Gravitation</button>
+      <button class="button" data-course-filter="electric">3.7.3 Electric fields</button>
+      <button class="button" data-course-filter="capacitance">3.7.4 Capacitance</button>
+      <button class="button" data-course-filter="magnetic">3.7.5 Magnetic fields</button>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Learning through models</span><h2>Interactive Fields simulation lab</h2></div>
+      <p class="muted">Use mouse, touch and sliders. Field lines, vectors, graphs and numerical readouts update as you change the physics.</p>
+    </div>
+    <div class="sim-tabs" id="simTabs"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive AQA fields simulation"></canvas>
+          <div class="viewer-badges">
+            <span class="pill" id="simSpec">AQA 3.7</span>
+            <span class="pill" id="simState">Interactive</span>
+          </div>
+          <div class="drag-hint" id="dragHint">Use the controls to manipulate each model</div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="playPause">Pause</button>
+          <button class="button" id="resetSim">Reset</button>
+          <button class="button" id="showFieldLines">Field lines</button>
+          <button class="button" id="showVectors">Vectors</button>
+          <button class="button" id="snapshotSim">Capture reading</button>
+        </div>
+        <div id="snapshotTray" class="snapshot-tray"></div>
+        <p class="model-note">Models are schematic and deliberately rescaled for learning. Numerical readouts preserve the displayed physical relationships.</p>
+      </div>
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+        <article class="panel mission-card">
+          <span class="eyebrow">Learning mission</span>
+          <h3 id="missionGoal"></h3>
+          <ol id="missionSteps"></ol>
+          <p class="small"><strong>Record:</strong> <span id="missionRecord"></span></p>
+          <p class="small"><strong>Conclude:</strong> <span id="missionConclusion"></span></p>
+        </article>
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+        <article class="panel learning-box simple-box"><h3>What the model shows</h3><div id="simpleExplain"></div></article>
+        <article class="panel learning-box exam-box"><h3>AQA exam language</h3><div id="examExplain"></div></article>
+        <article class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></article>
+      </aside>
+    </div>
+    <section class="sim-learning-workspace panel">
+      <div class="workspace-head">
+        <div><span class="eyebrow">Use the simulation to learn</span><h3>Live investigation workspace</h3></div>
+      </div>
+      <div class="field-workspace-grid">
+        <div><strong>Prediction</strong><textarea id="predictionText" placeholder="Predict what will happen before changing a variable..."></textarea></div>
+        <div><strong>Observation</strong><textarea id="observationText" placeholder="Describe the pattern shown by the model..."></textarea></div>
+        <div><strong>Physics explanation</strong><textarea id="explanationText" placeholder="Explain the result using the relevant equation and field idea..."></textarea></div>
+      </div>
+    </section>
+  </section>
+
+  <section class="view" id="view-advanced">
+    <div class="section-head">
+      <div><span class="eyebrow">Direct manipulation + live data</span><h2>Advanced Fields Laboratory</h2></div>
+      <p class="muted">Drag objects, measure the field, inspect live graphs, switch to potential-surface view and turn each simulation into a calculation and original exam-style question.</p>
+    </div>
+    <div id="advancedApp"></div>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div>
+      <p class="muted">Choose a relationship, enter values and see equation selection, substitution, unit handling and a worked result.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Topic</span><select id="formulaTopic">
+          <option value="all">All 3.7</option><option value="gravity">Gravitation</option><option value="electric">Electric fields</option><option value="capacitance">Capacitance</option><option value="magnetic">Magnetic fields</option>
+        </select></label>
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">AQA practical skills</span><h2>Required Practicals 9, 10 and 11</h2></div>
+      <p class="muted">Collect simulated readings, build the correct graph, identify control variables and practise evaluation points. The Advanced Lab adds virtual apparatus, live traces and uncertainty analysis.</p>
+    </div>
+    <div class="practical-switch">
+      <button class="button primary" data-practical="rp9">RP9 · Capacitor discharge</button>
+      <button class="button" data-practical="rp10">RP10 · Force on a wire</button>
+      <button class="button" data-practical="rp11">RP11 · Flux linkage and angle</button>
+    </div>
+
+    <div class="practical-panel" id="practical-rp9">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP9 · Charge and discharge of a capacitor</h3>
+          <p class="muted small">Measure the falling pd during discharge, then use a log-linear plot to determine the time constant RC.</p>
+          <label class="field"><span>Capacitance</span><input type="range" id="rp9C" min="100" max="1000" value="470" step="10"><output id="rp9COut">470 µF</output></label>
+          <label class="field"><span>Resistance</span><input type="range" id="rp9R" min="1000" max="10000" value="4700" step="100"><output id="rp9ROut">4.7 kΩ</output></label>
+          <label class="field"><span>Time</span><input type="range" id="rp9T" min="0" max="15" value="1" step="0.5"><output id="rp9TOut">1.0 s</output></label>
+          <div class="button-row"><button class="button primary" id="takeRP9">Record reading</button><button class="button" id="clearRP9">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> use a high-resistance voltmeter/data logger, discharge fully between runs, keep R and C fixed, collect enough readings and use ln(V) against t to obtain −1/RC from the gradient.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and analysis</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>t / s</th><th>V / V</th><th>ln(V/V₀)</th></tr></thead><tbody id="rp9Rows"></tbody></table></div>
+          <div class="equation" id="rp9Summary">Collect at least five readings.</div>
+          <div class="mini-graph"><canvas id="rp9Graph"></canvas></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practical-rp10">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP10 · Force on a current-carrying wire</h3>
+          <p class="muted small">Investigate F = BIL by changing current, wire length in the field or flux density.</p>
+          <label class="field"><span>Current</span><input type="range" id="rp10I" min="0.5" max="5" value="2" step="0.1"><output id="rp10IOut">2.0 A</output></label>
+          <label class="field"><span>Length in field</span><input type="range" id="rp10L" min="0.02" max="0.12" value="0.06" step="0.01"><output id="rp10LOut">0.06 m</output></label>
+          <label class="field"><span>Flux density</span><input type="range" id="rp10B" min="0.05" max="0.5" value="0.2" step="0.01"><output id="rp10BOut">0.20 T</output></label>
+          <div class="button-row"><button class="button primary" id="takeRP10">Record reading</button><button class="button" id="clearRP10">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> zero the balance, keep the wire perpendicular to B, ensure only the measured length lies in the uniform field and allow the current to settle before reading.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>I / A</th><th>L / m</th><th>B / T</th><th>F / N</th></tr></thead><tbody id="rp10Rows"></tbody></table></div>
+          <div class="equation" id="rp10Summary">Collect a range of readings.</div>
+          <div class="mini-graph"><canvas id="rp10Graph"></canvas></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practical-rp11">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>RP11 · Flux linkage and coil angle</h3>
+          <p class="muted small">Investigate how NΦ varies with the angle between the coil normal and the magnetic field.</p>
+          <label class="field"><span>Angle θ</span><input type="range" id="rp11Angle" min="0" max="180" value="30" step="5"><output id="rp11AngleOut">30°</output></label>
+          <label class="field"><span>Turns</span><input type="range" id="rp11N" min="50" max="500" value="200" step="10"><output id="rp11NOut">200</output></label>
+          <label class="field"><span>Flux density</span><input type="range" id="rp11B" min="0.02" max="0.2" value="0.08" step="0.01"><output id="rp11BOut">0.08 T</output></label>
+          <div class="button-row"><button class="button primary" id="takeRP11">Record reading</button><button class="button" id="clearRP11">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> define the angle clearly, keep coil area and field strength fixed, repeat angle settings and compare NΦ with cosθ.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>θ / °</th><th>cosθ</th><th>NΦ / Wb turn</th></tr></thead><tbody id="rp11Rows"></tbody></table></div>
+          <div class="equation" id="rp11Summary">Collect readings across 0–180°.</div>
+          <div class="mini-graph"><canvas id="rp11Graph"></canvas></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-exam">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Mixed AQA 3.7 exam practice</h2></div>
+      <p class="muted">Questions span gravitational, electric and magnetic fields, capacitance, induction, AC and transformers. The Advanced Lab adds extended calculations, practical/data questions, confidence tracking and a topic heatmap.</p>
+    </div>
+    <div class="quiz-layout">
+      <aside class="panel quiz-stats pad">
+        <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 20</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+        <div class="stat-grid"><div><strong id="quizScore">0</strong><span>correct</span></div><div><strong id="quizStreak">0</strong><span>streak</span></div></div>
+        <button class="button" id="restartQuiz">Restart practice</button>
+      </aside>
+      <article class="panel quiz-main pad">
+        <span class="eyebrow" id="quizSpec">AQA 3.7</span>
+        <h3 id="quizQuestion"></h3>
+        <button class="text-button" id="showHint">Show hint</button>
+        <div class="hint hidden" id="quizHint"></div>
+        <div class="choice-list" id="quizChoices"></div>
+        <div class="feedback hidden" id="quizFeedback"></div>
+        <button class="button primary hidden" id="nextQuestion">Next question</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="view-extended">
+    <div class="section-head">
+      <div><span class="eyebrow">Long-answer mastery</span><h2>Extended Response Centre</h2></div>
+      <p class="muted">Original 4–6 mark questions for every Fields lesson area, with planning prompts, mark-point checklists and topic tracking.</p>
+    </div>
+    <div id="extendedResponseApp"></div>
+  </section>
+
+  <section class="view" id="view-mastery">
+    <div class="section-head">
+      <div><span class="eyebrow">Exam preparation</span><h2>Fields Mastery Hub</h2></div>
+      <p class="muted">Practise calculations, explanations, graph interpretation and synoptic comparisons across the whole topic.</p>
+    </div>
+    <div class="mastery-grid">
+      <article class="panel pad"><h3>Quick diagnostic</h3><div id="diagnosticBox"></div><button class="button primary" id="newDiagnostic">New question</button></article>
+      <article class="panel pad"><h3>Exam-language checklist</h3><div id="languageChecklist"></div></article>
+      <article class="panel pad"><h3>Common traps</h3><div id="trapList"></div></article>
+      <article class="panel pad"><h3>Equation links</h3><div id="equationLinks"></div></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 3.7 map</h2></div>
+      <p class="muted">Every row links a specification area to the lessons, simulations and practical work in this app.</p>
+    </div>
+    <div id="specMap" class="spec-grid"></div>
+  </section>
+</main>
+
+<footer class="wrap footer">
+  <span>AQA A-level Physics 7408 · Fields & Their Consequences Learning Lab</span>
+  <span class="muted">Progress and adaptive practice are stored locally on this device.</span>
+</footer>
+
+<script src="data.js?v=2"></script>
+<script src="app.js?v=2"></script>
+<script src="enhancements.js?v=2"></script>
+<script src="textbook-v3.js?v=4"></script>
+<script src="sim-pro-v3.js?v=4"></script>
+<script src="textbook-v4.js?v=4"></script>
+<script src="real-apparatus-v4.js?v=4"></script>
+<script src="extended-response-v4.js?v=4"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}
+</script>
+</body>
+</html>

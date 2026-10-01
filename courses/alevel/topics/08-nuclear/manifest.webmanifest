@@ -1,0 +1,17 @@
+{
+  "name": "AQA Nuclear Physics Learning Lab",
+  "short_name": "Nuclear Physics",
+  "description": "Interactive AQA A-level Nuclear Physics lessons, simulations, retrieval and exam practice.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

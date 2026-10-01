@@ -12,28 +12,96 @@
   <link rel="stylesheet" href="teacher-dashboard.css">
   <link rel="stylesheet" href="teacher-cloud.css">
   <script src="shared/revision-shell.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2" defer></script>
   <script src="shared/revision-supabase.js" defer></script>
   <script src="teacher-cloud.js" defer></script>
 </head>
 <body class="teacher-dashboard">
   <a class="revision-skip" href="#teacher-main">Skip to teacher dashboard</a>
   <main id="teacher-main" class="teacher-wrap">
-    <section class="teacher-hero" aria-labelledby="teacher-title"><div><span class="teacher-eyebrow">CLOUD TEACHER WORKSPACE</span><h1 id="teacher-title">Classes, homework and tests.<br><span>Synced across devices.</span></h1><p>Create classes, share a class code, assign work and review student submissions. Your teacher data now syncs through Supabase rather than staying in one browser.</p></div><div class="hero-actions"><a class="teacher-button primary" href="#new-class">+ Add a class</a><a class="teacher-button" href="#assign-work">Assign work</a></div></section>
-    <div id="teacher-notice" class="teacher-notice" role="status" aria-live="polite" hidden></div>
-    <section id="teacher-auth-panel" class="teacher-panel auth-panel" aria-labelledby="teacher-auth-title"><div class="panel-heading"><div><span class="teacher-eyebrow">TEACHER ACCOUNT</span><h2 id="teacher-auth-title">Sign in to your teacher workspace</h2></div></div><p class="panel-copy">Use an email and password. If this is your first time here, create a teacher account with the same details.</p><form id="teacher-auth-form" class="teacher-form auth-form"><label>Display name <span class="field-help">used when creating a new account</span><input id="teacher-auth-name" maxlength="80" autocomplete="name" placeholder="e.g. M Gray"></label><label>Email<input id="teacher-auth-email" type="email" required autocomplete="email" placeholder="teacher@school.org"></label><label>Password<input id="teacher-auth-password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label><div class="auth-actions"><button id="teacher-sign-in" class="teacher-button primary" type="submit">Sign in</button><button id="teacher-sign-up" class="teacher-button" type="button">Create teacher account</button></div></form><p class="auth-switch">Student? <a href="student.html">Open My Work instead →</a></p></section>
-    <section id="teacher-app" hidden><div class="account-strip"><div><span>Signed in as</span><strong id="teacher-account-email"></strong></div><div class="account-actions"><button id="refresh-data" class="teacher-button" type="button">Refresh</button><button id="teacher-sign-out" class="teacher-button" type="button">Sign out</button></div></div>
-      <section class="metrics-grid" aria-label="Teacher overview"><article class="metric-card"><span>Classes</span><strong id="metric-classes">0</strong><small>active groups</small></article><article class="metric-card"><span>Students</span><strong id="metric-students">0</strong><small>on your rosters</small></article><article class="metric-card"><span>Active work</span><strong id="metric-active">0</strong><small>homework, tests & revision</small></article><article class="metric-card"><span>Submissions</span><strong id="metric-due-week">0</strong><small>received from students</small></article></section>
-      <section class="teacher-layout" aria-label="Class and assignment tools"><div class="teacher-column">
-        <section id="new-class" class="teacher-panel"><div class="panel-heading"><div><span class="teacher-eyebrow">CLASS SETUP</span><h2>Add a class</h2></div></div><form id="class-form" class="teacher-form"><div class="form-grid two"><label>Class name<input id="class-name" required maxlength="80" placeholder="e.g. 11P1 Physics"></label><label>Subject<select id="class-subject"><option>Biology</option><option>Chemistry</option><option selected>Physics</option><option>Combined Science</option><option>General Science</option></select></label><label>Level<select id="class-level"><option>KS3</option><option selected>GCSE</option><option>A-level</option></select></label><label>Year group<input id="class-year" maxlength="30" placeholder="e.g. Year 11"></label></div><label>Initial roster <span class="field-help">optional · one student per line; email can be included as Name &lt;email&gt;</span><textarea id="class-students" rows="4" placeholder="A Student <student@example.com>&#10;B Student"></textarea></label><button class="teacher-button primary" type="submit">Create class</button></form></section>
-        <section class="teacher-panel"><div class="panel-heading"><div><span class="teacher-eyebrow">YOUR CLASSES</span><h2>Classes</h2></div><span id="class-count-note" class="panel-note">0 classes</span></div><div id="class-list" class="class-list"></div><div id="class-empty" class="teacher-empty"><strong>No classes yet</strong><span>Add your first class above, then give students the class code.</span></div></section>
-        <section id="class-detail-panel" class="teacher-panel" hidden><div class="panel-heading"><div><span class="teacher-eyebrow">CLASS VIEW</span><h2 id="class-detail-title">Class</h2></div><button id="close-class-detail" class="icon-button" type="button" aria-label="Close class details">×</button></div><div id="class-detail-meta" class="class-detail-meta"></div><div class="roster-toolbar"><h3>Roster <span id="roster-count"></span></h3><form id="student-form" class="inline-form cloud-roster-form"><label class="revision-sr-only" for="student-name">Student name</label><input id="student-name" maxlength="80" placeholder="Student name" required><label class="revision-sr-only" for="student-email">Student email</label><input id="student-email" type="email" maxlength="160" placeholder="Email (optional)"><button class="teacher-button" type="submit">Add</button></form></div><div id="roster-list" class="roster-list"></div></section>
-      </div><div class="teacher-column">
-        <section id="assign-work" class="teacher-panel accent-panel"><div class="panel-heading"><div><span class="teacher-eyebrow">ASSIGN WORK</span><h2>Homework, test or revision</h2></div></div><form id="assignment-form" class="teacher-form"><div class="form-grid two"><label>Class<select id="assignment-class" required><option value="">Add a class first</option></select></label><label>Type<select id="assignment-type"><option value="homework">Homework</option><option value="test">Test</option><option value="revision">Revision</option></select></label></div><label>Title<input id="assignment-title" required maxlength="120" placeholder="e.g. Energy stores exam questions"></label><label>Instructions<textarea id="assignment-notes" rows="4" maxlength="4000" placeholder="What should students complete?"></textarea></label><div class="form-grid two"><label>Due date<input id="assignment-due" type="date" required></label><label>Marks / points <span class="field-help">optional</span><input id="assignment-points" type="number" min="0" max="10000" step="0.5" placeholder="e.g. 30"></label></div><label>Resource or test link <span class="field-help">optional · can point to a Revision lesson/test</span><input id="assignment-link" type="url" maxlength="500" placeholder="https://…"></label><button id="assignment-submit" class="teacher-button primary" type="submit">Assign work</button></form></section>
-        <section class="teacher-panel"><div class="panel-heading assignment-heading"><div><span class="teacher-eyebrow">PLANNER & RESULTS</span><h2>Assignments</h2></div><div class="assignment-filters"><select id="assignment-filter-class" aria-label="Filter assignments by class"><option value="all">All classes</option></select><select id="assignment-filter-status" aria-label="Filter assignments by status"><option value="active">Active</option><option value="all">All</option><option value="closed">Closed</option></select></div></div><div id="assignment-list" class="assignment-list"></div><div id="assignment-empty" class="teacher-empty"><strong>No assignments here</strong><span>Set homework, a test or revision task above.</span></div></section>
-        <section class="teacher-panel compact-panel"><div class="panel-heading"><div><span class="teacher-eyebrow">CLOUD SYNC</span><h2>Synced teacher data</h2></div></div><p class="panel-copy">Classes, memberships, assignments and student results are stored in Supabase and protected by row-level security. Export is available as an extra offline backup.</p><div class="backup-actions"><button id="export-data" class="teacher-button" type="button">Export cloud backup</button><a class="teacher-button" href="student.html">Open student view</a></div></section>
-      </div></section>
+    <section class="teacher-hero" aria-labelledby="teacher-title">
+      <div><span class="teacher-eyebrow">CLOUD TEACHER WORKSPACE</span><h1 id="teacher-title">Classes, homework and tests.<br><span>Synced across devices.</span></h1><p>Create classes, share a class code, assign work and review student submissions.</p></div>
+      <div class="hero-actions"><a class="teacher-button primary" href="#new-class">+ Add a class</a><a class="teacher-button" href="#assign-work">Assign work</a></div>
     </section>
+
+    <div id="teacher-notice" class="teacher-notice" role="status" aria-live="polite" hidden></div>
+
+    <section id="teacher-auth-panel" class="teacher-panel auth-panel" aria-labelledby="teacher-auth-title">
+      <div class="panel-heading"><div><span class="teacher-eyebrow">TEACHER ACCOUNT</span><h2 id="teacher-auth-title">Sign in to your teacher workspace</h2></div></div>
+      <p class="panel-copy">Use an email and password. The same account can also use My Work if needed.</p>
+      <form id="teacher-auth-form" class="teacher-form auth-form">
+        <label>Display name <span class="field-help">used when creating a new account</span><input id="teacher-auth-name" maxlength="80" autocomplete="name" placeholder="e.g. M Gray"></label>
+        <label>Email<input id="teacher-auth-email" type="email" required autocomplete="email" placeholder="teacher@school.org"></label>
+        <label>Password<input id="teacher-auth-password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label>
+        <div class="auth-actions"><button id="teacher-sign-in" class="teacher-button primary" type="submit">Sign in</button><button id="teacher-sign-up" class="teacher-button" type="button">Create teacher account</button></div>
+      </form>
+      <p class="auth-switch">Student? <a href="student.html">Open My Work instead →</a></p>
+    </section>
+
+    <section id="teacher-app" hidden>
+      <div class="account-strip"><div><span>Signed in as</span><strong id="teacher-account-email"></strong></div><div class="account-actions"><button id="refresh-data" class="teacher-button" type="button">Refresh</button><button id="teacher-sign-out" class="teacher-button" type="button">Sign out</button></div></div>
+
+      <section class="metrics-grid" aria-label="Teacher overview">
+        <article class="metric-card"><span>Classes</span><strong id="metric-classes">0</strong><small>active groups</small></article>
+        <article class="metric-card"><span>Students</span><strong id="metric-students">0</strong><small>on your rosters</small></article>
+        <article class="metric-card"><span>Active work</span><strong id="metric-active">0</strong><small>homework, tests & revision</small></article>
+        <article class="metric-card"><span>Submissions</span><strong id="metric-due-week">0</strong><small>received from students</small></article>
+      </section>
+
+      <section class="teacher-layout" aria-label="Class and assignment tools">
+        <div class="teacher-column">
+          <section id="new-class" class="teacher-panel">
+            <div class="panel-heading"><div><span class="teacher-eyebrow">CLASS SETUP</span><h2>Add a class</h2></div></div>
+            <form id="class-form" class="teacher-form">
+              <div class="form-grid two">
+                <label>Class name<input id="class-name" required maxlength="80" placeholder="e.g. 11P1 Physics"></label>
+                <label>Subject<select id="class-subject"><option>Biology</option><option>Chemistry</option><option selected>Physics</option><option>Combined Science</option><option>General Science</option></select></label>
+                <label>Level<select id="class-level"><option>KS3</option><option selected>GCSE</option><option>A-level</option></select></label>
+                <label>Year group<input id="class-year" maxlength="30" placeholder="e.g. Year 11"></label>
+              </div>
+              <label>Initial roster <span class="field-help">optional · one student per line; email can be included as Name &lt;email&gt;</span><textarea id="class-students" rows="4" placeholder="A Student <student@example.com>&#10;B Student"></textarea></label>
+              <button class="teacher-button primary" type="submit">Create class</button>
+            </form>
+          </section>
+
+          <section class="teacher-panel">
+            <div class="panel-heading"><div><span class="teacher-eyebrow">YOUR CLASSES</span><h2>Classes</h2></div><span id="class-count-note" class="panel-note">0 classes</span></div>
+            <div id="class-list" class="class-list"></div>
+            <div id="class-empty" class="teacher-empty"><strong>No classes yet</strong><span>Add your first class above, then give students the class code.</span></div>
+          </section>
+
+          <section id="class-detail-panel" class="teacher-panel" hidden>
+            <div class="panel-heading"><div><span class="teacher-eyebrow">CLASS VIEW</span><h2 id="class-detail-title">Class</h2></div><button id="close-class-detail" class="icon-button" type="button" aria-label="Close class details">×</button></div>
+            <div id="class-detail-meta" class="class-detail-meta"></div>
+            <div class="roster-toolbar"><h3>Roster <span id="roster-count"></span></h3><form id="student-form" class="inline-form cloud-roster-form"><label class="revision-sr-only" for="student-name">Student name</label><input id="student-name" maxlength="80" placeholder="Student name" required><label class="revision-sr-only" for="student-email">Student email</label><input id="student-email" type="email" maxlength="160" placeholder="Email (optional)"><button class="teacher-button" type="submit">Add</button></form></div>
+            <div id="roster-list" class="roster-list"></div>
+          </section>
+        </div>
+
+        <div class="teacher-column">
+          <section id="assign-work" class="teacher-panel accent-panel">
+            <div class="panel-heading"><div><span class="teacher-eyebrow">ASSIGN WORK</span><h2>Homework, test or revision</h2></div></div>
+            <form id="assignment-form" class="teacher-form">
+              <div class="form-grid two"><label>Class<select id="assignment-class" required><option value="">Add a class first</option></select></label><label>Type<select id="assignment-type"><option value="homework">Homework</option><option value="test">Test</option><option value="revision">Revision</option></select></label></div>
+              <label>Title<input id="assignment-title" required maxlength="120" placeholder="e.g. Energy stores exam questions"></label>
+              <label>Instructions<textarea id="assignment-notes" rows="4" maxlength="4000" placeholder="What should students complete?"></textarea></label>
+              <div class="form-grid two"><label>Due date<input id="assignment-due" type="date" required></label><label>Marks / points <span class="field-help">optional</span><input id="assignment-points" type="number" min="0" max="10000" step="0.5" placeholder="e.g. 30"></label></div>
+              <label>Resource or test link <span class="field-help">optional</span><input id="assignment-link" type="url" maxlength="500" placeholder="https://…"></label>
+              <button id="assignment-submit" class="teacher-button primary" type="submit">Assign work</button>
+            </form>
+          </section>
+
+          <section class="teacher-panel">
+            <div class="panel-heading assignment-heading"><div><span class="teacher-eyebrow">PLANNER & RESULTS</span><h2>Assignments</h2></div><div class="assignment-filters"><select id="assignment-filter-class" aria-label="Filter assignments by class"><option value="all">All classes</option></select><select id="assignment-filter-status" aria-label="Filter assignments by status"><option value="active">Active</option><option value="all">All</option><option value="closed">Closed</option></select></div></div>
+            <div id="assignment-list" class="assignment-list"></div>
+            <div id="assignment-empty" class="teacher-empty"><strong>No assignments here</strong><span>Set homework, a test or revision task above.</span></div>
+          </section>
+
+          <section class="teacher-panel compact-panel"><div class="panel-heading"><div><span class="teacher-eyebrow">CLOUD SYNC</span><h2>Synced teacher data</h2></div></div><p class="panel-copy">Classes, memberships, assignments and student results are stored securely in Supabase. Export is available as an extra offline backup.</p><div class="backup-actions"><button id="export-data" class="teacher-button" type="button">Export cloud backup</button><a class="teacher-button" href="student.html">Open student view</a></div></section>
+        </div>
+      </section>
+    </section>
+
     <footer class="teacher-footer"><span class="revision-wordmark">Revision<span>.</span></span><p>Teacher workspace · cloud classes, homework, tests and results</p></footer>
   </main>
-</body></html>
+</body>
+</html>

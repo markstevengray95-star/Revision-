@@ -59,7 +59,8 @@
     const objectives=base.objectives||lesson?.objectives||[];
     const worked=base.workedExample||lesson?.worked||seq.worked||null;
     const application=text(base.application||lesson?.depth?.application||seq.application||`Apply ${String(title).toLowerCase()} to an unfamiliar GCSE context.`);
-    const examQuestion=text(base.stretch||seq.stretch||`Write a GCSE-style response applying ${String(title).toLowerCase()} to an unfamiliar context.`);
+    const reviewed=lesson?.reviewPractice?.[1];
+    const examQuestion=text(reviewed?.question||base.stretch||seq.stretch||`Explain ${String(title).toLowerCase()} using the scientific model in this lesson.`);
     const examTip=text(base.examTip||lesson?.examTip||seq.teach?.[2]?.[1]||'Use precise scientific vocabulary and link each point directly to the question context.');
     return {
       schemaVersion:'2.0',requiredStages:[...REQUIRED_STAGES],
@@ -69,7 +70,7 @@
         visual:{topicId:topic?.id,label:`${title} scientific visual`},
         guidedPractice:text(base.guidedPractice||seq.guided||application),workedExample:worked,
         independentPractice:base.independentPractice?.length?base.independentPractice:[...(seq.independent||[])],
-        specificationCheck:base.specificationPoints||[],examQuestion,modelAnswer:examTip,
+        specificationCheck:base.specificationPoints||[],examQuestion,modelAnswer:reviewed?.answer?.join(' ')||core,
         misconception:text(base.misconception||lesson?.depth?.misconception||seq.misconception||'Use precise scientific language and correct vague or incomplete explanations.'),
         plenary:base.plenary?.length?base.plenary:[...(seq.plenary||[])],
         confidence:['Review','Developing','Secure'],

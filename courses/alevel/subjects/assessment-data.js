@@ -17,7 +17,7 @@ function papersFor(subject,ref){
     const topic=Number(ref.split('.')[1]);
     return topic<=4?['paper1','paper3']:['paper2','paper3'];
   }
-  const papers=['paper3'];
+  const papers=['paper3'];ref=ref.split('.').slice(0,3).join('.');
   if(ref.startsWith('3.2.')||chemistryPaper1Physical.has(ref))papers.unshift('paper1');
   if(ref.startsWith('3.3.')||chemistryPaper2Physical.has(ref))papers.unshift('paper2');
   return [...new Set(papers)];
@@ -28,29 +28,30 @@ function buildQuestions(subject){
   const source=sourceFor(subject);
   if(!source?.all)return [];
   const questions=[];
-  for(const ref of source.refs||Object.keys(source.all)){
-    const p=source.all[ref];if(!p)continue;
+  const refs=[...(source.refs||Object.keys(source.all)),...(subject==='chemistry'?(window.ALEVEL_CHEMISTRY_DETAIL?.rows||[]).map(r=>r.ref):[])];
+  for(const ref of new Set(refs)){
+    const p=source.get(ref);if(!p)continue;
     const topic=topicKey(subject,ref),label=topicLabels[subject][topic]||topic;
     const base={subject,ref,topic,topicLabel:label,papers:papersFor(subject,ref)};
     const core=points(p.core,4),model=points(p.model,4),practical=points(p.practical,4),maths=points(p.maths,3),syn=points(p.syn,3);
     const terms=points(p.terms,5);
     questions.push({...base,id:`${subject}-${ref}-ao1`,ao:'AO1',marks:4,kind:'knowledge',practical:false,maths:false,
       prompt:p.exam?.[0]||`Explain the key science in: ${p.q}`,
-      context:`Use precise ${subject} terminology.`,markPoints:core.length?core:[p.q],terms});
+      context:`Use precise ${subject} terminology.`,markPoints:points(p.examAnswers?.[0],4),terms});
     questions.push({...base,id:`${subject}-${ref}-ao2`,ao:'AO2',marks:4,kind:'application',practical:false,maths:maths.length>0,
       prompt:p.exam?.[1]||`Apply your understanding of ${terms.slice(0,2).join(' and ')||label} to an unfamiliar context.`,
       context:`Your answer should apply principles rather than only recall definitions.${maths[0]?` Relevant quantitative skill: ${maths[0]}`:''}`,
-      markPoints:(model.length?model:core).slice(0,4),terms});
+      markPoints:points(p.examAnswers?.[1],4),terms});
     questions.push({...base,id:`${subject}-${ref}-ao3`,ao:'AO3',marks:4,kind:'analysis',practical:false,maths:false,
       prompt:p.exam?.[2]||`Analyse or evaluate evidence connected with ${p.q}`,
       context:p.mis?`A common misconception is: “${p.mis}” Analyse the science carefully.`:'Use evidence and reach a justified conclusion.',
-      markPoints:[...syn,...core].slice(0,4),terms});
+      markPoints:points(p.examAnswers?.[2],4),terms});
     questions.push({...base,id:`${subject}-${ref}-practical`,ao:'AO3',marks:4,kind:'practical',practical:true,maths:maths.length>0,
-      prompt:`A student investigates a practical context linked to ${label}. Explain how the investigation should produce valid evidence and how the results should be analysed.`,
+      prompt:`For the following proposed investigation, describe the scientific procedure and justify the measurements or analysis: ${practical.join(' ')}`,
       context:practical[0]||`Plan, analyse and evaluate a practical linked to ${p.q}`,
       markPoints:[...practical,...maths].slice(0,4),terms});
   }
-  return questions;
+  return questions.map(q=>({...q,marks:Math.min(q.marks,q.markPoints.length)})).filter(q=>q.marks>0);
 }
 const banks=Object.freeze({biology:Object.freeze(buildQuestions('biology')),chemistry:Object.freeze(buildQuestions('chemistry'))});
 window.ALEVEL_ASSESSMENT_DATA=Object.freeze({version:'phase-11',topicLabels,exam,banks,getBank:s=>banks[s]||[]});

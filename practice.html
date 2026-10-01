@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Practice activities · Revision</title><meta name="theme-color" content="#0a1422">
+ <link rel="icon" href="icon.svg"><link rel="stylesheet" href="shared/revision-shell.css"><link rel="stylesheet" href="dashboard.css"><link rel="stylesheet" href="practice.css">
+ <script src="shared/revision-shell.js" defer></script><script src="shared/practice-skills.js" defer></script><script src="practice-data.js" defer></script><script src="practice.js" defer></script>
+</head>
+<body class="revision-dashboard"><a class="revision-skip" href="#practice-main">Skip to practice</a>
+<main id="practice-main" class="dashboard-wrap">
+ <header class="practice-intro"><span class="dashboard-eyebrow">PUT YOUR KNOWLEDGE TO WORK</span><h1>Small steps.<br><span>Stronger understanding.</span></h1><p>Recall an idea, fill a gap, check the science and work through data. Choose a lesson to begin.</p></header>
+ <section class="practice-filter" aria-label="Choose your lesson">
+  <label>Qualification<select id="level"><option value="gcse">GCSE</option><option value="alevel">A-level</option></select></label>
+  <label>Subject<select id="subject"><option value="biology">Biology</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option></select></label>
+  <label id="pathway-label">Pathway<select id="pathway"><option value="combined">Combined Science</option><option value="triple">Separate / Triple Science</option></select></label>
+  <label>Topic<select id="topic"></select></label>
+  <label class="search-label">Find a lesson<input id="search" type="search" placeholder="Search lesson titles…" autocomplete="off"></label>
+  <label class="lesson-label">Lesson<select id="lesson"></select></label>
+ </section>
+ <p id="lesson-count" class="section-note" role="status"></p>
+ <section id="empty" class="empty-state" hidden><h2>No lessons found</h2><p>Try a shorter search or a different topic.</p><button id="clear-search" class="revision-button" type="button">Clear search</button></section>
+ <section id="activities" aria-labelledby="lesson-title">
+  <div class="practice-heading"><div><span id="lesson-meta" class="dashboard-eyebrow"></span><h2 id="lesson-title"></h2></div><a id="open-lesson" class="revision-button" href="index.html">Open lesson ↗</a></div>
+  <div class="practice-grid">
+   <article class="activity"><span class="activity-number">01 · RETRIEVE</span><h3>Explain it from memory</h3><p id="recall-question"></p><label>Your answer<textarea id="recall-answer" rows="4" placeholder="Try before revealing the answer…"></textarea></label><details id="recall-reveal"><summary>Compare with the model answer</summary><div id="recall-model"></div></details><div class="activity-actions"><button id="next-prompt" type="button">Another prompt →</button><span id="prompt-position"></span></div></article>
+   <article class="activity"><span class="activity-number">02 · CONNECT</span><h3>Find the missing word</h3><p id="cloze-question"></p><fieldset id="cloze-options"><legend class="revision-sr-only">Choose the missing word</legend></fieldset><button id="check-cloze" class="revision-button" type="button">Check choice</button><p id="cloze-feedback" class="activity-feedback" role="status"></p><button id="next-cloze" type="button">Another sentence →</button></article>
+   <article class="activity"><span class="activity-number">03 · BE PRECISE</span><h3>Justify the accuracy check</h3><blockquote id="accuracy-statement"></blockquote><p>Explain why this statement matters. Give the scientific reason and a consequence of overlooking it.</p><label>Your explanation<textarea id="accuracy-answer" rows="4"></textarea></label><details><summary>Review the explanation</summary><div id="accuracy-model"></div></details></article>
+   <article id="data-activity" class="activity"><span class="activity-number">04 · USE THE DATA</span><h3 id="data-title">Topic data challenge</h3><p class="activity-context">Practise a quantitative skill from this topic. It may connect to a neighbouring lesson.</p><p id="data-question"></p><label class="number-answer">Your numerical answer<input id="data-answer" type="text" inputmode="decimal" autocomplete="off"><span id="data-unit"></span></label><button id="check-data" class="revision-button" type="button">Check answer</button><p id="data-feedback" class="activity-feedback" role="status"></p><details id="data-reveal"><summary>See the worked solution</summary><ol id="data-working"></ol></details><button id="new-data" type="button">Try new data →</button></article>
+  </div>
+  <div class="practice-reflection"><div><h3>How secure is your understanding?</h3><p>Compare your explanations before choosing. Written responses are self-assessed; numerical answers and missing words are checked automatically.</p></div><div class="confidence-actions" role="group" aria-label="Self-assess this lesson"><button type="button" data-confidence="revisit">Revisit this</button><button type="button" data-confidence="developing">Getting there</button><button type="button" data-confidence="secure">Confident</button></div><p id="saved-state" role="status"></p></div>
+  <nav class="practice-pagination" aria-label="Move between lessons"><button id="previous-lesson" class="revision-button" type="button">← Previous lesson</button><button id="next-lesson" class="revision-button" type="button">Next lesson →</button></nav>
+ </section>
+ <footer class="dashboard-footer"><p>Original practice material aligned with the course content. Model answers are indicative, not official AQA mark schemes. Notes and confidence are saved on this device.</p><a href="index.html">Back to dashboard</a></footer>
+</main><noscript><p>Enable JavaScript to use the practice activities.</p></noscript></body></html>

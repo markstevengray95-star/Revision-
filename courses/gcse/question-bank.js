@@ -64,7 +64,7 @@
     ],
     c6:[
       ['Explain why powdered calcium carbonate reacts faster than the same mass in large lumps.',4,['larger surface area','more exposed particles','more frequent collisions','more successful collisions per second']],
-      ['A catalyst is added to a reversible reaction at equilibrium. Explain what happens to the position of equilibrium.',3,['no change position','both forward and reverse faster','equilibrium reached faster']],
+      ['A catalyst is added to a reversible reaction at equilibrium. Explain what happens to the position of equilibrium.',3,['equilibrium composition unchanged','forward and reverse rates both increase','rates remain equal']],
       ['Explain why increasing temperature can change both reaction rate and equilibrium position.',4,['particles faster','more successful collisions','rate increases','equilibrium depends on energy change']]
     ],
     c7:[

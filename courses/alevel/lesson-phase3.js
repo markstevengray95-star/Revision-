@@ -96,7 +96,7 @@
     ];
     const starter = [`Retrieval: ${c.starter}`,`Recall one equation or definition from the previous linked lesson.`,`Predict the most likely mistake: ${c.pitfall}`];
     const checkpoints = [`What quantity is being measured or conserved in this lesson?`,`Which equation, graph or model gives the strongest evidence?`,`What assumption is being made, and when might it fail?`];
-    return {...base, phase3:true, concept:c, hook:c.hook, starter, worked, exam, checkpoints, primaryEquation:firstEquation};
+    return {...base, phase3:true, concept:c, hook:c.hook, starter, worked:base.worked, exam:base.exam, checkpoints, primaryEquation:firstEquation};
   }
   function renderProfileIntoReader(profile){
     const shell = document.querySelector('.lesson-reader-shell:not([hidden])');
@@ -108,7 +108,7 @@
     const worked = shell.querySelector('.worked-example');
     if(worked) worked.innerHTML = `<strong>${esc(profile.worked.question)}</strong><ol>${profile.worked.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p><b>Examiner check:</b> ${esc(profile.worked.answer)}</p>`;
     const exam = shell.querySelector('.exam-list');
-    if(exam) exam.innerHTML = profile.exam.map(x=>`<article><span>${x.marks} marks</span><p>${esc(x.q)}</p><textarea rows="3" placeholder="Write your answer…"></textarea></article>`).join('');
+    if(exam) exam.innerHTML = profile.exam.map(x=>`<article><span>${x.marks} marks</span><p>${esc(x.q)}</p><textarea rows="3" placeholder="Write your answer…"></textarea><details><summary>Compare answer and working</summary><p>${esc(x.answer||'')}</p></details></article>`).join('');
     actions?.querySelector('[data-teacher-presentation]')?.addEventListener('click', () => openDeck(profile.id));
   }
   function buildDeck(id){

@@ -29,7 +29,7 @@ L('3.1.1.3','Electron configurations and ionisation energies',[
 'For the first 36 elements use the usual filling order 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p, with the chromium and copper exceptions.',
 'Cr is [Ar]3d⁵4s¹ and Cu is [Ar]3d¹⁰4s¹. When transition-metal cations form, 4s electrons are removed before 3d electrons.',
 'First ionisation energy is the energy needed to remove one mole of electrons from one mole of gaseous atoms to form one mole of gaseous 1+ ions. Large successive-ionisation jumps show removal from an inner shell.'
-],'Write the configurations of Fe and Fe²⁺, and explain a large jump between a metal’s second and third ionisation energies.',[
+],'Write the configurations of Fe and Fe²⁺. Separately, explain a large jump between the second and third ionisation energies of an unspecified main-group metal.',[
 'Fe has 26 electrons: [Ar]3d⁶4s².',
 'Fe²⁺ loses the two 4s electrons first, giving [Ar]3d⁶.',
 'A large jump after the second removal indicates that the third electron is removed from an inner shell, closer to the nucleus and less shielded.',
@@ -159,7 +159,7 @@ L('3.1.3.6','Electronegativity and molecular polarity',[
 L('3.1.3.7','Intermolecular forces and hydrogen bonding',[
 'London forces arise from instantaneous and induced dipoles and occur between all atoms and molecules. They tend to increase with electron number and contact area.',
 'Permanent dipole–dipole attractions occur between polar molecules. London forces remain present as well.',
-'Hydrogen bonding requires a hydrogen covalently bonded to N, O or F interacting with a lone pair on N, O or F in another molecule.',
+ 'In the A-level model, hydrogen bonding involves a hydrogen covalently bonded to N, O or F interacting with a lone pair on N, O or F. This may occur between molecules or within one molecule when its geometry permits.',
 'Ice has an open hydrogen-bonded arrangement and lower density than liquid water. Melting or boiling changes intermolecular arrangements rather than breaking O–H covalent bonds.'
 ],'Explain why ethanol boils at a higher temperature than a similar-sized alkane.',[
 'Ethanol’s O–H group permits hydrogen bonding between its molecules.',

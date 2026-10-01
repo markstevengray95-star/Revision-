@@ -94,7 +94,7 @@
     (pack.questions||[]).forEach((q,i)=>{
       if(!clean(q.prompt))missing.push(`prompt-${i}`);
       if(!commandGuide[q.command])missing.push(`command-guide-${i}`);
-      if((q.marking||[]).length<Math.min(q.marks,4))missing.push(`marking-${i}`);
+      if(!(q.marking||[]).length||(q.marking||[]).reduce((n,p)=>n+p.marks,0)!==q.marks)missing.push(`marking-${i}`);
       if(!clean(q.modelAnswer))missing.push(`model-answer-${i}`);
       if(!q.revisitType)missing.push(`revisit-${i}`);
     });

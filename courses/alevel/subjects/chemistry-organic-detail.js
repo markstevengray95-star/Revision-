@@ -104,7 +104,7 @@ L('3.3.3.3','Ozone depletion by radicals',[
 'A chlorine radical reacts with ozone: Cl• + O₃ → ClO• + O₂. A second step regenerates the chlorine radical: ClO• + O₃ → Cl• + 2O₂.',
 'The net effect of this cycle is 2O₃ → 3O₂. Regeneration allows one chlorine radical to destroy many ozone molecules before a terminating or reservoir-forming reaction removes it.',
 'CFC alternatives are assessed for atmospheric persistence, ozone-depletion potential, greenhouse impact and practical use. A replacement without chlorine may avoid this chlorine cycle while still carrying other environmental costs.'
-],'Show why chlorine acts catalytically in the two ozone-reaction steps given above.',[
+],'For Cl• + O₃ → ClO• + O₂ and ClO• + O₃ → Cl• + 2O₂, show why chlorine acts catalytically.',[
 'Write Cl• + O₃ → ClO• + O₂ and ClO• + O₃ → Cl• + 2O₂.',
 'Adding the equations cancels both Cl• and ClO• because each occurs on both sides.',
 'The remaining overall equation is 2O₃ → 3O₂.',

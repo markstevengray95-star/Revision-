@@ -7,6 +7,6 @@
     "dev": "node scripts/serve.cjs",
     "start": "node scripts/serve.cjs",
     "build": "node scripts/build.cjs",
-    "test": "node tests/integration.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs"
+    "test": "node tests/integration.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs"
   }
 }

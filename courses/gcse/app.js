@@ -108,10 +108,10 @@ function openTopic(id,{historyMode='push',tab='overview'}={}){
   const topic=topics.find(t=>t.id===id); if(!topic||(state.mode==='combined'&&topic.scope==='triple'))return;
   state.activeTopicId=topic.id; state.activeTab=tab; state.activeLessonIndex=0; saveLocation();
   els.homeView.hidden=true; els.topicView.hidden=false; renderTopic(); window.scrollTo({top:0,behavior:'smooth'});
-  const url=new URL(location.href);url.searchParams.set('topic',topic.id);url.searchParams.set('mode',state.mode);url.searchParams.set('subject',topic.subject);if(tab==='overview')url.searchParams.delete('tab');else url.searchParams.set('tab',tab);if(historyMode!=='none')history[historyMode==='replace'?'replaceState':'pushState']({},'',url);
+  const url=new URL(location.href);if(historyMode!=='none')url.searchParams.delete('lesson');url.searchParams.set('topic',topic.id);url.searchParams.set('mode',state.mode);url.searchParams.set('subject',topic.subject);if(tab==='overview')url.searchParams.delete('tab');else url.searchParams.set('tab',tab);if(historyMode!=='none')history[historyMode==='replace'?'replaceState':'pushState']({},'',url);
 }
 function closeTopic({historyMode='push'}={}){
-  els.homeView.hidden=false;els.topicView.hidden=true;const url=new URL(location.href);url.searchParams.delete('topic');url.searchParams.delete('tab');if(historyMode!=='none')history[historyMode==='replace'?'replaceState':'pushState']({},'',url);renderHome();window.scrollTo({top:0,behavior:'smooth'});
+  els.homeView.hidden=false;els.topicView.hidden=true;const url=new URL(location.href);url.searchParams.delete('lesson');url.searchParams.delete('topic');url.searchParams.delete('tab');if(historyMode!=='none')history[historyMode==='replace'?'replaceState':'pushState']({},'',url);renderHome();window.scrollTo({top:0,behavior:'smooth'});
 }
 function renderTopic(){
   let topic=topics.find(t=>t.id===state.activeTopicId); if(!topic||(state.mode==='combined'&&topic.scope==='triple')){topic=availableTopics()[0];state.activeTopicId=topic.id;}
@@ -157,7 +157,7 @@ function renderLessons(topic,lessons){
   }).join('');
   els.topicContent.innerHTML=`<div class="panel content-panel"><div class="content-heading"><div><span class="eyebrow">Structured lessons</span><h2>${lessons.length} lesson sections</h2><p class="muted">Open a lesson for objectives, teaching notes, vocabulary, a worked example and a retrieval check.</p></div></div><div class="lesson-list rich">${rows}</div></div>`;
   els.topicContent.querySelectorAll('[data-lesson]').forEach(input=>input.addEventListener('change',()=>{lessonProgress[lessonKey(topic.id,Number(input.dataset.lesson))]=input.checked;saveLessons();renderTopic();}));
-  els.topicContent.querySelectorAll('[data-open-lesson]').forEach(btn=>btn.addEventListener('click',()=>{const i=Number(btn.dataset.openLesson);state.activeLessonIndex=state.activeLessonIndex===i?-1:i;renderTopic();}));
+  els.topicContent.querySelectorAll('[data-open-lesson]').forEach(btn=>btn.addEventListener('click',()=>{const i=Number(btn.dataset.openLesson);state.activeLessonIndex=state.activeLessonIndex===i?-1:i;const url=new URL(location.href);const visible=topic.lessons.filter(([,scope])=>state.mode==='triple'||scope!=='triple');if(state.activeLessonIndex>=0)url.searchParams.set('lesson',visible[state.activeLessonIndex][0]);else url.searchParams.delete('lesson');history.replaceState({},'',url);renderTopic();}));
 }
 function lessonExpandedHtml(lesson){
   return `<div class="lesson-expanded"><div class="lesson-expanded-grid">
@@ -254,12 +254,12 @@ function keywordHit(answer,keyword){
   });
 }
 function renderExamPractice(topic,guide){
-  els.topicContent.innerHTML=`<div class="exam-toolbar"><div><span class="eyebrow">Original exam-style practice</span><h2>${topic.code} exam questions</h2><p class="exam-warning">These are original practice questions written for this course, not copied AQA questions. Automatic marking is a keyword/concept check and should be used as feedback rather than treated as an official examiner mark.</p></div></div><div class="exam-list">${guide.exam.map((q,i)=>`<article class="panel exam-card"><div class="exam-card-head"><div><span class="question-number">Question ${i+1}</span><h3>${escapeHtml(q[0])}</h3></div><span class="mark-badge">${q[1]} marks</span></div><textarea id="exam-answer-${i}" placeholder="Write your answer here…"></textarea><div class="question-actions"><button class="button small" type="button" data-model="${i}">Mark points</button><button class="button primary small" type="button" data-mark="${i}">Auto-mark</button></div><div id="exam-result-${i}"></div><div id="model-${i}" class="model-answer" hidden><strong>Key marking points</strong><br>${q[2].map(x=>escapeHtml(String(x))).join(' · ')}</div></article>`).join('')}</div>`;
+  els.topicContent.innerHTML=`<div class="exam-toolbar"><div><span class="eyebrow">Original exam-style practice</span><h2>${topic.code} exam questions</h2><p class="exam-warning">These are original practice questions written for this course, not copied AQA questions. Compare your response with the indicative points. The same word can appear in an incorrect explanation, so written answers are self-assessed. Use the practice activities for fully worked data challenges.</p></div></div><div class="exam-list">${guide.exam.map((q,i)=>`<article class="panel exam-card"><div class="exam-card-head"><div><span class="question-number">Question ${i+1}</span><h3>${escapeHtml(q[0])}</h3></div><span class="mark-badge">${q[1]} marks</span></div><textarea id="exam-answer-${i}" placeholder="Write your answer here…"></textarea><div class="question-actions"><button class="button small" type="button" data-model="${i}">Mark points</button><button class="button primary small" type="button" data-mark="${i}">Compare answer</button></div><div id="exam-result-${i}"></div><div id="model-${i}" class="model-answer" hidden><strong>Key marking points</strong><br>${q[2].map(x=>escapeHtml(String(x))).join(' · ')}</div></article>`).join('')}</div>`;
   els.topicContent.querySelectorAll('[data-model]').forEach(btn=>btn.addEventListener('click',()=>{const el=document.getElementById(`model-${btn.dataset.model}`);el.hidden=!el.hidden;btn.textContent=el.hidden?'Mark points':'Hide points';}));
   els.topicContent.querySelectorAll('[data-mark]').forEach(btn=>btn.addEventListener('click',()=>{
-    const i=Number(btn.dataset.mark),q=guide.exam[i],answer=document.getElementById(`exam-answer-${i}`).value,points=q[2].map(k=>({k,hit:keywordHit(answer,k)})),hits=points.filter(p=>p.hit).length,score=Math.min(q[1],hits);
-    const missing=points.filter(p=>!p.hit).map(p=>String(p.k));
-    document.getElementById(`exam-result-${i}`).innerHTML=`<div class="mark-result"><strong>Practice mark: ${score} / ${q[1]}</strong><p>${score===q[1]?'You included the main marking ideas in this simplified check.':'Add more precise scientific detail, then mark again.'}</p><div class="mark-points">${points.map(p=>`<span class="mark-point ${p.hit?'hit':''}">${p.hit?'✓':'○'} ${escapeHtml(String(p.k))}</span>`).join('')}</div>${missing.length?`<p><b>Missing/unclear:</b> ${missing.map(escapeHtml).join(', ')}</p>`:''}</div>`;
+    const i=Number(btn.dataset.mark),q=guide.exam[i];
+    document.getElementById(`exam-result-${i}`).innerHTML=`<div class="mark-result"><strong>Compare your answer</strong><p>Check the scientific meaning, conditions, units and reasoning. These points may include alternatives; they are not a one-point-per-keyword mark scheme.</p><ul>${q[2].map(p=>`<li>${escapeHtml(String(p))}</li>`).join('')}</ul><a href="../../practice.html?level=gcse&subject=${topic.subject}&topic=${topic.id}">Open activities and worked data practice →</a></div>`;
+
   }));
 }
 function renderRetrievalQuiz(topic){
@@ -317,6 +317,10 @@ function restoreRevisionUrl(){
   saveSettings();renderHome();
   if(requested&&topics.some(t=>t.id===requested)&&(state.mode==='triple'||topics.find(t=>t.id===requested).scope!=='triple'))openTopic(requested,{historyMode:'none',tab});
   else closeTopic({historyMode:'none'});
+  if(requested&&params.get('lesson')&&tab==='lessons'){
+    const topic=topics.find(t=>t.id===requested);const visible=topic?.lessons.filter(([,scope])=>state.mode==='triple'||scope!=='triple')||[];
+    const index=visible.findIndex(([title])=>title===params.get('lesson'));if(index>=0){state.activeLessonIndex=index;renderTopic();}
+  }
 }
 window.addEventListener('popstate',restoreRevisionUrl);
 restoreRevisionUrl();

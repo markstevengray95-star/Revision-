@@ -582,7 +582,7 @@ window.GCSE_COURSE_DATA = {
       quiz:[
         ['State the wave speed equation.','v = fλ'],
         ['Which electromagnetic waves have the highest frequency?','Gamma rays'],
-        ['What is refraction?','A change in direction of a wave caused by a change in speed when it enters a different medium.']
+        ['What is refraction?','A change in wave speed at a boundary between media, usually with a change in direction at oblique incidence; frequency stays constant.']
       ]
     },
     {
@@ -624,7 +624,7 @@ window.GCSE_COURSE_DATA = {
       quiz:[
         ['What keeps planets in orbit around the Sun?','Gravity provides the centripetal force.'],
         ['What does red-shift of distant galaxies show?','They are moving away from us.'],
-        ['Where are elements heavier than iron mainly formed?','In supernova explosions.']
+        ['Name an explosive stellar process that can form and disperse elements heavier than iron.','In supernova explosions.']
       ]
     }
   ]

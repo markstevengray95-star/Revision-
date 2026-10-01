@@ -17,8 +17,9 @@ const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(path
 assert.equal(JSON.stringify(context.window.REVISION_CATALOG),JSON.stringify(catalog),'Catalog is out of date');
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
 let assets=0;
-// Check every script and stylesheet actually requested by HTML, including topic apps.
-for(const file of walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))){
+const htmlFiles=[path.join(root,'index.html'),path.join(root,'teacher.html'),path.join(root,'student.html'),...walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))];
+// Check scripts and stylesheets requested by the combined dashboard, teacher/student workspaces and topic apps.
+for(const file of htmlFiles){
   const html=fs.readFileSync(file,'utf8');
   assert.ok(html.includes('shared/revision-shell.js'),`Missing shared navigation: ${file}`);
   for(const match of html.matchAll(/<(?:script|link)\b[^>]*(?:src|href)=["']([^"']+)["']/gi)){
@@ -29,4 +30,10 @@ for(const file of walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))
     assert.ok(fs.existsSync(resolved),`Missing HTML asset: ${path.relative(root,file)} → ${href}`);assets++;
   }
 }
-console.log(`Integration passed: 6 courses, 44 topic links, ${assets} local assets, and navigation in all study pages.`);
+for(const file of ['teacher.html','teacher-dashboard.css','teacher-cloud.css','teacher-cloud.js','student.html','student-dashboard.js','shared/revision-supabase.js']){
+  assert.ok(fs.existsSync(path.join(root,file)),`Missing cloud workspace asset: ${file}`);
+}
+for(const file of ['teacher-cloud.js','student-dashboard.js','shared/revision-supabase.js','shared/revision-shell.js']){
+  new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file});
+}
+console.log(`Integration passed: 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, and valid workspace scripts.`);

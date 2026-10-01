@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a1422">
+  <meta name="description" content="Teacher dashboard for Revision. Manage classes, students, homework, tests and revision tasks.">
+  <title>Teacher Dashboard · Revision</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="shared/revision-shell.css">
+  <link rel="stylesheet" href="teacher-dashboard.css">
+  <script src="shared/revision-shell.js" defer></script>
+  <script src="teacher-dashboard.js" defer></script>
+</head>
+<body class="teacher-dashboard">
+  <a class="revision-skip" href="#teacher-main">Skip to teacher dashboard</a>
+  <main id="teacher-main" class="teacher-wrap">
+    <section class="teacher-hero" aria-labelledby="teacher-title">
+      <div>
+        <span class="teacher-eyebrow">TEACHER WORKSPACE</span>
+        <h1 id="teacher-title">Classes, homework and tests.<br><span>All in one place.</span></h1>
+        <p>Create classes, keep simple rosters, set work and see what is due next. Teacher data is saved in this browser.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="teacher-button primary" href="#new-class">+ Add a class</a>
+        <a class="teacher-button" href="#assign-work">Assign work</a>
+      </div>
+    </section>
+
+    <section class="metrics-grid" aria-label="Teacher overview">
+      <article class="metric-card"><span>Classes</span><strong id="metric-classes">0</strong><small>active groups</small></article>
+      <article class="metric-card"><span>Students</span><strong id="metric-students">0</strong><small>on your rosters</small></article>
+      <article class="metric-card"><span>Active work</span><strong id="metric-active">0</strong><small>homework, tests & revision</small></article>
+      <article class="metric-card"><span>Due this week</span><strong id="metric-due-week">0</strong><small>next 7 days</small></article>
+    </section>
+
+    <div id="teacher-notice" class="teacher-notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="teacher-layout" aria-label="Class and assignment tools">
+      <div class="teacher-column">
+        <section id="new-class" class="teacher-panel">
+          <div class="panel-heading">
+            <div><span class="teacher-eyebrow">CLASS SETUP</span><h2>Add a class</h2></div>
+          </div>
+          <form id="class-form" class="teacher-form">
+            <div class="form-grid two">
+              <label>Class name<input id="class-name" name="name" required maxlength="60" placeholder="e.g. 11P1 Physics"></label>
+              <label>Subject<select id="class-subject" name="subject"><option>Biology</option><option>Chemistry</option><option selected>Physics</option><option>Combined Science</option><option>General Science</option></select></label>
+              <label>Level<select id="class-level" name="level"><option>KS3</option><option selected>GCSE</option><option>A-level</option></select></label>
+              <label>Year group<input id="class-year" name="year" maxlength="30" placeholder="e.g. Year 11"></label>
+            </div>
+            <label>Students <span class="field-help">optional · one per line or separated by commas</span><textarea id="class-students" name="students" rows="4" placeholder="A. Student&#10;B. Student"></textarea></label>
+            <button class="teacher-button primary" type="submit">Create class</button>
+          </form>
+        </section>
+
+        <section class="teacher-panel">
+          <div class="panel-heading">
+            <div><span class="teacher-eyebrow">YOUR CLASSES</span><h2>Classes</h2></div>
+            <span id="class-count-note" class="panel-note">0 classes</span>
+          </div>
+          <div id="class-list" class="class-list"></div>
+          <div id="class-empty" class="teacher-empty"><strong>No classes yet</strong><span>Add your first class above to start assigning work.</span></div>
+        </section>
+
+        <section id="class-detail-panel" class="teacher-panel" hidden>
+          <div class="panel-heading">
+            <div><span class="teacher-eyebrow">CLASS VIEW</span><h2 id="class-detail-title">Class</h2></div>
+            <button id="close-class-detail" class="icon-button" type="button" aria-label="Close class details">×</button>
+          </div>
+          <div id="class-detail-meta" class="class-detail-meta"></div>
+          <div class="roster-toolbar">
+            <h3>Roster <span id="roster-count"></span></h3>
+            <form id="student-form" class="inline-form">
+              <label class="revision-sr-only" for="student-name">Student name</label>
+              <input id="student-name" maxlength="80" placeholder="Add student name" required>
+              <button class="teacher-button" type="submit">Add</button>
+            </form>
+          </div>
+          <div id="roster-list" class="roster-list"></div>
+        </section>
+      </div>
+
+      <div class="teacher-column">
+        <section id="assign-work" class="teacher-panel accent-panel">
+          <div class="panel-heading">
+            <div><span class="teacher-eyebrow">ASSIGN WORK</span><h2>Homework, test or revision</h2></div>
+          </div>
+          <form id="assignment-form" class="teacher-form">
+            <div class="form-grid two">
+              <label>Class<select id="assignment-class" required><option value="">Add a class first</option></select></label>
+              <label>Type<select id="assignment-type"><option value="homework">Homework</option><option value="test">Test</option><option value="revision">Revision</option></select></label>
+            </div>
+            <label>Title<input id="assignment-title" required maxlength="100" placeholder="e.g. Energy stores exam questions"></label>
+            <label>Instructions<textarea id="assignment-notes" rows="4" maxlength="1200" placeholder="What should students complete?"></textarea></label>
+            <div class="form-grid two">
+              <label>Due date<input id="assignment-due" type="date" required></label>
+              <label>Marks / points <span class="field-help">optional</span><input id="assignment-points" type="number" min="0" max="10000" step="1" placeholder="e.g. 30"></label>
+            </div>
+            <label>Resource link <span class="field-help">optional</span><input id="assignment-link" type="url" maxlength="500" placeholder="https://…"></label>
+            <button id="assignment-submit" class="teacher-button primary" type="submit">Assign work</button>
+          </form>
+        </section>
+
+        <section class="teacher-panel">
+          <div class="panel-heading assignment-heading">
+            <div><span class="teacher-eyebrow">PLANNER</span><h2>Assignments</h2></div>
+            <div class="assignment-filters">
+              <select id="assignment-filter-class" aria-label="Filter assignments by class"><option value="all">All classes</option></select>
+              <select id="assignment-filter-status" aria-label="Filter assignments by status"><option value="active">Active</option><option value="all">All</option><option value="closed">Closed</option></select>
+            </div>
+          </div>
+          <div id="assignment-list" class="assignment-list"></div>
+          <div id="assignment-empty" class="teacher-empty"><strong>No assignments here</strong><span>Set homework, a test or revision task above.</span></div>
+        </section>
+
+        <section class="teacher-panel compact-panel">
+          <div class="panel-heading">
+            <div><span class="teacher-eyebrow">BACKUP</span><h2>Teacher data</h2></div>
+          </div>
+          <p class="panel-copy">This dashboard currently saves teacher data on this device, matching the revision app's existing local progress model. Export a backup before changing browsers or devices.</p>
+          <div class="backup-actions">
+            <button id="export-data" class="teacher-button" type="button">Export backup</button>
+            <label class="teacher-button file-button">Import backup<input id="import-data" type="file" accept="application/json,.json"></label>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="teacher-footer"><span class="revision-wordmark">Revision<span>.</span></span><p>Teacher workspace · classes, homework, tests and revision</p></footer>
+  </main>
+</body>
+</html>

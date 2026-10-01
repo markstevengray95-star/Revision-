@@ -30,10 +30,14 @@ for(const file of htmlFiles){
     assert.ok(fs.existsSync(resolved),`Missing HTML asset: ${path.relative(root,file)} → ${href}`);assets++;
   }
 }
+for(const page of ['teacher.html','student.html']){
+  const html=fs.readFileSync(path.join(root,page),'utf8');
+  assert.ok(!/<script\b[^>]*src=["']https?:\/\//i.test(html),`${page} must not depend on an external runtime script`);
+}
 for(const file of ['teacher.html','teacher-dashboard.css','teacher-cloud.css','teacher-cloud.js','student.html','student-dashboard.js','shared/revision-supabase.js']){
   assert.ok(fs.existsSync(path.join(root,file)),`Missing cloud workspace asset: ${file}`);
 }
 for(const file of ['teacher-cloud.js','student-dashboard.js','shared/revision-supabase.js','shared/revision-shell.js']){
   new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file});
 }
-console.log(`Integration passed: 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, and valid workspace scripts.`);
+console.log(`Integration passed: 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, self-contained workspaces, and valid workspace scripts.`);

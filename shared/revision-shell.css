@@ -13,3 +13,5 @@ body.revision-integrated>.topbar{top:66px}body.revision-integrated>.course-jumpb
 body.revision-integrated .topic-card{border-radius:18px}body.revision-integrated [hidden]{display:none!important}
 @media(max-width:700px){.revision-bar-inner{width:calc(100% - 28px);min-height:100px;gap:8px;padding:12px 0;flex-wrap:wrap}.revision-wordmark{font-size:1.3rem}.revision-context{margin-left:auto;font-size:.65rem}.revision-nav{width:100%;order:3;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}.revision-nav a{padding:7px 9px;font-size:.76rem;flex:0 0 auto}body.revision-integrated>.topbar{top:100px}body.revision-integrated>.course-jumpbar{top:100px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{transition:none!important;animation:none!important}}
+/* The tool header scrolls below the shared app navigation. */
+body.revision-marking>div>header{position:static}

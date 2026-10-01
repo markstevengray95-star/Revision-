@@ -1,5 +1,5 @@
 (() => {
-  const EXAM_APP_URL='https://gcse-exam-questions.vercel.app';
+  const EXAM_APP_URL='../../tools/gcse-exam';
   const main=document.querySelector('main.main');
   const topbar=document.querySelector('.topbar');
   if(!main||!topbar||typeof topics==='undefined') return;
@@ -108,6 +108,7 @@
     view.id='practicalHubView'; view.className='project-hub-view'; view.hidden=true;
     view.innerHTML=`
       <section class="project-hero practical-project-hero panel"><div><span class="eyebrow">Integrated project · Practical Sim</span><h1>Required practicals and simulations</h1><p>This course area brings the practical-sim workflow into the main app: check the apparatus and variables, run or review the model, repeat measurements, then analyse graphs, uncertainty and evaluation.</p></div><div class="project-stat-stack"><div><strong>26</strong><span>practical topics in the original project</span></div><div><strong>36</strong><span>investigation modes in the original project</span></div></div></section>
+      <section class="panel"><a class="button primary" href="../../tools/practical-sim/index.html">Open Practical Simulator →</a></section>
       <section class="lab-workflow panel"><div><span class="workflow-number">1</span><strong>Set up</strong><small>Identify apparatus, IV/DV and controls.</small></div><i>→</i><div><span class="workflow-number">2</span><strong>Run</strong><small>Change one setting and make a measurement.</small></div><i>→</i><div><span class="workflow-number">3</span><strong>Repeat</strong><small>Repeat readings and calculate a mean/half-range.</small></div><i>→</i><div><span class="workflow-number">4</span><strong>Analyse</strong><small>Choose a graph, interpret trends and evaluate.</small></div></section>
       <section class="project-feature-grid practical-skills-grid">
         <article class="panel"><span>🔧</span><strong>Apparatus checks</strong><p>Start by recognising equipment and deciding what must be kept constant.</p></article>

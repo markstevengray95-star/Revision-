@@ -4,16 +4,32 @@ One AQA science revision app combining the original `gcse-course` and `alevel-co
 
 ## Run and validate
 
-Requires Node.js 24 or later. No npm dependencies or Git submodule downloads are needed.
+Requires Node.js 24 or later. All four tools are bundled as ordinary files; no separate tool hosting or Git submodule downloads are needed.
 
 ```sh
-npm start
-# Open http://localhost:4173
+npm ci
+npm run dev
+# Open http://localhost:3000
 npm test
+npm run test:marking
 npm run build
+npm start
 ```
 
-`dist/` is the complete static deployment output. `vercel.json` builds it automatically and retains the original Physics Coach API at `/api/physics-coach`.
+`npm run build` prepares the course assets in `public/` and builds one Next.js application. `vercel.json` selects the Next.js framework and `.next` output for the existing Revision deployment. Deploy this repository at its root. `dist/` contains the static course assets only; the exam screens and marking endpoints require the complete Next.js deployment.
+
+## Four tools in the same deployment
+
+- A-level required practicals: `/courses/alevel/tools/practicals/index.html` (all 12 practicals and the original lab book).
+- GCSE exam questions: `/tools/gcse-exam` (the complete original question bank and practice tools).
+- A-level exam marking: `/tools/alevel-marking` (the complete original Physics marking and exam workflows).
+- Practical simulator: `/tools/practical-sim/index.html` (the complete original simulator).
+
+The dashboard has a Practice tools section. Existing course launchers point to local routes, and all four tools provide Revision navigation. Embedded course views still work on the same origin. GCSE and A-level handlers are isolated under `/api/gcse/*` and `/api/alevel/*`, with the original Physics Coach retained at `/api/physics-coach`.
+
+Set `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) on the Revision deployment for live AI marking and question generation. Typed-answer offline marking works without these keys. Image answers and other AI-only workflows still need a key. Keys configured on previous separate projects must also be configured on Revision; browser progress from another hostname does not migrate automatically.
+
+The separate GCSE practical repository is not included. Source revisions are recorded in `sources.json`. Runtime sources are in `src/modules/gcse/`, `src/modules/alevel/`, `src/app/tools/` and `src/app/api/`; all tool data and handlers are bundled at build time.
 
 ## What's combined
 

@@ -1,0 +1,433 @@
+export type GcseSubject = 'Biology' | 'Chemistry' | 'Physics' | 'Science';
+export type GcseCourse = 'Both' | 'Separate only';
+export type GcseTier = 'Both' | 'Higher only';
+
+export type SpecificationPoint = {
+  id: string;
+  specCode: string;
+  section: string;
+  label: string;
+  year: 'Year 10' | 'Year 11';
+  unit: string;
+  topic: string;
+  subject: GcseSubject;
+  paper: 'Paper 1' | 'Paper 2' | 'Across papers';
+  course: GcseCourse;
+  tier: GcseTier;
+  match: string[];
+  prompt: string;
+  hint: string;
+  answerPoints: [string, string, string, string, string, string];
+};
+
+export const specificationPoints: SpecificationPoint[] = [
+  {
+    id: 'bio-cell-biology', specCode: 'B4.1', section: 'Biology · Paper 1', label: 'Cell biology', year: 'Year 10', unit: 'Biology Paper 1', topic: 'Cell biology', subject: 'Biology', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['cells','organelles','microscopy','diffusion','osmosis','active transport','mitosis','stem cells'],
+    prompt: 'Explain how cell structure, transport across membranes and cell division allow organisms to function and grow.',
+    hint: 'Link organelles to function, then diffusion/osmosis/active transport and mitosis.',
+    answerPoints: [
+      'Animal, plant and bacterial cells contain structures adapted to their functions, with eukaryotic and prokaryotic cells organised differently.',
+      'Microscopy and magnification are used to observe cells and estimate the sizes of structures.',
+      'Diffusion is the net movement of particles from higher to lower concentration and depends on concentration gradient, temperature and surface area.',
+      'Osmosis is the net movement of water through a partially permeable membrane from a dilute solution to a more concentrated solution.',
+      'Active transport moves substances against a concentration gradient using energy from respiration.',
+      'Mitosis produces genetically identical cells for growth and repair, while cell differentiation and stem cells allow specialised tissues to form.',
+    ],
+  },
+  {
+    id: 'bio-organisation', specCode: 'B4.2', section: 'Biology · Paper 1', label: 'Organisation', year: 'Year 10', unit: 'Biology Paper 1', topic: 'Organisation', subject: 'Biology', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['digestive system','enzymes','heart','blood vessels','blood','coronary heart disease','plant tissues','transpiration'],
+    prompt: 'Explain how tissues, organs and organ systems work together in animals and plants to transport materials and maintain life.',
+    hint: 'Include digestion, circulation and transport in plants.',
+    answerPoints: [
+      'Cells form tissues, tissues form organs and organs work together in organ systems.',
+      'Digestive enzymes break large insoluble food molecules into smaller soluble molecules that can be absorbed.',
+      'The heart pumps blood through arteries, capillaries and veins so substances are transported around the body.',
+      'Blood contains red blood cells, white blood cells, platelets and plasma with distinct transport and defence functions.',
+      'Non-communicable diseases such as coronary heart disease have risk factors and can be treated or reduced by lifestyle and medical interventions.',
+      'Xylem transports water and mineral ions while phloem translocates dissolved sugars; transpiration rate depends on environmental conditions.',
+    ],
+  },
+  {
+    id: 'bio-infection-response', specCode: 'B4.3', section: 'Biology · Paper 1', label: 'Infection and response', year: 'Year 10', unit: 'Biology Paper 1', topic: 'Infection and response', subject: 'Biology', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['pathogens','bacteria','viruses','fungi','protists','immune system','vaccination','antibiotics','monoclonal antibodies'],
+    prompt: 'Explain how pathogens cause disease and how the body, medicines and vaccination reduce the spread or effects of infection.',
+    hint: 'Cover pathogen types, body defences, immune response, vaccination and treatment.',
+    answerPoints: [
+      'Communicable diseases can be caused by viruses, bacteria, fungi and protists and may spread directly or indirectly.',
+      'The body has physical and chemical barriers such as skin, mucus, cilia and stomach acid.',
+      'White blood cells defend the body by phagocytosis, producing antibodies and producing antitoxins.',
+      'Vaccination exposes the immune system to antigens so memory cells allow a faster secondary response.',
+      'Antibiotics treat bacterial infections but do not kill viruses, and overuse can select for resistant bacteria.',
+      'Drugs are tested for toxicity, efficacy and dose; monoclonal antibodies and plant defence responses have diagnostic and medical uses.',
+    ],
+  },
+  {
+    id: 'bio-bioenergetics', specCode: 'B4.4', section: 'Biology · Paper 1', label: 'Bioenergetics', year: 'Year 10', unit: 'Biology Paper 1', topic: 'Bioenergetics', subject: 'Biology', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['photosynthesis','limiting factors','respiration','aerobic','anaerobic','metabolism','oxygen debt'],
+    prompt: 'Explain how photosynthesis and respiration transfer energy and how their rates are affected by conditions.',
+    hint: 'Use word/symbol equations, limiting factors and aerobic versus anaerobic respiration.',
+    answerPoints: [
+      'Photosynthesis uses light energy to convert carbon dioxide and water into glucose and oxygen.',
+      'The rate of photosynthesis can be limited by light intensity, carbon dioxide concentration, temperature and the amount of chlorophyll.',
+      'Glucose made in photosynthesis can be used for respiration, stored as starch or converted into other biological molecules.',
+      'Aerobic respiration transfers energy from glucose using oxygen and produces carbon dioxide and water.',
+      'Anaerobic respiration transfers less energy without oxygen and produces lactic acid in animals or ethanol and carbon dioxide in yeast.',
+      'Metabolism includes all the chemical reactions in cells, and exercise changes breathing, heart rate and oxygen demand.',
+    ],
+  },
+  {
+    id: 'bio-homeostasis', specCode: 'B4.5', section: 'Biology · Paper 2', label: 'Homeostasis and response', year: 'Year 11', unit: 'Biology Paper 2', topic: 'Homeostasis and response', subject: 'Biology', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['homeostasis','nervous system','reflex','brain','eye','hormones','blood glucose','diabetes','menstrual cycle'],
+    prompt: 'Explain how nervous and hormonal control systems maintain stable internal conditions and coordinate responses.',
+    hint: 'Include receptors, coordination centres, effectors, negative feedback and hormones.',
+    answerPoints: [
+      'Homeostasis maintains internal conditions within suitable limits despite internal and external changes.',
+      'The nervous system uses receptors, sensory neurones, the central nervous system, motor neurones and effectors to coordinate rapid responses.',
+      'Reflex actions are rapid automatic responses that reduce the chance of injury.',
+      'Hormones are chemical messengers carried in the blood and generally act more slowly but for longer than nerve impulses.',
+      'Blood glucose is controlled by insulin and glucagon through negative feedback, and diabetes involves problems with this control system.',
+      'Hormones coordinate reproduction and the menstrual cycle, and can be used in contraception and fertility treatment.',
+    ],
+  },
+  {
+    id: 'bio-inheritance', specCode: 'B4.6', section: 'Biology · Paper 2', label: 'Inheritance, variation and evolution', year: 'Year 11', unit: 'Biology Paper 2', topic: 'Inheritance, variation and evolution', subject: 'Biology', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['DNA','genes','chromosomes','meiosis','genetic crosses','variation','evolution','natural selection','selective breeding','genetic engineering'],
+    prompt: 'Explain how genetic information is inherited and how variation, selection and biotechnology can change populations.',
+    hint: 'Link DNA and meiosis to inheritance, then variation and natural selection.',
+    answerPoints: [
+      'Genetic information is carried in DNA; genes are sections of DNA on chromosomes that can code for proteins or functional RNA.',
+      'Meiosis produces gametes with one set of chromosomes and creates genetic variation.',
+      'Alleles can be dominant or recessive and genetic crosses can be used to predict probabilities of inherited characteristics.',
+      'Variation can be genetic, environmental or a combination of both.',
+      'Natural selection increases the frequency of advantageous inherited characteristics over generations and can lead to evolution.',
+      'Selective breeding and genetic engineering can alter inherited characteristics, while evidence from fossils and resistant organisms supports evolutionary ideas.',
+    ],
+  },
+  {
+    id: 'bio-ecology', specCode: 'B4.7', section: 'Biology · Paper 2', label: 'Ecology', year: 'Year 11', unit: 'Biology Paper 2', topic: 'Ecology', subject: 'Biology', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['ecosystem','abiotic','biotic','competition','sampling','carbon cycle','water cycle','biodiversity','food chains','biomass'],
+    prompt: 'Explain how organisms interact in ecosystems and how materials, biomass and biodiversity change through natural and human processes.',
+    hint: 'Include biotic/abiotic factors, sampling, cycles and human impacts.',
+    answerPoints: [
+      'Communities contain interacting populations whose distributions depend on biotic and abiotic factors.',
+      'Organisms compete for limited resources and may have structural, behavioural or functional adaptations.',
+      'Quadrats and transects can be used to estimate abundance and distribution in ecological investigations.',
+      'Materials such as carbon and water are cycled through ecosystems by biological and physical processes.',
+      'Biomass and energy are transferred through food chains but not all material or energy is passed to the next trophic level.',
+      'Human activities can reduce biodiversity, while conservation, waste management and sustainable resource use can reduce impacts.',
+    ],
+  },
+  {
+    id: 'chem-atomic-structure', specCode: 'C4.1', section: 'Chemistry · Paper 1', label: 'Atomic structure and the periodic table', year: 'Year 10', unit: 'Chemistry Paper 1', topic: 'Atomic structure and the periodic table', subject: 'Chemistry', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['atoms','elements','compounds','mixtures','protons','neutrons','electrons','isotopes','periodic table','Group 1','Group 7','Group 0'],
+    prompt: 'Explain how atomic structure and the periodic table are used to describe elements, isotopes and patterns in chemical properties.',
+    hint: 'Link subatomic particles to periodic position and group trends.',
+    answerPoints: [
+      'Atoms contain protons and neutrons in a nucleus with electrons in shells or energy levels around the nucleus.',
+      'Atomic number is the number of protons; mass number is protons plus neutrons, and isotopes have the same protons but different neutrons.',
+      'Elements contain one type of atom, compounds contain chemically bonded elements, and mixtures can be separated by physical methods.',
+      'The modern periodic table is arranged by atomic number and places elements with similar properties in the same group.',
+      'Group 1 metals become more reactive down the group, while Group 7 halogens become less reactive down the group.',
+      'Group 0 noble gases are very unreactive because they have stable outer electron shells, with boiling points increasing down the group.',
+    ],
+  },
+  {
+    id: 'chem-bonding', specCode: 'C4.2', section: 'Chemistry · Paper 1', label: 'Bonding, structure and properties of matter', year: 'Year 10', unit: 'Chemistry Paper 1', topic: 'Bonding, structure and properties', subject: 'Chemistry', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['ionic','covalent','metallic','giant lattice','simple molecules','polymers','alloys','graphite','diamond','nanoparticles'],
+    prompt: 'Explain how ionic, covalent and metallic bonding produce structures with different physical properties.',
+    hint: 'Link type of bonding and structure to melting point, conductivity and strength.',
+    answerPoints: [
+      'Ionic bonding is the electrostatic attraction between oppositely charged ions formed by electron transfer.',
+      'Covalent bonding is a shared pair of electrons between atoms, while metallic bonding is attraction between positive ions and delocalised electrons.',
+      'Ionic compounds form giant lattices with high melting points and conduct electricity when molten or dissolved because ions can move.',
+      'Simple molecular substances have strong covalent bonds within molecules but weak intermolecular forces, so they usually have low melting and boiling points.',
+      'Giant covalent structures such as diamond and graphite have characteristic properties because of their bonding and arrangement of atoms.',
+      'Metals, alloys, polymers and nanoparticles have structures that explain their useful properties and applications.',
+    ],
+  },
+  {
+    id: 'chem-quantitative', specCode: 'C4.3', section: 'Chemistry · Paper 1', label: 'Quantitative chemistry', year: 'Year 10', unit: 'Chemistry Paper 1', topic: 'Quantitative chemistry', subject: 'Chemistry', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['relative formula mass','moles','Avogadro','concentration','yield','atom economy','gas volume','balanced equation'],
+    prompt: 'Explain how balanced equations, relative masses, moles and concentration are used to calculate quantities in chemical reactions.',
+    hint: 'Use conservation of mass, Mr, moles and reacting ratios.',
+    answerPoints: [
+      'Chemical equations must be balanced because atoms are conserved during reactions.',
+      'Relative formula mass is found by adding the relative atomic masses in a formula.',
+      'Amount in moles links mass to relative formula mass and allows reacting quantities to be compared using equation coefficients.',
+      'Solution concentration can be expressed as mass per volume and, at higher tier, as moles per volume.',
+      'Percentage yield compares actual yield with theoretical yield and atom economy compares desired product mass with total products.',
+      'Gas volumes and limiting reactants can be used to determine reacting amounts and explain why a reaction stops.',
+    ],
+  },
+  {
+    id: 'chem-chemical-changes', specCode: 'C4.4', section: 'Chemistry · Paper 1', label: 'Chemical changes', year: 'Year 10', unit: 'Chemistry Paper 1', topic: 'Chemical changes', subject: 'Chemistry', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['reactivity series','oxidation','reduction','acids','alkalis','salts','electrolysis','half equations'],
+    prompt: 'Explain how reactivity, acids and electrolysis are used to predict and control chemical changes.',
+    hint: 'Include reactivity series, ions in acids and electrolysis products.',
+    answerPoints: [
+      'The reactivity series orders metals by how readily they react or form positive ions.',
+      'Oxidation involves gain of oxygen or loss of electrons and reduction involves loss of oxygen or gain of electrons.',
+      'Acids produce hydrogen ions in aqueous solution and react with metals, bases and carbonates to form characteristic products.',
+      'Salts can be prepared using suitable acids and solids or by precipitation depending on solubility.',
+      'Electrolysis decomposes ionic substances using electricity; positive ions move to the cathode and negative ions to the anode.',
+      'Products of electrolysis depend on the ions present and their relative reactivity, and half equations can represent electron transfer.',
+    ],
+  },
+  {
+    id: 'chem-energy-changes', specCode: 'C4.5', section: 'Chemistry · Paper 1', label: 'Energy changes', year: 'Year 10', unit: 'Chemistry Paper 1', topic: 'Energy changes', subject: 'Chemistry', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['exothermic','endothermic','reaction profile','activation energy','bond energy','cells','fuel cells'],
+    prompt: 'Explain energy changes in chemical reactions using reaction profiles, bond energies and electrochemical cells.',
+    hint: 'Distinguish exothermic/endothermic and energy needed to break versus form bonds.',
+    answerPoints: [
+      'Exothermic reactions transfer energy to the surroundings whereas endothermic reactions take in energy from the surroundings.',
+      'Reaction profiles show reactants, products, overall energy change and activation energy.',
+      'Activation energy is the minimum energy needed for particles to react successfully.',
+      'Breaking bonds requires energy and forming bonds releases energy.',
+      'Overall reaction energy can be estimated from the energy needed to break bonds minus the energy released forming new bonds.',
+      'Chemical cells and fuel cells transfer chemical energy electrically through redox reactions.',
+    ],
+  },
+  {
+    id: 'chem-rate-equilibrium', specCode: 'C4.6', section: 'Chemistry · Paper 2', label: 'Rate and extent of chemical change', year: 'Year 11', unit: 'Chemistry Paper 2', topic: 'Rate and extent of chemical change', subject: 'Chemistry', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['rate','collision theory','temperature','concentration','pressure','surface area','catalyst','reversible','equilibrium','Le Chatelier'],
+    prompt: 'Explain how collision theory predicts reaction rate and how conditions affect reversible reactions at equilibrium.',
+    hint: 'Link successful collisions to rate, then explain dynamic equilibrium.',
+    answerPoints: [
+      'Reaction rate can be measured from change in reactant or product amount per unit time.',
+      'Collision theory states that particles must collide with enough energy and suitable conditions for a reaction to occur.',
+      'Increasing temperature increases particle kinetic energy and the frequency of sufficiently energetic collisions.',
+      'Increasing concentration, gas pressure or surface area increases collision frequency, while catalysts provide a lower-activation-energy pathway.',
+      'At dynamic equilibrium in a closed system the forward and reverse reactions continue at equal rates.',
+      'Changing temperature, concentration or pressure can shift equilibrium; higher tier students apply these effects using Le Chatelier’s principle.',
+    ],
+  },
+  {
+    id: 'chem-organic', specCode: 'C4.7', section: 'Chemistry · Paper 2', label: 'Organic chemistry', year: 'Year 11', unit: 'Chemistry Paper 2', topic: 'Organic chemistry', subject: 'Chemistry', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['crude oil','hydrocarbons','alkanes','alkenes','cracking','polymers','alcohols','carboxylic acids'],
+    prompt: 'Explain how crude oil is separated and how hydrocarbons can be transformed into useful fuels, chemicals and polymers.',
+    hint: 'Use boiling points, fractional distillation, cracking and functional groups.',
+    answerPoints: [
+      'Crude oil is a mixture of hydrocarbons with different chain lengths and boiling points.',
+      'Fractional distillation separates hydrocarbons because fractions condense over different temperature ranges.',
+      'Shorter-chain hydrocarbons are generally more volatile, more flammable and less viscous than longer-chain hydrocarbons.',
+      'Cracking breaks long-chain hydrocarbons into smaller alkanes and alkenes.',
+      'Alkenes contain a carbon-carbon double bond and can undergo addition reactions and polymerisation.',
+      'Separate Chemistry includes further reactions and properties of alcohols, carboxylic acids, esters and condensation polymers.',
+    ],
+  },
+  {
+    id: 'chem-analysis', specCode: 'C4.8', section: 'Chemistry · Paper 2', label: 'Chemical analysis', year: 'Year 11', unit: 'Chemistry Paper 2', topic: 'Chemical analysis', subject: 'Chemistry', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['pure substances','formulations','chromatography','Rf','gas tests','flame tests','ions','instrumental methods'],
+    prompt: 'Explain how chemical tests and chromatography are used to identify substances and assess purity.',
+    hint: 'Include pure substances, chromatography and characteristic gas or ion tests.',
+    answerPoints: [
+      'A pure substance contains one element or compound and has characteristic melting and boiling points.',
+      'A formulation is a mixture designed as a useful product with carefully measured components.',
+      'Paper chromatography separates soluble substances because they have different attractions to the stationary and mobile phases.',
+      'Rf values compare the distance moved by a substance with the solvent front under the same conditions.',
+      'Characteristic tests identify gases such as hydrogen, oxygen, carbon dioxide and chlorine.',
+      'Separate Chemistry includes flame tests and precipitation tests for ions, while instrumental methods can be fast, sensitive and accurate.',
+    ],
+  },
+  {
+    id: 'chem-atmosphere', specCode: 'C4.9', section: 'Chemistry · Paper 2', label: 'Chemistry of the atmosphere', year: 'Year 11', unit: 'Chemistry Paper 2', topic: 'Chemistry of the atmosphere', subject: 'Chemistry', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['atmosphere','greenhouse gases','climate change','carbon dioxide','methane','pollutants','particulates','sulfur dioxide','nitrogen oxides'],
+    prompt: 'Explain how Earth’s atmosphere changed and how human activities affect climate and air quality.',
+    hint: 'Include early atmosphere, greenhouse effect and atmospheric pollutants.',
+    answerPoints: [
+      'The early atmosphere was produced largely by volcanic activity and changed as Earth cooled and oceans formed.',
+      'Photosynthetic organisms removed carbon dioxide and released oxygen, allowing the modern atmosphere to develop.',
+      'Greenhouse gases absorb outgoing infrared radiation and help maintain Earth’s temperature.',
+      'Human activities increase greenhouse gases such as carbon dioxide and methane and are associated with climate change.',
+      'Combustion can release pollutants including carbon monoxide, sulfur dioxide, nitrogen oxides and particulates.',
+      'Scientists use evidence and models to evaluate environmental impacts, while uncertainty must be considered when interpreting climate data.',
+    ],
+  },
+  {
+    id: 'chem-resources', specCode: 'C4.10', section: 'Chemistry · Paper 2', label: 'Using resources', year: 'Year 11', unit: 'Chemistry Paper 2', topic: 'Using resources', subject: 'Chemistry', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['finite resources','renewable','potable water','waste water','life cycle assessment','recycling','corrosion','alloys','fertilisers'],
+    prompt: 'Explain how chemists obtain, process and evaluate resources while reducing environmental impact.',
+    hint: 'Use potable water, life-cycle assessment, recycling and sustainable resource use.',
+    answerPoints: [
+      'Natural resources may be finite or renewable and must be processed to provide useful materials.',
+      'Potable water is safe to drink but is not necessarily pure; treatment depends on the source and can include filtration and sterilisation.',
+      'Waste water treatment removes solids and organic material before water is released or reused.',
+      'Life-cycle assessments compare environmental impacts from raw materials, manufacture, use and disposal.',
+      'Reusing and recycling materials can reduce energy use, waste and the need to extract finite resources.',
+      'Separate Chemistry includes corrosion prevention, alloys, ceramics, polymers, composites and industrial production such as the Haber process and fertilisers.',
+    ],
+  },
+  {
+    id: 'phys-energy', specCode: 'P4.1', section: 'Physics · Paper 1', label: 'Energy', year: 'Year 10', unit: 'Physics Paper 1', topic: 'Energy', subject: 'Physics', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['energy stores','kinetic','gravitational','elastic','thermal','power','efficiency','specific heat capacity','renewable'],
+    prompt: 'Explain how energy is stored, transferred and conserved in systems and how efficiency and power describe those transfers.',
+    hint: 'Use stores, transfer pathways, conservation, power and efficiency.',
+    answerPoints: [
+      'Energy can be stored kinetically, gravitationally, elastically, thermally, chemically, magnetically, electrostatically or in nuclei.',
+      'Energy is transferred by mechanical work, electrical work, heating or radiation.',
+      'Energy is conserved: transfers change where energy is stored but do not create or destroy energy.',
+      'Power is the rate of energy transfer and can be calculated from energy transferred divided by time.',
+      'Efficiency compares useful energy or power output with total input and can be expressed as a fraction or percentage.',
+      'Energy resources have different environmental impacts, reliability and renewability, so choices involve scientific and societal factors.',
+    ],
+  },
+  {
+    id: 'phys-electricity', specCode: 'P4.2', section: 'Physics · Paper 1', label: 'Electricity', year: 'Year 10', unit: 'Physics Paper 1', topic: 'Electricity', subject: 'Physics', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['charge','current','potential difference','resistance','series','parallel','power','energy transfer','mains','national grid'],
+    prompt: 'Explain how charge, current, potential difference and resistance are related in circuits and how electrical energy is transferred safely.',
+    hint: 'Compare series and parallel circuits and link power to energy transfer.',
+    answerPoints: [
+      'Current is the rate of flow of charge and is related by Q = It.',
+      'Potential difference is energy transferred per unit charge and drives current through components.',
+      'Resistance is related to potential difference and current by V = IR for components that obey Ohm’s law under constant conditions.',
+      'In series circuits current is the same through components, while in parallel circuits potential difference is the same across branches.',
+      'Electrical power can be calculated using P = VI and related equations, while energy transferred is E = Pt.',
+      'The mains supply, plugs, fuses, circuit breakers and the National Grid are designed to transfer electrical energy efficiently and safely.',
+    ],
+  },
+  {
+    id: 'phys-particle-model', specCode: 'P4.3', section: 'Physics · Paper 1', label: 'Particle model of matter', year: 'Year 10', unit: 'Physics Paper 1', topic: 'Particle model of matter', subject: 'Physics', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['density','states of matter','internal energy','specific heat capacity','specific latent heat','gas pressure','temperature'],
+    prompt: 'Explain how the particle model describes density, changes of state, internal energy and gas pressure.',
+    hint: 'Link particle arrangement and motion to macroscopic properties.',
+    answerPoints: [
+      'Density is mass per unit volume and depends on how much mass is packed into a given volume.',
+      'Solids, liquids and gases differ because their particles have different arrangements, separations and motion.',
+      'Internal energy is the total kinetic and potential energy of the particles in a system.',
+      'Heating can raise temperature or cause a change of state, and specific heat capacity describes energy needed per kilogram per degree temperature change.',
+      'Specific latent heat describes energy transferred per kilogram during a change of state without temperature change.',
+      'Gas pressure is caused by particle collisions with container walls and changes with temperature, volume and particle motion.',
+    ],
+  },
+  {
+    id: 'phys-atomic-structure', specCode: 'P4.4', section: 'Physics · Paper 1', label: 'Atomic structure', year: 'Year 10', unit: 'Physics Paper 1', topic: 'Atomic structure', subject: 'Physics', paper: 'Paper 1', course: 'Both', tier: 'Both',
+    match: ['atom','nucleus','isotopes','alpha','beta','gamma','half-life','irradiation','contamination','fission','fusion'],
+    prompt: 'Explain the structure of atoms, radioactive decay and the uses and risks of ionising radiation.',
+    hint: 'Compare alpha, beta and gamma, then discuss half-life and radiation risk.',
+    answerPoints: [
+      'Atoms contain a small dense nucleus of protons and neutrons surrounded by electrons.',
+      'Isotopes are atoms of the same element with the same proton number but different neutron numbers.',
+      'Unstable nuclei can emit alpha, beta or gamma radiation, each with different ionising and penetrating abilities.',
+      'Radioactive decay is random but half-life describes the time for activity or undecayed nuclei to halve.',
+      'Irradiation exposes an object to radiation, whereas contamination places radioactive material on or inside it; risks depend on exposure and radiation type.',
+      'Nuclear fission releases energy when a large nucleus splits, while fusion releases energy when light nuclei combine under extreme conditions.',
+    ],
+  },
+  {
+    id: 'phys-forces', specCode: 'P4.5', section: 'Physics · Paper 2', label: 'Forces', year: 'Year 11', unit: 'Physics Paper 2', topic: 'Forces', subject: 'Physics', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['scalar','vector','weight','resultant force','work done','springs','moments','pressure','motion','acceleration','momentum'],
+    prompt: 'Explain how forces change motion or shape and how force, energy and momentum ideas are used to analyse interactions.',
+    hint: 'Include resultant force, Newton’s laws, motion graphs and momentum.',
+    answerPoints: [
+      'Forces are vectors and can be represented, resolved and combined to find a resultant force.',
+      'Weight is gravitational force and is related to mass and gravitational field strength.',
+      'A resultant force can change velocity according to Newton’s laws, while balanced forces produce no acceleration.',
+      'Work is done when a force causes displacement, and elastic deformation can store energy in stretched or compressed objects.',
+      'Distance-time and velocity-time graphs describe motion; acceleration is change in velocity per unit time.',
+      'Momentum is conserved in a closed system and force is related to the rate of change of momentum.',
+    ],
+  },
+  {
+    id: 'phys-waves', specCode: 'P4.6', section: 'Physics · Paper 2', label: 'Waves', year: 'Year 11', unit: 'Physics Paper 2', topic: 'Waves', subject: 'Physics', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['transverse','longitudinal','wavelength','frequency','wave speed','electromagnetic spectrum','reflection','refraction','infrared','sound'],
+    prompt: 'Explain how waves transfer energy and how wave properties determine the behaviour and uses of sound and electromagnetic radiation.',
+    hint: 'Use wave speed, transverse/longitudinal, EM spectrum and interactions with matter.',
+    answerPoints: [
+      'Waves transfer energy without overall transfer of matter and can be transverse or longitudinal.',
+      'Wave speed, frequency and wavelength are related by v = fλ.',
+      'Reflection, refraction, absorption and transmission occur when waves interact with boundaries and materials.',
+      'The electromagnetic spectrum is ordered by frequency and wavelength and all electromagnetic waves travel at the same speed in a vacuum.',
+      'Different electromagnetic waves have uses based on their properties, but higher-frequency radiation can pose ionising risks.',
+      'Sound waves are longitudinal pressure waves whose frequency affects pitch and amplitude affects loudness.',
+    ],
+  },
+  {
+    id: 'phys-magnetism', specCode: 'P4.7', section: 'Physics · Paper 2', label: 'Magnetism and electromagnetism', year: 'Year 11', unit: 'Physics Paper 2', topic: 'Magnetism and electromagnetism', subject: 'Physics', paper: 'Paper 2', course: 'Both', tier: 'Both',
+    match: ['magnetic field','permanent magnet','electromagnet','motor effect','generator effect','transformer','solenoid'],
+    prompt: 'Explain magnetic fields, electromagnets and the motor and generator effects used in electrical devices.',
+    hint: 'Link current to magnetic fields and compare motor and generator effects.',
+    answerPoints: [
+      'Magnetic fields act around permanent magnets, electromagnets and current-carrying conductors.',
+      'Field lines show direction and relative field strength, and like poles repel while unlike poles attract.',
+      'A current in a wire produces a magnetic field whose strength depends on current and distance.',
+      'The motor effect occurs when a current-carrying conductor in a magnetic field experiences a force.',
+      'The generator effect produces a potential difference when a conductor cuts magnetic field lines or the magnetic field through a conductor changes.',
+      'Transformers use electromagnetic induction with alternating current to change potential difference, reducing losses in power transmission.',
+    ],
+  },
+  {
+    id: 'phys-space', specCode: 'P4.8', section: 'Physics · Paper 2', label: 'Space physics (Physics only)', year: 'Year 11', unit: 'Physics Paper 2', topic: 'Space physics', subject: 'Physics', paper: 'Paper 2', course: 'Separate only', tier: 'Both',
+    match: ['solar system','orbits','stars','fusion','main sequence','red giant','supernova','red-shift','Big Bang'],
+    prompt: 'Explain how gravity controls orbital motion and how observations of stars and galaxies support models of the Universe.',
+    hint: 'Include stellar life cycles, orbits, red-shift and expansion.',
+    answerPoints: [
+      'The Solar System contains the Sun, planets, dwarf planets, moons and smaller objects held in orbit by gravity.',
+      'Gravity provides the centripetal force for approximately circular orbits and orbital speed depends on orbital radius and central mass.',
+      'Stars form from clouds of gas and dust and spend most of their lives on the main sequence, where fusion balances gravitational collapse.',
+      'A star’s later life depends on its mass, producing stages such as red giant or red supergiant, white dwarf, supernova, neutron star or black hole.',
+      'Light from distant galaxies is red-shifted, showing that the Universe is expanding.',
+      'The relationship between red-shift and distance and other observations support the Big Bang model and continuing scientific refinement of cosmology.',
+    ],
+  },
+  {
+    id: 'bio-practicals', specCode: 'B-RP', section: 'Required practicals', label: 'Biology required practicals', year: 'Year 11', unit: 'Required practicals', topic: 'Biology required practicals', subject: 'Biology', paper: 'Across papers', course: 'Both', tier: 'Both',
+    match: ['microscopy','microbiology','osmosis','food tests','amylase','photosynthesis','reaction time','plant responses','fieldwork','decay'],
+    prompt: 'Explain how to plan, carry out, analyse and evaluate GCSE Biology required practical work safely and accurately.',
+    hint: 'Think variables, repeats, measurement, graphs, uncertainty and improvements.',
+    answerPoints: [
+      'Identify independent, dependent and control variables and state a clear method that changes only the intended factor.',
+      'Use appropriate apparatus safely and measure quantities with suitable precision and units.',
+      'Repeat measurements where appropriate, identify anomalous results cautiously and calculate a mean when justified.',
+      'Present results in suitable tables and graphs with labelled axes, units and appropriate scales.',
+      'Draw conclusions that are supported by the data and distinguish correlation from a justified causal explanation.',
+      'Evaluate limitations, uncertainty and sources of error and suggest specific improvements that would make the evidence more reliable or valid.',
+    ],
+  },
+  {
+    id: 'chem-practicals', specCode: 'C-RP', section: 'Required practicals', label: 'Chemistry required practicals', year: 'Year 11', unit: 'Required practicals', topic: 'Chemistry required practicals', subject: 'Chemistry', paper: 'Across papers', course: 'Both', tier: 'Both',
+    match: ['salts','titration','electrolysis','temperature change','rates','chromatography','ion tests','water purification'],
+    prompt: 'Explain how to plan, carry out, analyse and evaluate GCSE Chemistry required practical work safely and accurately.',
+    hint: 'Include apparatus choice, measurements, observations, graphs and improvements.',
+    answerPoints: [
+      'Choose apparatus and techniques suited to the reaction or separation and use them safely.',
+      'Measure mass, volume, temperature and time with suitable resolution and record observations clearly.',
+      'Control variables so that the effect of the independent variable can be tested fairly.',
+      'Use repeats, means, graphs, gradients or tangents where appropriate to analyse quantitative data.',
+      'Use qualitative tests and observations systematically to identify products or unknown substances.',
+      'Evaluate random and systematic error, explain anomalies cautiously and suggest practical improvements linked to identified limitations.',
+    ],
+  },
+  {
+    id: 'phys-practicals', specCode: 'P-RP', section: 'Required practicals', label: 'Physics required practicals', year: 'Year 11', unit: 'Required practicals', topic: 'Physics required practicals', subject: 'Physics', paper: 'Across papers', course: 'Both', tier: 'Both',
+    match: ['specific heat capacity','thermal insulation','resistance','I-V','density','force extension','acceleration','waves','light','infrared'],
+    prompt: 'Explain how to plan, carry out, analyse and evaluate GCSE Physics required practical work using accurate measurements and appropriate graphs.',
+    hint: 'Use equations, control variables, repeats, graphs, uncertainty and safety.',
+    answerPoints: [
+      'Select apparatus that measures the required quantities over a suitable range with appropriate resolution.',
+      'Identify independent, dependent and control variables and describe how the controls are kept constant.',
+      'Take repeat readings where appropriate and use means to reduce the effect of random variation.',
+      'Use equations only after converting values into consistent units and show substitutions clearly.',
+      'Plot suitable graphs, determine gradients or relationships where required and use evidence to test the prediction.',
+      'Evaluate uncertainty, systematic effects, energy losses and other limitations and propose specific improvements.',
+    ],
+  },
+  {
+    id: 'working-scientifically', specCode: 'WS', section: 'Working scientifically', label: 'Working scientifically and maths skills', year: 'Year 11', unit: 'Across GCSE Science', topic: 'Working scientifically', subject: 'Science', paper: 'Across papers', course: 'Both', tier: 'Both',
+    match: ['hypothesis','variables','accuracy','precision','repeatability','reproducibility','uncertainty','graphs','mean','percentage','significant figures'],
+    prompt: 'Explain how scientific investigations should be planned, analysed and evaluated so that conclusions are supported by reliable evidence.',
+    hint: 'Use variables, validity, precision, repeats, graphs and uncertainty.',
+    answerPoints: [
+      'A testable hypothesis or prediction should be linked to scientific ideas and the variables being investigated.',
+      'The method should identify independent, dependent and control variables and use appropriate apparatus and safety measures.',
+      'Accuracy describes closeness to a true value, precision describes spread of repeated measurements and resolution is the smallest readable change.',
+      'Repeatability and reproducibility test the consistency of measurements under the same or changed conditions.',
+      'Data should be processed using suitable calculations, units, significant figures, tables and graphs.',
+      'Conclusions must match the evidence and evaluations should identify uncertainty, limitations and specific improvements rather than vague statements.',
+    ],
+  },
+];
+
+export const subjects = ['Biology', 'Chemistry', 'Physics'] as const;
+export const gcseTopics = specificationPoints.filter(point => point.subject !== 'Science');

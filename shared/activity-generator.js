@@ -216,6 +216,8 @@
       }
       if (q) {
         used.add(q.prompt);
+        const linked=rows.find(l=>l.id===q.lessonId);
+        q.subject=subject;q.topic=topic;q.subtopic=q.title;q.skill=q.type==='number'?'calculation':q.type==='written'?'exam':'recall';q.specification='';q.misconception=linked?.accuracy||'';q.difficulty='standard';
         questions.push(q);
       }
     }

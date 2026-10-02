@@ -55,10 +55,7 @@
     target.querySelector('[data-action="workspace-set"]').onclick=()=>show('set-work');
     if(!summary.recent.length) target.append(el('p','Completed results will appear here.','panel-copy'));
     summary.recent.forEach(a => { const m=state.members.find(m=>m.student_id===a.student_id && m.class_id===a.class_id), task=state.assignments.find(t=>t.id===a.assignment_id); target.append(el('p',`${m?.display_name || 'Student'} · ${task?.title || 'Assignment'} · ${data.percent(a.score,a.total_max)}%`)); });
-    const insight=$('insights-content'); insight.replaceChildren(el('h2','Topics needing attention'));
-    const weak=state.activities.map(a=>({a,marks:data.latest(state.attempts).filter(r=>r.assignment_id===a.assignment_id && r.review_state==='complete')})).filter(x=>x.marks.length).map(x=>({...x,score:Math.round(x.marks.reduce((s,a)=>s+data.percent(a.score,a.total_max),0)/x.marks.length)})).filter(x=>x.score<75).sort((a,b)=>a.score-b.score);
-    if(!weak.length) insight.append(el('p','No flagged topics yet. Results from completed work will highlight areas to revisit.','panel-copy'));
-    weak.forEach(x=>insight.append(el('p',`${x.a.topic_title} · ${x.score}% · ${x.marks.length} results`)));
+
   }
   function profile(member) {
     const p=panel(member.display_name || member.student_email || 'Student','workspace-student-profile');

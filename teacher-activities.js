@@ -131,6 +131,11 @@
         button("Remove", "remove-preview", q.id),
       );
       card.append(head, el("h3", q.prompt));
+      const metadata=el('div',undefined,'workspace-controls'),skillLabel=el('label','Skill'),skill=el('select');
+      for(const v of ['recall','calculation','exam','application'])skill.append(new Option(v,v));skill.value=q.skill||(q.type==='number'?'calculation':q.type==='written'?'exam':'recall');skill.onchange=()=>q.skill=skill.value;skillLabel.append(skill);
+      const specLabel=el('label','Specification reference (optional)'),spec=el('input');spec.maxLength=100;spec.value=q.specification||'';spec.placeholder='Teacher-verified reference';spec.oninput=()=>q.specification=spec.value;specLabel.append(spec);
+      const subLabel=el('label','Subtopic'),sub=el('input');sub.maxLength=200;sub.value=q.subtopic||q.title||preview.topicTitle;sub.oninput=()=>q.subtopic=sub.value;subLabel.append(sub);
+      metadata.append(skillLabel,subLabel,specLabel);card.append(metadata);
       if (q.type === "choice") {
         const list = el("ol");
         q.options.forEach((o) =>

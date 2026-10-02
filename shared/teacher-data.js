@@ -58,7 +58,27 @@
     });
     return {columns,rows};
   }
-  const api = { percent, latest, recipients, result, overview, markbook };
+  function evidence(state,classId,studentId='') {
+    const rows=[];
+    for(const a of latest(state.attempts).filter(a=>a.class_id===classId && (!studentId||a.student_id===studentId))) {
+      const activity=state.activities.find(v=>v.assignment_id===a.assignment_id),assignment=state.assignments.find(v=>v.id===a.assignment_id);
+      if(!activity||!assignment||!recipients(state,assignment).some(m=>m.student_id===a.student_id))continue;
+      for(const q of activity.questions) {const mark=a.marks?.find(m=>m.id===q.id);if(!mark||mark.awarded===null||mark.awarded===undefined)continue;
+        rows.push({studentId:a.student_id,assignmentId:a.assignment_id,questionId:q.id,question:q,topic:activity.topic_key,topicTitle:activity.topic_title,
+          subtopic:q.subtopic||q.title||activity.topic_title,skill:q.skill||(q.type==='number'?'calculation':q.type==='written'?'exam':'recall'),
+          awarded:Number(mark.awarded),max:Number(mark.max_marks||q.marks),submittedAt:a.submitted_at});
+      }
+    }return rows;
+  }
+  function mastery(state,classId,dimension='topic',studentId='') {
+    const map=new Map();for(const e of evidence(state,classId,studentId)){
+      const key=dimension==='topic'?e.topic:dimension==='subtopic'?e.topic+':'+e.subtopic:e.skill;
+      const row=map.get(key)||{id:key,title:dimension==='topic'?e.topicTitle:dimension==='subtopic'?e.subtopic:e.skill,topic:e.topic,awarded:0,max:0,responses:0,students:new Set(),weakStudents:new Set(),evidence:[]};
+      row.awarded+=e.awarded;row.max+=e.max;row.responses++;row.students.add(e.studentId);if(e.awarded<e.max)row.weakStudents.add(e.studentId);row.evidence.push(e);map.set(key,row);
+    }
+    return [...map.values()].map(r=>({...r,score:percent(r.awarded,r.max),studentCount:r.students.size})).sort((a,b)=>a.score-b.score);
+  }
+  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery };
   if (typeof module !== 'undefined') module.exports = api;
   else window.REVISION_TEACHER_DATA = api;
 })();

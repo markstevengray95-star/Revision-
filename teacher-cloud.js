@@ -148,6 +148,7 @@
     window.REVISION_TEACHER_WORKSPACE.init({state, showNotice, loadTeacherData, toggleArchived: async b => {showArchived=!showArchived;b.textContent=showArchived?'Show active classes':'Show archived classes';await loadTeacherData(false);}});
     window.REVISION_SET_WORK.init({state, showNotice, loadTeacherData});
     window.REVISION_MARKBOOK.init({state, showNotice});
+    window.REVISION_INSIGHTS.init({state, showNotice});
     els.assignmentDue.value = localDateString(7);
     client.auth.onAuthStateChange((_event, session) => {
       void applySession(session);
@@ -382,6 +383,7 @@
     window.REVISION_TEACHER_WORKSPACE?.render();
     window.REVISION_SET_WORK?.render();
     window.REVISION_MARKBOOK?.render();
+    window.REVISION_INSIGHTS?.render();
   }
   function renderMetrics() {
     els.metricClasses.textContent = String(state.classes.length);

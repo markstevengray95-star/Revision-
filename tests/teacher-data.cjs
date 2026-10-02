@@ -11,3 +11,5 @@ console.log('Teacher data passed: latest attempt, pending review, recipient scop
 
 state.activities=[{assignment_id:'a',topic_key:'gcse:physics:p1',topic_title:'Energy'}];
 const book=d.markbook(state,{classId:'c',view:'topic'});assert.equal(book.rows[0].average,80);assert.equal(book.rows[1].values[0].status,'Not assigned');assert.equal(book.rows[1].average,null);assert.equal(d.markbook(state,{classId:'c',from:'2099-01-01'}).columns.length,0);
+
+state.activities[0].questions=[{id:'q',marks:2,title:'Energy stores',type:'choice'}];state.attempts[1].class_id='c';state.attempts[1].marks=[{id:'q',awarded:1,max_marks:2}];assert.equal(d.mastery(state,'c')[0].score,50);assert.equal(d.mastery(state,'c')[0].studentCount,1);assert.equal(d.mastery(state,'c','skill')[0].title,'recall');state.attempts[1].marks[0].awarded=null;assert.equal(d.mastery(state,'c').length,0);

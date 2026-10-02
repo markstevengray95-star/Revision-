@@ -24,3 +24,6 @@ Timing is saved with each submitted attempt and survives duplicate submission to
 
 ## Phase 4
 Class markbook with assignment/topic/student selection and due-date periods. Latest marked results only; pending reviews and unassigned students remain distinct from zero. Exports include formula-safe CSV, native .xlsx with Unicode text, and a print layout for browser Save as PDF.
+
+## Phase 5
+Question metadata includes subject/topic/subtopic/skill and optional teacher-verified specification references. Topic/subtopic/skill mastery uses latest marked question evidence, displays sample size and ignores unmarked answers. Lost marks flag questions and possible teaching checks; they do not assert a diagnosed misconception from a wrong answer alone. Selected pupils can be sent into the intervention assignment wizard.

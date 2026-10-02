@@ -25,7 +25,7 @@
  }
  function targetWork(cid,ids,row){window.REVISION_TEACHER_WORKSPACE.show('set-work');$('assignment-class').value=cid;$('assignment-class').dispatchEvent(new Event('change'));
   const topic=(row.topic||'').split(':');if(topic.length>=3){$('activity-level').value=topic[0];$('activity-subject').value=topic[1];$('activity-subject').dispatchEvent(new Event('change'));$('activity-topic').value=topic.slice(2).join(':');$('activity-topic').dispatchEvent(new Event('change'));}
-  $('work-audience').value='selected';$('work-audience').dispatchEvent(new Event('change'));for(const i of $('work-recipients').querySelectorAll('input'))i.checked=ids.includes(i.value);
+  $('work-audience').value=ids.length?'selected':'all';$('work-audience').dispatchEvent(new Event('change'));for(const i of $('work-recipients').querySelectorAll('input'))i.checked=ids.includes(i.value);
   $('work-mode').value='lesson';$('work-mode').dispatchEvent(new Event('change'));$('assignment-title').value=(`${row.title} · intervention`).slice(0,120);window.REVISION_SET_WORK.go(2);
  }
  window.REVISION_INSIGHTS={init,render,targetWork};

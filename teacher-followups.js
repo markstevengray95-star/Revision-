@@ -6,11 +6,12 @@
  function clear(){plan=[];$('followup-preview').replaceChildren();}
  function render(){if(!context)return;const s=$('followup-source'),v=s.value;s.replaceChildren(new Option('Choose completed work',''),...context.state.assignments.filter(a=>context.state.activities.some(v=>v.assignment_id===a.id)&&(a.status==='closed'||new Date(a.due_at)<new Date()||data.recipients(context.state,a).length&&data.recipients(context.state,a).every(m=>data.result(context.state,a,m.student_id).status==='Complete'))).map(a=>new Option(a.title,a.id)));if([...s.options].some(o=>o.value===v))s.value=v;else clear();}
  function build(activity,band,studentId){const parts=activity.topic_key.split(':'),level=parts[0],subject=parts[1],topic=parts.slice(2).join(':'),rows=data.evidence(context.state,activity.class_id,studentId).filter(e=>e.assignmentId===activity.assignment_id),weak=rows.filter(e=>e.awarded<e.max).map(e=>e.question.lessonId).filter(Boolean),ids=[...new Set(weak)].slice(0,3);
-  const generated=window.REVISION_ACTIVITIES.generate({level,subject,topic,pathway:'triple',kind:['application','challenge'].includes(band)?'exam':band==='foundation'?'quiz':'revision',count:band==='foundation'?3:6,includeWritten:band!=='foundation',seed:Math.floor(Math.random()*100000),lessonIds:band==='foundation'&&ids.length?ids:undefined,difficulty:band==='application'?'application':band==='challenge'?'challenge':undefined});
+  const pathway=activity.pathway || (activity.questions.some(q=>(q.lessonHref||'').includes('mode=triple'))?'triple':'combined');
+  const generated=window.REVISION_ACTIVITIES.generate({level,subject,topic,pathway,kind:['application','challenge'].includes(band)?'exam':band==='foundation'?'quiz':'revision',count:band==='foundation'?3:6,includeWritten:band!=='foundation',seed:Math.floor(Math.random()*100000),lessonIds:band==='foundation'&&ids.length?ids:undefined,difficulty:band==='application'?'application':band==='challenge'?'challenge':undefined});
   generated.questions.forEach(q=>q.difficulty=band==='foundation'?'foundation':band==='consolidation'?'standard':band);
   if(band==='foundation'){
    const lessons=window.REVISION_PRACTICE.lessons.filter(l=>generated.questions.some(q=>q.lessonId===l.id));generated.study_material=lessons.map(l=>({title:l.title,text:l.core}));
-   const worked=window.REVISION_ACTIVITIES.generate({level,subject,topic,pathway:'triple',kind:'revision',count:6,seed:1}).questions.find(q=>q.type==='number');if(worked)generated.study_material.push({title:'Worked example',text:worked.prompt+'\n'+worked.key.solution.join('\n')});
+   const worked=window.REVISION_ACTIVITIES.generate({level,subject,topic,pathway,kind:'revision',count:6,seed:1}).questions.find(q=>q.type==='number');if(worked)generated.study_material.push({title:'Worked example',text:worked.prompt+'\n'+worked.key.solution.join('\n')});
    generated.kind='revision';
   }
   return {...generated,attempts_limit:band==='foundation'?3:2,feedback_mode:'after_final_attempt',allow_late:true};
@@ -25,5 +26,5 @@
   catch(e){plan=[];context.showNotice(e.message,'error');}
  }
  async function assign(b){b.disabled=true;try{const r=await revisionSupabase.rpc('revision_assign_followups',{p_source_id:sourceId,p_plan:plan.map(({meta,activity})=>({meta,activity})),p_token:token});if(r.error)throw r.error;context.showNotice(`${r.data.length} personalised follow-ups assigned.`);clear();await context.loadTeacherData();}catch(e){context.showNotice(e.message,'error');}finally{b.disabled=false;}}
- window.REVISION_FOLLOWUPS={init,render};
+ window.REVISION_FOLLOWUPS={init,render,clear};
 })();

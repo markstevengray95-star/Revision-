@@ -154,3 +154,6 @@ for(const level of ['gcse','alevel'])for(const subject of ['physics','chemistry'
 console.log('Objective homework passed: all six courses support 60 auto-marked questions with teacher writing enabled.');
 for(const level of ['gcse','alevel'])for(const subject of ['biology','chemistry','physics']){const lesson=w.REVISION_PRACTICE.lessons.find(l=>l.level===level&&l.subject===subject&&l.scope!=='triple');const a=w.REVISION_ACTIVITIES.generate({level,subject,topic:lesson.topic,lessonIds:[lesson.id],count:3,format:'written'});assert.ok(a.questions.every(q=>q.lessonId===lesson.id&&q.subject===subject&&q.topic===lesson.topic&&q.skill==='exam'));}
 console.log('Targeted homework passed: selected lesson scope and mastery metadata survive the workspace integration.');
+
+// A narrow lesson still needs scientifically related distractors from its topic.
+{const l=w.REVISION_PRACTICE.lessons.find(l=>l.level==='gcse'&&l.subject==='physics'&&l.topic==='p1');const a=w.REVISION_ACTIVITIES.generate({level:l.level,subject:l.subject,topic:l.topic,lessonIds:[l.id],count:3,kind:'quiz'});assert.equal(a.questions.length,3);assert.ok(a.questions.every(q=>q.type==='choice'&&q.lessonId===l.id));}

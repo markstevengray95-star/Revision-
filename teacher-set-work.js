@@ -119,5 +119,5 @@
     return [meta.class_id,...extras].map(class_id=>({...base,class_id}));
   }
   async function afterAssigned() {if(draftId){await revisionSupabase.from('revision_teacher_drafts').delete().eq('id',draftId);draftId=null;}go(0);}
-  window.REVISION_SET_WORK={init,render,metadata,snapshot,restore,go,afterAssigned};
+  window.REVISION_SET_WORK={init,render,metadata,snapshot,restore,go,afterAssigned,reset(){draftId=null;go(0);$('work-recipients').replaceChildren();$('work-extra-classes').replaceChildren();}};
 })();

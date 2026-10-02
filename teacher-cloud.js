@@ -151,6 +151,8 @@
     window.REVISION_INSIGHTS.init({state, showNotice});
     window.REVISION_INTERVENTIONS.init({state, showNotice, loadTeacherData});
     window.REVISION_FOLLOWUPS.init({state, showNotice, loadTeacherData});
+    window.REVISION_PLANNER.init({state, showNotice, loadTeacherData});
+    setInterval(()=>{if(!document.hidden&&state.user)loadTeacherData(false);},60000);
     els.assignmentDue.value = localDateString(7);
     client.auth.onAuthStateChange((_event, session) => {
       void applySession(session);
@@ -238,6 +240,16 @@
 
   async function applySession(session) {
     const version = ++sessionVersion;
+    if (state.user?.id !== session?.user?.id) {
+      selectedClassId = null;
+      els.assignmentForm.reset();
+      els.assignmentDue.value = localDateString(7);
+      window.REVISION_TEACHER_ACTIVITIES.reset();
+      window.REVISION_SET_WORK.reset();
+      window.REVISION_TEACHER_WORKSPACE.clearProfile();
+      window.REVISION_FOLLOWUPS.clear();
+      window.REVISION_PLANNER.reset();
+    }
     if (!session?.user) {
       state.user = null;
       ++loadVersion;
@@ -251,6 +263,7 @@
       state.drafts = [];
       state.teacherDrafts = [];
       state.interventionGroups = [];state.interventionMembers = [];
+      state.homeworkPlans = [];state.alertState = [];
       els.authPanel.hidden = false;
       els.app.hidden = true;
       els.accountEmail.textContent = "";
@@ -267,6 +280,7 @@
       state.drafts = [];
       state.teacherDrafts = [];
       state.interventionGroups = [];state.interventionMembers = [];
+      state.homeworkPlans = [];state.alertState = [];
       els.app.hidden = true;
     }
     state.user = session.user;
@@ -318,6 +332,7 @@
       state.drafts = [];
       state.teacherDrafts = [];
       state.interventionGroups = [];state.interventionMembers = [];
+      state.homeworkPlans = [];state.alertState = [];
       } else {
         const [
           membersResult,
@@ -372,6 +387,7 @@
       const drafts=await client.from('revision_teacher_drafts').select('*').eq('teacher_id',uid).order('created_at',{ascending:false});
       if(!current())return; if(drafts.error)throw drafts.error;state.teacherDrafts=drafts.data||[];
       const [groups,groupMembers]=await Promise.all([client.from('revision_intervention_groups').select('*').eq('teacher_id',uid),client.from('revision_intervention_members').select('*').eq('teacher_id',uid)]);if(!current())return;if(groups.error||groupMembers.error)throw groups.error||groupMembers.error;state.interventionGroups=groups.data||[];state.interventionMembers=groupMembers.data||[];
+      const [plans,alerts]=await Promise.all([client.from('revision_homework_plans').select('*').eq('teacher_id',uid),client.from('revision_teacher_alert_state').select('*').eq('teacher_id',uid)]);if(!current())return;if(plans.error||alerts.error)throw plans.error||alerts.error;state.homeworkPlans=plans.data||[];state.alertState=alerts.data||[];
       renderAll();
       if (announce) showNotice("Cloud data refreshed.");
     } catch (error) {
@@ -392,6 +408,7 @@
     window.REVISION_INSIGHTS?.render();
     window.REVISION_INTERVENTIONS?.render();
     window.REVISION_FOLLOWUPS?.render();
+    window.REVISION_PLANNER?.render();
   }
   function renderMetrics() {
     els.metricClasses.textContent = String(state.classes.length);
@@ -586,12 +603,13 @@
       const title = document.createElement("h3");
       title.textContent = item.title;
       const subs = submissionsForAssignment(item.id);
-      const joined = membersForClass(item.class_id).filter(
-        (m) => m.status === "joined",
-      ).length;
+      const recipients = window.REVISION_TEACHER_DATA.recipients(state,item);
+      const joined = recipients.length;
+      const activityExists = state.activities.some(a=>a.assignment_id===item.id);
+      const submitted = new Set((activityExists?state.attempts:subs).filter(a=>a.assignment_id===item.id&&recipients.some(m=>m.student_id===a.student_id)).map(a=>a.student_id)).size;
       const details = document.createElement("p");
       details.className = "assignment-details";
-      details.textContent = `Due ${formatDate(item.due_at)}${item.max_points !== null ? ` · ${Number(item.max_points)} marks / points` : ""} · ${subs.length}/${joined} submitted`;
+      details.textContent = `Due ${formatDate(item.due_at)}${item.max_points !== null ? ` · ${Number(item.max_points)} marks / points` : ""} · ${submitted}/${joined} submitted`;
       card.append(header, title, details);
       if (item.instructions) {
         const notes = document.createElement("p");

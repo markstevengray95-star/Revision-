@@ -18,4 +18,9 @@ state.activities[0].questions=['q1','q2','q3'].map(id=>({id,marks:1,title:'Energ
 
 assert.equal(d.followupBand(null),null);assert.equal(d.followupBand(49),'foundation');assert.equal(d.followupBand(50),'consolidation');assert.equal(d.followupBand(75),'application');assert.equal(d.followupBand(90),'challenge');
 
+// Mixed revision contributes to the actual topic of each marked question.
+state.activities[0].topic_key='gcse:physics:all';state.activities[0].questions=[{id:'q1',topic:'p1',marks:1},{id:'q2',topic:'p2',marks:1}];
+state.attempts[1].marks=[{id:'q1',awarded:1,max_marks:1},{id:'q2',awarded:0,max_marks:1}];
+const mixed=d.mastery(state,'c');assert.deepEqual(mixed.map(r=>[r.id,r.score]),[['gcse:physics:p2',0],['gcse:physics:p1',100]]);
+
 state.assignments[0].recipient_ids=null;state.assignments.push({...state.assignments[0],id:'b'},{...state.assignments[0],id:'c'});assert.ok(d.alerts(state).some(a=>a.key.startsWith('deadline:')));assert.equal(d.weeklySummary(state,'c').average,null);

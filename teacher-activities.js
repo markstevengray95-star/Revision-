@@ -58,7 +58,7 @@
         if (id === "activity-kind" || id === "activity-format") {
           $("activity-writing-label").hidden =
             $("activity-kind").value !== "exam" || $("activity-format").value !== "auto";
-          $("assignment-type").value =
+          if (id === "activity-kind") $("assignment-type").value =
             $("activity-kind").value === "exam"
               ? "test"
               : $("activity-kind").value === "revision"
@@ -86,7 +86,7 @@
   }
   function generate() {
     try {
-      preview = bank.generate({
+      preview = window.REVISION_HOMEWORK_PRESETS.generate(bank,{
         level: $("activity-level").value,
         subject: $("activity-subject").value,
         topic: $("activity-topic").value,
@@ -98,7 +98,7 @@
         format: $("activity-format").value,
         demand: $("activity-demand").value,
         lessonIds: $("work-lesson")?.value ? [$("work-lesson").value] : undefined,
-      });
+      },window.REVISION_SET_WORK.presetSelection());
       const ids=new Set(preview.questions.map(q=>q.lessonId));
       preview.study_material=['lesson','flashcards'].includes($("work-mode")?.value) ? window.REVISION_PRACTICE.lessons.filter(l=>ids.has(l.id)).map(l=>({title:l.title,text:l.core})) : [];
       renderPreview();

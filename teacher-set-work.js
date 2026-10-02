@@ -25,9 +25,22 @@
     ['activity-level','activity-subject','activity-pathway','activity-topic'].forEach(id=>move(id,1));
     steps[1].append(select('Subtopic / lesson','work-lesson',[['','All lessons in this topic']]));
     steps[2].append(select('Activity','work-mode',[['lesson','Revision lesson'],['quiz','Quiz'],['flashcards','Flashcards + recall check'],['exam','Exam questions'],['test','Topic test'],['mixed','Mixed assignment']]));
-    const ready=ui.el('section');ready.append(ui.el('h3','Auto-marked homework'),ui.el('p','Choose a ready-made set, then review the generated questions before assigning.','panel-copy'));
-    for(const [title,format,kind,count] of [['Recall check','choice','quiz',8],['Mixed automatic questions','objective','revision',12],['Calculation practice','calculation','exam',10]]){
-      const b=ui.button(title,'automatic-preset','','teacher-button');b.onclick=()=>{$('activity-format').value=format;$('activity-kind').value=kind;$('activity-count').value=count;$('activity-writing').checked=false;$('work-mode').value=kind==='quiz'?'quiz':kind==='exam'?'exam':'mixed';$('work-lesson').value='';$('activity-format').dispatchEvent(new Event('change'));go(4);$('activity-generate').click();};ready.append(b);
+    const ready=ui.el('section');ready.append(ui.el('h3','Ready-made homework and assessments'),ui.el('p','Choose a task to generate its questions now. Subject-wide tasks use all core topics; other tasks use your selected topic. Review the preview before assigning.','panel-copy'));
+    for(const preset of window.RevisionTaskPresets.presets){
+      const b=ui.button(preset.title,'automatic-preset',preset.id,'teacher-button');b.title=preset.description;b.setAttribute('aria-label',preset.title+'. '+preset.description);
+      b.onclick=()=>{
+        $('work-lesson').value='';
+        if(preset.allTopics){$('activity-topic').value='all';$('activity-topic').dispatchEvent(new Event('change'));}
+        $('activity-format').value=preset.format;$('activity-kind').value=preset.kind;
+        $('activity-kind').dispatchEvent(new Event('change'));$('activity-format').dispatchEvent(new Event('change'));
+        $('activity-count').value=preset.count;$('activity-demand').value=preset.demand;
+        $('activity-writing').checked=['mixed','written','application','practical','analysis'].includes(preset.format);
+        $('work-mode').value=preset.mode;$('work-duration').value=preset.duration;
+        $('activity-feedback').value=preset.feedback;$('activity-attempts').value=preset.attempts||2;
+        $('assignment-type').value=preset.mode==='test'?'test':preset.kind==='revision'?'revision':'homework';
+        $('assignment-title').value=preset.title;$('assignment-notes').value=preset.description;
+        go(4);$('activity-generate').click();
+      };ready.append(b);
     }steps[2].append(ready);
     $('activity-kind').closest('label').hidden=true;move('activity-kind',2);move('activity-count',2);move('activity-format',2);move('activity-demand',2);move('activity-writing',2);
     steps[3].append(select('Assign to','work-audience',[['all','Whole class'],['selected','Selected students']]),ui.el('div'));

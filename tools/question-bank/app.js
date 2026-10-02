@@ -12,10 +12,11 @@
     const answers=Array.isArray(q.answer)?q.answer.filter(Boolean).map(String):[String(q.answer||'')].filter(Boolean);
     if(!q.question||!answers.length)return;
     all.push({
-      id:`${lesson.id}:q${index}`,
+      id:q.bankId||`${lesson.id}:q${index}`,
       level:lesson.level,subject:lesson.subject,scope:lesson.scope||'combined',topic:lesson.topic,
       topicTitle:lesson.topicTitle||lesson.topic||'Science',lessonTitle:lesson.title||'',href:lesson.href||'#',
       question:String(q.question),answer:answers,type:q.bankType||'exam',difficulty:q.difficulty||'standard',
+      options:Array.isArray(q.options)?shuffleRows(q.options.slice()):null,
       marks:Number(q.marks)||Math.max(1,Math.min(6,answers.length+1))
     });
   }));
@@ -40,7 +41,7 @@
   function refreshTopics(){
     const previous=$('topic').value;
     const map=new Map();baseForTopics().forEach(q=>map.set(`${q.subject}:${q.topic}`,`${label(q.subject)} · ${q.topicTitle}`));
-    const options=[['all','All topics'],...[...map.entries()].sort((a,b)=>a[1].localeCompare(b[1]))]];
+    const options=[['all','All topics'],...[...map.entries()].sort((a,b)=>a[1].localeCompare(b[1]))];
     $('topic').innerHTML=options.map(([value,text])=>`<option value="${esc(value)}">${esc(text)}</option>`).join('');
     if(options.some(([value])=>value===previous))$('topic').value=previous;
   }
@@ -67,7 +68,7 @@
     const markPoints=q.answer.map(a=>`<li>${esc(a)}</li>`).join('');
     return `<article class="question-card" data-id="${esc(q.id)}">
       <div class="question-top"><div><div class="question-meta"><span class="pill">${q.level==='alevel'?'A-level':'GCSE'}</span><span class="pill">${esc(label(q.subject))}</span><span class="pill">${esc(q.topicTitle)}</span><span class="pill">${esc(label(q.type))}</span><span class="pill">${esc(label(q.difficulty))}</span><span class="pill">${q.marks} mark${q.marks===1?'':'s'}</span></div><h3>${esc(q.question)}</h3><a class="lesson-link" href="../../${esc(q.href)}">Review lesson: ${esc(q.lessonTitle)} →</a></div><span class="question-number">#${index+1}</span></div>
-      <div class="question-answer"><label class="revision-sr-only" for="answer-${index}">Your answer</label><textarea id="answer-${index}" placeholder="Write your answer before revealing the mark points…"></textarea></div>
+      <div class="question-answer">${q.options?`<fieldset><legend>Select your answer</legend>${q.options.map((text,j)=>`<label style="display:block;padding:8px 0"><input type="radio" name="choice-${index}" value="${esc(text)}"> ${esc(text)}</label>`).join('')}<button type="button" class="revision-button" data-check-choice>Check answer</button><p data-choice-feedback role="status" aria-live="polite"></p></fieldset>`:`<label class="revision-sr-only" for="answer-${index}">Your answer</label><textarea id="answer-${index}" placeholder="Write your answer before revealing the mark points…"></textarea>`}</div>
       <div class="question-actions"><details class="mark-scheme"><summary>Show indicative mark points</summary><ol>${markPoints}</ol></details><div class="self-mark" role="group" aria-label="Self-assess this question"><span>How did you do?</span><button type="button" data-score="revisit" aria-pressed="${state==='revisit'}">Revisit</button><button type="button" data-score="partial" aria-pressed="${state==='partial'}">Partly</button><button type="button" data-score="secure" aria-pressed="${state==='secure'}">Got it</button></div></div>
     </article>`;
   }
@@ -79,6 +80,15 @@
     $('load-more').parentElement.hidden=randomMode||shown>=filtered.length||!filtered.length;
     $('result-note').textContent=randomMode?(filtered.length?'Random question from your current filters.':'No questions match your filters.'):`Showing ${Math.min(shown,filtered.length).toLocaleString()} of ${filtered.length.toLocaleString()} matching questions.`;
     updateStats();
+    $('question-list').querySelectorAll('[data-check-choice]').forEach(button=>button.addEventListener('click',()=>{
+      const cardEl=button.closest('.question-card'),q=all.find(q=>q.id===cardEl.dataset.id);
+      const selected=cardEl.querySelector('input[type=radio]:checked'),feedback=cardEl.querySelector('[data-choice-feedback]');
+      if(!selected){feedback.textContent='Select an answer first.';return;}
+      const correct=selected.value===q.answer[0];
+      feedback.textContent=correct?'Correct · 1/1 mark.':'0/1 marks. Correct answer: '+q.answer[0];
+      progress[q.id]=correct?'secure':'revisit';saveProgress();updateStats();
+      cardEl.querySelectorAll('.self-mark button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.score===progress[q.id])));
+    }));
     $('question-list').querySelectorAll('.self-mark button').forEach(button=>button.addEventListener('click',()=>{
       const cardEl=button.closest('.question-card'),id=cardEl?.dataset.id;if(!id)return;
       progress[id]=button.dataset.score;saveProgress();

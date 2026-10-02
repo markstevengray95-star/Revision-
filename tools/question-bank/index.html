@@ -1,11 +1,62 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Revision question banks · Practice</title><meta name="theme-color" content="#0a1422"><link rel="icon" href="../../icon.svg"><link rel="stylesheet" href="../../shared/revision-shell.css"><link rel="stylesheet" href="../../dashboard.css"><link rel="stylesheet" href="question-bank.css"><script src="../../shared/revision-shell.js" defer></script><script src="question-bank-core.js" defer></script><script src="question-bank.js" defer></script></head>
-<body class="revision-dashboard"><a class="revision-skip" href="#bank-main">Skip to question practice</a><main id="bank-main" class="dashboard-wrap">
-<header class="bank-hero"><span class="dashboard-eyebrow">YOUR REVISION QUESTION BANKS</span><h1>Write an answer.<br><span>Learn how marks are earned.</span></h1><p>106 GCSE science question sets from the supplied Biology, Chemistry and Physics banks. Original questions, diagrams, mark schemes and example answers.</p></header>
-<nav class="practice-modes" aria-label="Practice sections"><a href="../../practice.html">Lesson activities</a><a href="index.html" id="mode-answer" aria-current="page">Revision questions</a><a href="index.html?mode=mark" id="mode-mark">Mark student answers</a></nav>
-<section class="bank-filter" aria-label="Choose revision questions"><label>Subject<select id="bank-subject"><option value="physics">Physics</option><option value="chemistry">Chemistry</option><option value="biology">Biology</option></select></label><label>GCSE pathway<select id="bank-pathway"><option value="all">All supplied questions</option><option value="combined">Combined Science</option><option value="triple">Separate Science only</option></select></label><label>Topic<select id="bank-topic"><option value="all">All topics</option></select></label><label>Find a question<input id="bank-search" type="search" placeholder="Search titles or question wording…"></label><label class="bank-set-label">Question set<select id="bank-set"></select></label></section>
-<p id="bank-count" role="status">Loading your question banks…</p><p id="bank-storage" class="bank-note" role="status"></p>
-<div class="bank-toolbar"><button id="bank-previous" type="button">← Previous set</button><button id="bank-random" type="button">Surprise me</button><button id="bank-next" type="button">Next set →</button></div>
-<section id="bank-workspace" aria-labelledby="bank-title" hidden><header class="bank-heading"><span id="bank-meta" class="dashboard-eyebrow"></span><h2 id="bank-title"></h2><p id="bank-description"></p></header><div id="bank-context" class="source-content"></div><div id="bank-questions"></div><div id="bank-actions" class="bank-actions"></div><p id="bank-feedback" role="status" aria-live="polite"></p><section id="bank-review" class="bank-review" aria-label="Answers and marking feedback" hidden></section></section>
-<section id="bank-empty" class="bank-card" hidden><h2>No question sets match</h2><p>Try a different subject, topic or search. Marking practice includes sets with at least two supplied answers whose awarded marks match the question parts.</p><button id="bank-clear" type="button">Clear search and topic</button></section>
-<footer class="dashboard-footer"><p>Questions and answers retain the supplied wording, including source typos. Written answers are self-assessed against the supplied mark scheme. Marking exercises check the marks you select against the scores stated in the source. Drafts and progress are saved on this device.</p><a href="../../practice.html">Back to lesson practice</a></footer></main><noscript><p>Enable JavaScript to use the question banks.</p></noscript></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a1422">
+  <meta name="description" content="Searchable GCSE and A-level Biology, Chemistry and Physics question bank for Spark revision.">
+  <title>Science question bank · Spark</title>
+  <link rel="icon" href="../../icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/revision-shell.css">
+  <link rel="stylesheet" href="../../dashboard.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="../../shared/revision-shell.js" defer></script>
+  <script src="../../practice-data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="revision-dashboard question-bank-page">
+<a class="revision-skip" href="#main">Skip to question bank</a>
+<main id="main" class="bank-wrap">
+  <header class="bank-hero">
+    <div>
+      <span class="dashboard-eyebrow">LARGE QUESTION BANK</span>
+      <h1>More questions.<br><span>More ways to practise.</span></h1>
+      <p>Search the full GCSE and A-level Biology, Chemistry and Physics bank by topic, question type and challenge level. Questions are original and built from the course content.</p>
+    </div>
+    <a class="revision-button" href="../../index.html">← Dashboard</a>
+  </header>
+  <nav class="bank-actions" aria-label="Question bank sections"><a class="revision-button" href="source/index.html">Your original revision questions</a><a class="revision-button" href="source/index.html?mode=mark">Mark student answers</a></nav>
+
+  <section class="bank-stats" aria-label="Question bank summary">
+    <div><strong id="total-questions">0</strong><span>questions</span></div>
+    <div><strong id="visible-questions">0</strong><span>matching filters</span></div>
+    <div><strong id="topics-count">0</strong><span>topics</span></div>
+    <div><strong id="attempted-count">0</strong><span>self-assessed</span></div>
+  </section>
+
+  <section class="bank-controls" aria-labelledby="filter-title">
+    <div class="bank-section-heading"><div><span class="dashboard-eyebrow">FIND QUESTIONS</span><h2 id="filter-title">Build your practice set</h2></div><button id="random-question" class="revision-button primary" type="button">Random question →</button></div>
+    <div class="filter-grid">
+      <label>Qualification<select id="level"><option value="all">All</option><option value="gcse">GCSE</option><option value="alevel">A-level</option></select></label>
+      <label>Subject<select id="subject"><option value="all">All subjects</option><option value="biology">Biology</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option></select></label>
+      <label id="pathway-label">GCSE pathway<select id="pathway"><option value="all">Combined + Separate</option><option value="combined">Combined Science</option><option value="triple">Separate / Triple</option></select></label>
+      <label>Topic<select id="topic"><option value="all">All topics</option></select></label>
+      <label>Question type<select id="type"><option value="all">All types</option><option value="exam">Exam-style</option><option value="recall">Recall</option><option value="explain">Explain</option><option value="extended">Extended response</option><option value="accuracy">Accuracy / misconception</option><option value="improve">Improve an answer</option><option value="application">Application</option><option value="synoptic">Synoptic</option></select></label>
+      <label>Challenge<select id="difficulty"><option value="all">All levels</option><option value="foundation">Foundation</option><option value="standard">Standard</option><option value="challenge">Challenge</option></select></label>
+      <label class="search-control">Search<input id="search" type="search" placeholder="Search topics, lessons or question text…" autocomplete="off"></label>
+    </div>
+  </section>
+
+  <section class="bank-results" aria-labelledby="results-title">
+    <div class="bank-section-heading"><div><span class="dashboard-eyebrow">QUESTION BANK</span><h2 id="results-title">Practice questions</h2></div><div class="bank-actions"><button id="shuffle" type="button">Shuffle</button><button id="clear-filters" type="button">Clear filters</button></div></div>
+    <p id="result-note" class="section-note" role="status" aria-live="polite"></p>
+    <div id="question-list" class="question-list"></div>
+    <div class="load-more-wrap"><button id="load-more" class="revision-button" type="button">Load more questions</button></div>
+    <div id="empty" class="empty-state" hidden><h3>No questions match</h3><p>Try removing a filter or using a shorter search.</p></div>
+  </section>
+
+  <footer class="dashboard-footer"><p>Original practice questions based on the Spark course content. Mark points are indicative rather than official AQA mark schemes.</p><a href="../../practice.html">Open lesson practice →</a></footer>
+</main>
+<noscript><p>Enable JavaScript to use the question bank.</p></noscript>
+</body>
+</html>

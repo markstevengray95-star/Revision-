@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a1422">
+  <meta name="description" content="Full-length original AQA-style GCSE and A-level science practice papers generated from the Spark revision question bank.">
+  <title>Full practice papers · Spark</title>
+  <link rel="icon" href="../../icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/revision-shell.css">
+  <link rel="stylesheet" href="../../dashboard.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="../../shared/revision-shell.js" defer></script>
+  <script src="../../practice-data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="revision-dashboard full-paper-page">
+  <a class="revision-skip" href="#main">Skip to full papers</a>
+  <main id="main" class="paper-wrap">
+    <header class="paper-hero">
+      <div>
+        <span class="dashboard-eyebrow">FULL EXAM PRACTICE</span>
+        <h1>Full papers.<br><span>Built for proper exam practice.</span></h1>
+        <p>Choose a GCSE or A-level science paper, pick a set, then work through it under timed conditions. Every paper is assembled from original Spark practice questions rather than copied exam-board material.</p>
+      </div>
+      <a class="revision-button" href="../../index.html">← Dashboard</a>
+    </header>
+
+    <section class="paper-builder" aria-labelledby="builder-title">
+      <div class="builder-heading">
+        <div><span class="dashboard-eyebrow">BUILD A PAPER</span><h2 id="builder-title">Choose your exam</h2></div>
+        <p id="paper-count" class="section-note" role="status"></p>
+      </div>
+      <div class="paper-controls">
+        <label>Qualification
+          <select id="level"><option value="gcse">GCSE</option><option value="alevel">A-level</option></select>
+        </label>
+        <label>Subject
+          <select id="subject"><option value="biology">Biology</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option></select>
+        </label>
+        <label id="pathway-label">GCSE pathway
+          <select id="pathway"><option value="triple">Separate / Triple Science</option><option value="combined">Combined Science</option></select>
+        </label>
+        <label>Paper
+          <select id="paper"></select>
+        </label>
+        <label>Practice set
+          <select id="set"><option value="1">Set A</option><option value="2">Set B</option><option value="3">Set C</option><option value="4">Set D</option><option value="5">Set E</option></select>
+        </label>
+        <button id="build-paper" class="revision-button primary" type="button">Build full paper →</button>
+      </div>
+      <p id="structure-note" class="structure-note"></p>
+    </section>
+
+    <section id="paper-shell" class="paper-shell" hidden aria-labelledby="paper-title">
+      <div class="paper-toolbar">
+        <div class="paper-title-block">
+          <span id="paper-kicker" class="dashboard-eyebrow"></span>
+          <h2 id="paper-title"></h2>
+          <p id="paper-meta"></p>
+        </div>
+        <div class="timer-card" aria-label="Exam timer">
+          <span>TIME REMAINING</span><strong id="timer">00:00:00</strong>
+          <div><button id="timer-toggle" type="button">Start</button><button id="timer-reset" type="button">Reset</button></div>
+        </div>
+      </div>
+
+      <div class="paper-actions">
+        <button id="print-paper" class="revision-button" type="button">Print / save PDF</button>
+        <button id="finish-paper" class="revision-button primary" type="button">Finish & mark</button>
+        <button id="new-version" class="revision-button" type="button">New set</button>
+        <span id="save-state" role="status"></span>
+      </div>
+
+      <aside class="exam-instructions">
+        <strong>Exam conditions</strong>
+        <span>Answer every question. Show working for calculations. Use clear scientific vocabulary. Marks are shown beside each question.</span>
+      </aside>
+
+      <ol id="question-list" class="question-list"></ol>
+
+      <section id="marking-panel" class="marking-panel" hidden>
+        <div class="marking-heading"><div><span class="dashboard-eyebrow">SELF-MARK</span><h2>Review your paper</h2></div><strong id="score-display">0 / 0</strong></div>
+        <p>Use the indicative marking points below. Award a mark only when your response clearly includes the point. These are Spark model answers, not official AQA mark schemes.</p>
+        <div id="marking-list"></div>
+        <div class="score-summary"><strong id="final-score">0%</strong><span id="score-message">Complete the marking points to calculate a score.</span></div>
+      </section>
+    </section>
+
+    <section class="paper-info" aria-labelledby="coverage-title">
+      <div><span class="dashboard-eyebrow">WHAT IS INCLUDED</span><h2 id="coverage-title">More than one mock</h2></div>
+      <div class="info-grid">
+        <article><strong>5 versions per paper</strong><p>Sets A–E reshuffle the question pool, so students can repeat full-paper practice without seeing the same sequence.</p></article>
+        <article><strong>GCSE Combined + Separate</strong><p>Biology, Chemistry and Physics paper-style practice is available for both GCSE pathways.</p></article>
+        <article><strong>All three A-level sciences</strong><p>Biology, Chemistry and Physics include full Paper 1, Paper 2 and Paper 3-style practice structures.</p></article>
+        <article><strong>Timed + printable</strong><p>Use the built-in exam timer online or print a clean question paper for classroom and homework use.</p></article>
+      </div>
+    </section>
+
+    <footer class="paper-footer">
+      <p>These are original practice papers aligned to the course. They use official assessment structures as a guide but do not reproduce official question papers or mark schemes.</p>
+      <a href="../../practice.html">Short practice activities →</a>
+    </footer>
+  </main>
+  <noscript><p>Enable JavaScript to build full practice papers.</p></noscript>
+</body>
+</html>

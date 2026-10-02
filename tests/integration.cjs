@@ -40,7 +40,12 @@ for(const file of ['teacher.html','teacher-dashboard.css','teacher-cloud.css','t
 const shell=fs.readFileSync(path.join(root,'shared/revision-shell.js'),'utf8');
 assert.ok(shell.includes('teacher-simple.css'),'Teacher shell must load simplified dashboard styling');
 assert.ok(shell.includes('teacher-simple.js'),'Teacher shell must load simplified dashboard logic');
+assert.ok(shell.includes('Spark') && shell.includes('spark-bolt'),'Shared navigation must use Spark branding');
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
+assert.equal(manifest.short_name,'Spark');
+assert.ok(manifest.name.startsWith('Spark'));
+assert.ok(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('<title>Spark · GCSE & A-level Science</title>'));
 for(const file of ['teacher-cloud.js','teacher-activities.js','teacher-simple.js','activity.js','shared/activity-generator.js','shared/activity-ui.js','student-dashboard.js','shared/revision-supabase.js','shared/revision-shell.js']){
   new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file});
 }
-console.log(`Integration passed: 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, simple teacher monitoring, self-contained workspaces, and valid workspace scripts.`);
+console.log(`Integration passed: Spark branding, 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, simple teacher monitoring, self-contained workspaces, and valid workspace scripts.`);

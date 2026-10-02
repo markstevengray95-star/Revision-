@@ -61,7 +61,7 @@ class Converter:
         blip=n.find('.//'+A+'blip')
         if blip is None:return ''
         target=self.rels[blip.get(R+'embed')];raw=self.z.read('word/'+target)
-        name=self.subject+'-'+pathlib.Path(target).name;relative='tools/question-bank/assets/'+name
+        name=self.subject+'-'+pathlib.Path(target).name;relative='tools/question-bank/source/assets/'+name
         dest=ROOT/relative;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(raw)
         item={'path':relative,'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}
         if item not in self.assets:self.assets.append(item)
@@ -314,7 +314,7 @@ def main():
             bank['subjects'][subject]={'name':subject.capitalize(),'sets':len(rows)}
             manifest['sources'].append({'subject':subject,'file':file,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'sets':len(rows),'questionBlocks':sum(len(r['question']) for r in rows),'textSha256':hashlib.sha256('\n'.join(b['text'] for b in blocks).encode()).hexdigest(),'mathCount':len(root.findall('.//'+M+'oMath')),'shapeCount':len(conv.shapes)})
             manifest['assets'].extend(conv.assets)
-    target=ROOT/'tools/question-bank';target.mkdir(parents=True,exist_ok=True)
+    target=ROOT/'tools/question-bank/source';target.mkdir(parents=True,exist_ok=True)
     (target/'bank.json').write_text(json.dumps(bank,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf8')
     manifest['counts']={'sets':len(bank['sets']),'parts':sum(len(s['parts']) for s in bank['sets']),'markingExamples':sum(len(s['markingExamples']) for s in bank['sets']),'modelAnswers':sum(bool(s['modelHtml']) for s in bank['sets']),'assets':len(manifest['assets'])}
     (target/'source-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')

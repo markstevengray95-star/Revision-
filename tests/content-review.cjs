@@ -1,12 +1,13 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const {loadCourses,root}=require('../scripts/course-content.cjs');const {generatePractice}=require('../scripts/practice-catalog.cjs');
+const {loadCourses,root}=require('../scripts/course-content.cjs');const {generatePractice,writePractice}=require('../scripts/practice-catalog.cjs');
 const w=loadCourses(),data=generatePractice();
 assert.equal(data.lessons.length,711);assert.equal(new Set(data.lessons.map(l=>l.id)).size,711);
 const counts={};let questions=0;
 for(const l of data.lessons){
  counts[l.level+':'+l.subject]=(counts[l.level+':'+l.subject]||0)+1;
- assert.ok(l.core.length>50&&l.accuracy.length>20,'Missing science: '+l.id);assert.equal(l.questions.length,3,'Missing questions: '+l.id);
- for(const q of l.questions){assert.ok(q.question.length>10);assert.ok(q.answer.length&&q.answer.every(a=>a.trim().length>0),'Missing answer: '+l.id);assert.ok(!/given above|solve a quantitative problem|unfamiliar context\. Explain the reasoning/i.test(q.question),'Unspecified question: '+l.id);questions++;}
+ assert.ok(l.core.length>50&&l.accuracy.length>20,'Missing science: '+l.id);assert.ok(l.questions.length>=8,'Question bank too small: '+l.id);
+ assert.equal(l.questionCount,l.questions.length,'Question count metadata mismatch: '+l.id);
+ for(const q of l.questions){assert.ok(q.question.length>10);assert.ok(q.answer.length&&q.answer.every(a=>a.trim().length>0),'Missing answer: '+l.id);assert.ok(Number.isInteger(q.marks)&&q.marks>=1&&q.marks<=6,'Invalid marks: '+l.id);assert.ok(q.bankType&&q.difficulty,'Missing question metadata: '+l.id);assert.ok(!/given above|solve a quantitative problem|unfamiliar context\. Explain the reasoning/i.test(q.question),'Unspecified question: '+l.id);questions++;}
  assert.ok(w.REVISION_SKILLS.build(l.skillKey),'Missing topic data challenge: '+l.id);
  const url=new URL(l.href,'http://localhost');assert.ok(fs.existsSync(path.join(root,decodeURIComponent(url.pathname))),'Broken lesson link: '+l.id);
  if(l.level==='gcse'){assert.ok(url.searchParams.get('lesson')===l.title);if(l.scope==='triple')assert.equal(url.searchParams.get('mode'),'triple');}
@@ -16,6 +17,7 @@ for(const l of data.lessons){
   assert.equal(url.searchParams.get('lesson')||url.searchParams.get('section'),l.ref,'Link opens wrong lesson: '+l.id);
  }
 }
+assert.equal(data.questionCount,questions);assert.ok(questions>=5688,'Expanded question bank unexpectedly small');
 assert.deepEqual(counts,{'gcse:biology':163,'gcse:physics':110,'gcse:chemistry':166,'alevel:physics':118,'alevel:biology':39,'alevel:chemistry':115});
 for(const topic of w.GCSE_COURSE_DATA.topics)for(const [i,[title]] of topic.lessons.entries()){
  const l=w.GCSE_RICH_CONTENT.getLesson(topic,title,i),m=w.GCSE_LESSON_PRESENTATION_CATALOG.build(topic,title,i,l);
@@ -40,5 +42,5 @@ for(const [key,expected] of Object.entries(baseResults)){
 }
 for(const invalid of ['', ' ', '1.2 wrong', '0; alert(1)', 'Infinity','NaN'])assert.ok(!Number.isFinite(w.REVISION_SKILLS.parseNumber(invalid)));
 assert.equal(w.REVISION_SKILLS.parseNumber('−1.2e-3'),-.0012);
-const generated={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'practice-data.js'),'utf8'),generated);assert.equal(JSON.stringify(generated.window.REVISION_PRACTICE),JSON.stringify(data),'Practice data needs regeneration');
+writePractice();const generated={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'practice-data.js'),'utf8'),generated);assert.equal(JSON.stringify(generated.window.REVISION_PRACTICE),JSON.stringify(data),'Practice data needs regeneration');
 console.log(`Content checks passed: ${data.lessons.length} distinct lessons, ${questions} answered prompts, 44 numeric challenges with 5 data variants, and matching assessment answers.`);

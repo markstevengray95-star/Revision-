@@ -78,18 +78,20 @@
       key: { value: p.result, tolerance, solution: p.steps },
     };
   }
-  function generate({level,subject,topic,pathway="combined",kind="quiz",count=6,seed=0,includeWritten=true,format="auto",demand="standard"}) {
+  function generate({level,subject,topic,pathway="combined",kind="quiz",count=6,seed=0,includeWritten=true,format="auto",demand="standard",lessonIds,difficulty}) {
     const H=globalThis.RevisionHomework,E=globalThis.RevisionEquations;
-    const rows=window.REVISION_PRACTICE.lessons.filter(l=>l.level===level&&l.subject===subject&&(topic==="all"||l.topic===topic)&&(level!=="gcse"||pathway==="triple"||l.scope!=="triple"));
+    const rows=window.REVISION_PRACTICE.lessons.filter(l=>l.level===level&&l.subject===subject&&(topic==="all"||l.topic===topic)&&(!lessonIds?.length||lessonIds.includes(l.id))&&(level!=="gcse"||pathway==="triple"||l.scope!=="triple"));
     if(!rows.length)throw Error("Choose a topic with lessons.");
     if(!["quiz","exam","revision"].includes(kind)||!["auto","objective","mixed","choice","cloze","written","calculation"].includes(format))throw Error("Choose a valid activity and question mix.");
-    const equationPool=E.available({level,subject,topic,pathway});
+    if(lessonIds?.length&&format==="calculation")throw Error("Choose All lessons in this topic for equation calculations.");
+    const equationPool=lessonIds?.length||difficulty?[]:E.available({level,subject,topic,pathway});
     const extra=[];
-    if(!equationPool.length&&(format==="mixed"||format==="objective"||format==="calculation"||(format==="auto"&&kind!=="quiz")))for(let i=0;i<30;i++){const q=number(rows[i%rows.length],hash(seed+":"+i),i,rows);if(q)extra.push({id:"legacy:"+i,type:"calculation",prompt:q.prompt,model:q.key.solution.join("\n"),legacyActivity:q});}
+    if(!difficulty&&!lessonIds?.length&&!equationPool.length&&(format==="mixed"||format==="objective"||format==="calculation"||(format==="auto"&&kind!=="quiz")))for(let i=0;i<30;i++){const q=number(rows[i%rows.length],hash(seed+":"+i),i,rows);if(q)extra.push({id:"legacy:"+i,type:"calculation",prompt:q.prompt,model:q.key.solution.join("\n"),legacyActivity:q});}
     const calculations=equationPool.length||extra.length;
     const automatic=kind==="quiz"?["choice"]:["choice",...(calculations?["calculation"]:[]),...(kind==="exam"&&includeWritten?["written"]:[])];
-    const formats=format==="objective"?["choice",...(calculations?["calculation"]:[])]:format==="auto"?automatic:format==="mixed"?["choice","cloze","written",...(calculations?["calculation"]:[])]:[format];
-    const pack=H.build({v:1,l:level,s:subject,p:pathway,t:topic,n:count,d:demand,k:formats,z:hash(seed+":"+topic)},window.REVISION_PRACTICE.lessons,extra);
+    const formats=difficulty?["written"]:format==="objective"?["choice",...(calculations?["calculation"]:[])]:format==="auto"?automatic:format==="mixed"?["choice","cloze","written",...(calculations?["calculation"]:[])]:[format];
+    const poolRows=difficulty?rows.map(l=>({...l,questions:l.questions.filter(q=>difficulty==="application"?q.bankType==="application":q.difficulty==="challenge")})):rows;
+    const pack=H.build({v:1,l:level,s:subject,p:pathway,t:topic,n:count,d:demand,k:formats,z:hash(seed+":"+topic)},poolRows,extra);
     const questions=pack.questions.map((q,i)=>{
       const id="q"+(i+1);
       if(q.legacyActivity)return {...q.legacyActivity,id};
@@ -100,6 +102,7 @@
       if(q.type==="calculation"){const c=q.calculation,tolerance=c.expected===0?1e-12:0.51*10**(Math.floor(Math.log10(Math.abs(c.expected)))-2);return {...common,type:"number",marks:1,prompt:q.prompt+" Give the final answer to 3 significant figures.",unit:c.unit,key:{value:c.expected,tolerance,solution:c.steps}};}
       return {...common,type:"written",marks:q.type==="cloze"?1:Math.min(4,Math.max(2,q.model.split("\n").length)),prompt:q.type==="cloze"?"Complete the missing scientific word.\n"+q.prompt:q.prompt,key:{solution:q.model.split("\n")}};
     });
+    for(const q of questions){const linked=rows.find(l=>l.id===q.lessonId);q.subject=subject;q.topic=linked?.topic||topic;q.subtopic=q.title;q.skill=q.type==='number'?'calculation':q.type==='written'?'exam':'recall';q.specification='';q.misconception=linked?.accuracy||'';q.difficulty=difficulty||demand;}
     return {version:1,level,subject,topic,topicTitle:topic==="all"?"All core topics":rows[0].topicTitle,pathway,kind,questions};
   }
   const total = (activity) =>

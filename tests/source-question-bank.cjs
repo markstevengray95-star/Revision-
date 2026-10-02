@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),vm=require('node:vm');
-const root=path.join(__dirname,'..'),dir=path.join(root,'tools/question-bank'),bank=JSON.parse(fs.readFileSync(path.join(dir,'bank.json'),'utf8')),manifest=JSON.parse(fs.readFileSync(path.join(dir,'source-manifest.json'),'utf8')),core=require('../tools/question-bank/question-bank-core.js');
+const root=path.join(__dirname,'..'),dir=path.join(root,'tools/question-bank/source'),bank=JSON.parse(fs.readFileSync(path.join(dir,'bank.json'),'utf8')),manifest=JSON.parse(fs.readFileSync(path.join(dir,'source-manifest.json'),'utf8')),core=require('../tools/question-bank/source/question-bank-core.js');
 assert.equal(bank.sets.length,106);assert.equal(bank.sets.reduce((n,s)=>n+s.parts.length,0),143);assert.equal(new Set(bank.sets.map(s=>s.id)).size,106);
 assert.deepEqual(Object.fromEntries(['physics','chemistry','biology'].map(subject=>[subject,bank.sets.filter(s=>s.subject===subject).length])),{physics:35,chemistry:36,biology:35});
 let cases=0;
@@ -16,7 +16,7 @@ for(const set of bank.sets){
 assert.equal(bank.sets.filter(core.canMark).length,103);
 assert.equal(manifest.assets.length,83);for(const asset of manifest.assets){const bytes=fs.readFileSync(path.join(root,asset.path));assert.equal(bytes.length,asset.bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),asset.sha256);}
 for(const file of ['question-bank.js','question-bank-core.js'])new vm.Script(fs.readFileSync(path.join(dir,file),'utf8'),{filename:file});
-const page=fs.readFileSync(path.join(dir,'index.html'),'utf8');assert.ok(page.includes('shared/revision-shell.js'));assert.ok(fs.readFileSync(path.join(root,'practice.html'),'utf8').includes('tools/question-bank/index.html?mode=mark'));
+const page=fs.readFileSync(path.join(dir,'index.html'),'utf8');assert.ok(page.includes('shared/revision-shell.js'));assert.ok(fs.readFileSync(path.join(root,'practice.html'),'utf8').includes('tools/question-bank/source/index.html?mode=mark'));
 const physics1=bank.sets.find(s=>s.id==='physics-01');assert.ok(physics1.questionHtml.includes('ZARM Drop Tower'));assert.ok(physics1.schemeHtml.includes('<mfrac>'));const biology1=bank.sets.find(s=>s.id==='biology-01');assert.ok(biology1.questionHtml.includes('<line'));assert.ok(biology1.questionHtml.includes('<text'));assert.ok(biology1.questionHtml.includes('biology-image1.jpeg'));
 console.log(`Source banks passed: 106 sets, 143 parts, 83 original diagram hashes, 103 marking sets, ${cases} score mutations, completion gates, safe drafts and intact equation/diagram rendering.`);
 const resistor=bank.sets.find(s=>s.id==='physics-08');assert.ok(resistor.questionHtml.includes('terminal A'));assert.ok(resistor.questionHtml.includes('terminal B'));assert.ok(!/font-size="\d{4,}/.test(resistor.questionHtml));

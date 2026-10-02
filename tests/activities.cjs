@@ -140,7 +140,7 @@ for(const [level,subject,topic] of [['gcse','biology','b1'],['gcse','chemistry',
     const settings={level,subject,topic,pathway:'triple',kind:'exam',count:60,seed:76,format,demand:'stretch'};
     const activity=w.REVISION_ACTIVITIES.generate(settings);
     assert.equal(activity.questions.length,60);assert.equal(new Set(activity.questions.map(q=>q.prompt)).size,60);
-    const clean=w.REVISION_ACTIVITIES.publicQuestions(activity);assert.ok(!/"(?:key|expected|calculation|model|solution)"/.test(JSON.stringify(clean)),'Public questions must not contain nested keys');
+    const clean=w.REVISION_ACTIVITIES.publicQuestions(activity);assert.ok(!/"(?:key|expected|calculation|model|solution)"\s*:/.test(JSON.stringify(clean)),'Public questions must not contain nested keys');
     assert.equal(JSON.stringify(activity),JSON.stringify(w.REVISION_ACTIVITIES.generate(settings)));
     assert.notEqual(JSON.stringify(activity.questions),JSON.stringify(w.REVISION_ACTIVITIES.generate({...settings,seed:77}).questions));
     if(format==='calculation')assert.ok(activity.questions.every(q=>q.type==='number'));
@@ -152,3 +152,5 @@ console.log('Expanded activities passed: 60 unique mixed/calculation questions f
 
 for(const level of ['gcse','alevel'])for(const subject of ['physics','chemistry','biology']){const q=w.REVISION_ACTIVITIES.generate({level,subject,topic:'all',format:'objective',kind:'exam',includeWritten:true,count:60,seed:13});assert.equal(q.questions.length,60);assert.ok(q.questions.every(x=>x.type!=='written'),'Objective mode must remain automatically markable even in exam mode');}
 console.log('Objective homework passed: all six courses support 60 auto-marked questions with teacher writing enabled.');
+for(const level of ['gcse','alevel'])for(const subject of ['biology','chemistry','physics']){const lesson=w.REVISION_PRACTICE.lessons.find(l=>l.level===level&&l.subject===subject&&l.scope!=='triple');const a=w.REVISION_ACTIVITIES.generate({level,subject,topic:lesson.topic,lessonIds:[lesson.id],count:3,format:'written'});assert.ok(a.questions.every(q=>q.lessonId===lesson.id&&q.subject===subject&&q.topic===lesson.topic&&q.skill==='exam'));}
+console.log('Targeted homework passed: selected lesson scope and mastery metadata survive the workspace integration.');

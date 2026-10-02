@@ -45,7 +45,7 @@ begin
   if result->>'score'<>'3' or result->>'review_state'<>'complete' or(select score from public.revision_submissions where assignment_id=aid)<>3 then raise exception 'Review did not update result';end if;
   result:=public.revision_duplicate_activity(aid,now()+interval '14 days');duplicate_id:=(result->>'id')::uuid;
   if (select questions from public.revision_activities where assignment_id=duplicate_id)is distinct from(select questions from public.revision_activities where assignment_id=aid) then raise exception 'Duplicate lost questions';end if;
-  result:=public.revision_assign_activity(meta||jsonb_build_object('due_at',now()-interval '1 day'),activity||'{"allow_late":false,"feedback_mode":"after_due"}');late_id:=(result->>'id')::uuid;
+  result:=public.revision_assign_activity(meta||jsonb_build_object('start_at',now()-interval '2 days','due_at',now()-interval '1 day'),activity||'{"allow_late":false,"feedback_mode":"after_due"}');late_id:=(result->>'id')::uuid;
   perform set_config('request.jwt.claim.sub',s::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',s,'role','authenticated')::text,true);
   blocked:=false;begin perform public.revision_submit_activity(late_id,student_answers,gen_random_uuid());exception when others then if sqlerrm like '%deadline%'then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Deadline not enforced';end if;
   result:=public.revision_submit_activity(aid,'{"q1":"b","q2":"1.25e-1","q3":"Improved explanation"}',gen_random_uuid());

@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Revision · GCSE & A-level Science",
-  "short_name": "Revision",
-  "description": "Biology, Chemistry and Physics revision in one place.",
+  "name": "Spark · GCSE & A-level Science",
+  "short_name": "Spark",
+  "description": "Spark brings Biology, Chemistry and Physics revision together in one place.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -23,6 +23,8 @@
     <script src="shared/revision-supabase.js" defer></script>
     <script src="practice-data.js" defer></script>
     <script src="shared/practice-skills.js" defer></script>
+    <script src="shared/equation-bank.js" defer></script>
+    <script src="shared/homework-engine.js" defer></script>
     <script src="shared/activity-generator.js" defer></script>
     <script src="shared/activity-ui.js" defer></script>
     <script src="teacher-activities.js" defer></script>
@@ -344,7 +346,7 @@
                     <label
                       >Activity<select id="activity-kind">
                         <option value="quiz">
-                          Topic quiz · automatic marking
+                          Topic quiz · knowledge checks
                         </option>
                         <option value="exam">
                           Exam practice · calculations and recall
@@ -358,7 +360,7 @@
                         id="activity-count"
                         type="number"
                         min="3"
-                        max="15"
+                        max="60"
                         value="6"
                         required
                     /></label>
@@ -370,6 +372,11 @@
                     ><input id="activity-writing" type="checkbox" />Include
                     written exam responses (teacher reviewed)</label
                   >
+                  <div class="form-grid two">
+                    <label>Question mix<select id="activity-format"><option value="auto">Suggested for this activity</option><option value="objective">Auto-marked only · multiple choice &amp; calculations</option><option value="mixed">Mixed · recall, missing words, explanations & calculations</option><option value="choice">Multiple choice · automatic marking</option><option value="cloze">Missing words · teacher reviewed</option><option value="written">Written explanations · teacher reviewed</option><option value="calculation">Calculations</option></select></label>
+                    <label>Calculation challenge<select id="activity-demand"><option value="support">Support · direct substitution</option><option value="standard" selected>Standard · rearrange</option><option value="stretch">Stretch · rearrange & convert units</option></select></label>
+                  </div>
+                  <p class="panel-copy">Set up to 60 distinct questions. Fresh previews vary the questions and calculation values. <a href="tools/equation-practice/index.html">Explore Equation Practice →</a></p>
                   <div class="form-grid two">
                     <label
                       >Attempts allowed<select id="activity-attempts">

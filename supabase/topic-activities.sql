@@ -73,7 +73,7 @@ begin
  if not private.revision_is_teacher() or not exists(select 1 from public.revision_classes where id=cid and teacher_id=uid and not archived) then raise exception 'You must own this active class';end if;
  if p_activity->>'kind' not in ('quiz','exam','revision') or p_activity->>'kind' is null then raise exception 'Invalid activity type';end if;
  if jsonb_typeof(p_activity->'questions') is distinct from 'array' then raise exception 'Questions must be an array';end if;
- if jsonb_array_length(p_activity->'questions') not between 1 and 30 or octet_length(p_activity::text)>200000 then raise exception 'Choose 1–30 questions';end if;
+ if jsonb_array_length(p_activity->'questions') not between 1 and 60 or octet_length(p_activity::text)>200000 then raise exception 'Choose 1–60 questions';end if;
  if length(btrim(coalesce(p_activity->>'topicTitle',''))) not between 1 and 160 or length(coalesce(p_activity->>'topic','')) not between 1 and 120 then raise exception 'Choose a topic';end if;
  attempts:=(p_activity->>'attempts_limit')::integer;feedback:=p_activity->>'feedback_mode';
  if attempts is null or attempts not between 1 and 5 or feedback is null or feedback not in ('immediate','after_final_attempt','after_due') then raise exception 'Invalid retry or feedback settings';end if;

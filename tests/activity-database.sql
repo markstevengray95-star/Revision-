@@ -4,6 +4,7 @@ do $$
 declare
  t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
  code text;meta jsonb;activity jsonb;result jsonb;first_id uuid;token uuid:=gen_random_uuid();blocked boolean;student_answers jsonb;
+ capacity_id uuid;capacity_questions jsonb;capacity_answers jsonb;
 begin
  begin
   insert into auth.users(id,email)values(t,t||'@revision-test.invalid'),(s,s||'@revision-test.invalid'),(o,o||'@revision-test.invalid');
@@ -13,12 +14,20 @@ begin
   insert into public.revision_classes(teacher_id,name,subject,level)values(t,'Activity verification','Physics','GCSE')returning id,join_code into cid,code;
   meta:=jsonb_build_object('class_id',cid,'assignment_type','test','title','Verification activity','instructions','Test only','due_at',now()+interval '7 days');
   activity:='{"level":"gcse","subject":"physics","topic":"p1","topicTitle":"Energy","kind":"exam","attempts_limit":2,"feedback_mode":"after_final_attempt","allow_late":true,"questions":[{"id":"q1","type":"choice","marks":1,"prompt":"Which is correct?","options":[{"id":"a","text":"Correct"},{"id":"b","text":"Incorrect"}],"key":{"correct":"a","solution":["Correct explanation"]}},{"id":"q2","type":"number","marks":1,"prompt":"Calculate the result.","key":{"value":0.125,"tolerance":0.0005,"solution":["Divide 1 by 8: 0.125"]}},{"id":"q3","type":"written","marks":2,"prompt":"Explain the result.","key":{"solution":["First point","Second point"]}}]}'::jsonb;
+  select jsonb_agg((activity->'questions'->0)||jsonb_build_object('id','capacity_'||n)) into capacity_questions from generate_series(1,60)n;
+  result:=public.revision_assign_activity(meta,activity||jsonb_build_object('questions',capacity_questions));capacity_id:=(result->>'id')::uuid;
+  if result->>'total_marks'<>'60' or(select jsonb_array_length(questions)from public.revision_activities where assignment_id=capacity_id)<>60 then raise exception '60-question assignment capacity failed';end if;
+  blocked:=false;begin perform public.revision_assign_activity(meta,activity||jsonb_build_object('questions',capacity_questions||jsonb_build_array((activity->'questions'->0)||'{"id":"capacity_61"}')));exception when others then if sqlerrm like '%Choose 1–60%'then blocked:=true;else raise;end if;end;if not blocked then raise exception '61-question limit bypass';end if;
   result:=public.revision_assign_activity(meta,activity);aid:=(result->>'id')::uuid;
   if result->>'total_marks'<>'4' then raise exception 'Wrong generated total';end if;
   if exists(select 1 from public.revision_activities where assignment_id=aid and questions::text like '%solution%') then raise exception 'Answer keys leaked into public questions';end if;
   perform set_config('request.jwt.claim.sub',s::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',s,'role','authenticated')::text,true);
   perform public.revision_ensure_profile('student','Test student');perform public.revision_join_class(code,'Test student');
   if (select count(*)from public.revision_activities where assignment_id=aid)<>1 then raise exception 'Joined student cannot read activity';end if;
+  select jsonb_object_agg('capacity_'||n,'a')into capacity_answers from generate_series(1,60)n;
+  perform public.revision_save_activity_draft(capacity_id,capacity_answers);
+  result:=public.revision_submit_activity(capacity_id,capacity_answers,gen_random_uuid());
+  if result->>'score'<>'60' or result->>'auto_max'<>'60' or result->>'review_state'<>'complete' then raise exception '60-question marking failed';end if;
   blocked:=false;begin perform keys from private.revision_activity_keys;exception when insufficient_privilege then blocked:=true;end;if not blocked then raise exception 'Private answer keys are readable';end if;
   perform public.revision_save_activity_draft(aid,'{"q1":"a"}');
   if (select answers->>'q1'from public.revision_activity_drafts where assignment_id=aid)<>'a' then raise exception 'Draft did not persist';end if;
@@ -53,4 +62,4 @@ begin
  exception when sqlstate 'ZX001'then null;
  end;
 end $$;
-select 'Passed: generation, private keys, student membership, saved drafts, objective marking, written review, idempotency, legacy bypass protection, score tampering protection, retry limits, deadline, feedback release, duplication and class isolation. Fixtures rolled back.' as activity_database_verification;
+select 'Passed: 60-question assignment and marking, rejection of 61 questions, private keys, student membership, saved drafts, objective marking, written review, idempotency, legacy bypass protection, score tampering protection, retry limits, deadline, feedback release, duplication and class isolation. Fixtures rolled back.' as activity_database_verification;

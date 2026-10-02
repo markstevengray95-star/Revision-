@@ -2,6 +2,8 @@
 
 Teachers can now generate work for each of the 44 main GCSE and A-level science topics. Select the course, subject, GCSE pathway and topic; choose a quiz, exam practice or guided revision. Preview the questions and answer keys, remove unwanted questions, and add custom multiple-choice, numerical or written questions before assigning.
 
+The builder supports 3–60 distinct questions, selectable question mixes and Support/Standard/Stretch calculation challenges. Scientific missing words are reviewed by the teacher; multiple choice and final numerical answers retain server marking. Fresh equation-based calculations draw on the 45-equation library. If a narrow selection cannot supply the requested count, the preview reports the shortage. **Equation Practice** is also a dedicated tab with equation breakdowns, worked examples and interactive answer steps. See [docs/question-tools.md](docs/question-tools.md) for the capacity upgrade and verification details.
+
 Students join with the existing class code and open an activity from **My Work**. They answer within the app, save drafts across devices, submit for marking, see attempt history and worked feedback, and follow links to relevant lessons. In-progress, overdue, awaiting-review and marked filters help organise work.
 
 ## Marking and classroom controls

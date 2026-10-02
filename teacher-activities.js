@@ -50,12 +50,14 @@
       "activity-kind",
       "activity-count",
       "activity-writing",
+      "activity-format",
+      "activity-demand",
     ])
       $(id).addEventListener("change", () => {
         invalidate();
-        if (id === "activity-kind") {
+        if (id === "activity-kind" || id === "activity-format") {
           $("activity-writing-label").hidden =
-            $("activity-kind").value !== "exam";
+            $("activity-kind").value !== "exam" || $("activity-format").value !== "auto";
           $("assignment-type").value =
             $("activity-kind").value === "exam"
               ? "test"
@@ -93,6 +95,8 @@
         count: Number($("activity-count").value),
         seed: ++seed,
         includeWritten: $("activity-writing").checked,
+        format: $("activity-format").value,
+        demand: $("activity-demand").value,
         lessonIds: $("work-lesson")?.value ? [$("work-lesson").value] : undefined,
       });
       const ids=new Set(preview.questions.map(q=>q.lessonId));
@@ -103,11 +107,14 @@
         $("assignment-title").value === lastSuggestedTitle
       )
         $("assignment-title").value = lastSuggestedTitle =
-          `${preview.topicTitle} · ${preview.kind === "exam" ? "exam practice" : preview.kind}`.slice(
+          `${preview.topicTitle} · ${$("assignment-type").value === "homework" ? "homework" : preview.kind === "exam" ? "exam practice" : preview.kind}`.slice(
             0,
             120,
           );
     } catch (e) {
+      preview = null;
+      $("activity-preview").replaceChildren();
+      $("activity-preview-summary").textContent = e.message;
       context.showNotice(e.message, "error");
     }
   }
@@ -162,8 +169,8 @@
   function addCustom() {
     try {
       if (!preview) throw Error("Generate a topic preview first.");
-      if (preview.questions.length >= 30)
-        throw Error("Use at most 30 questions.");
+      if (preview.questions.length >= 60)
+        throw Error("Use at most 60 questions.");
       const type = $("custom-type").value,
         prompt = $("custom-prompt").value.trim(),
         marks = Number($("custom-marks").value),

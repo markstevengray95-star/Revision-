@@ -235,6 +235,7 @@ export function TeacherDashboard() {
         <p className="mt-2 text-sm text-gray-600">Create targeted assignment links/codes, record class snapshots, identify intervention groups and export progress. Data is stored on this browser unless you export it.</p>
       </div>
 
+      <a href="/teacher.html#assign-work" className="block rounded-xl border border-teal-200 bg-teal-50 p-4 font-semibold text-teal-900">Build fixed homework sets of up to 60 questions: written answers, multiple choice, missing words and guided calculations →</a>
       <div className="grid gap-4 md:grid-cols-4">
         <div className="rounded-xl border bg-white p-4"><div className="text-xs font-bold uppercase text-gray-500">Students</div><div className="mt-1 text-3xl font-black">{students.length}</div></div>
         <div className="rounded-xl border bg-white p-4"><div className="text-xs font-bold uppercase text-gray-500">Class average</div><div className="mt-1 text-3xl font-black">{students.length ? `${overallClassAverage}%` : '—'}</div></div>

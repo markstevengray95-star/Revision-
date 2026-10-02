@@ -1,4 +1,4 @@
-const links=[['home','Dashboard','/index.html'],['gcse','GCSE Science','/courses/gcse/index.html'],['alevel','A-level Science','/courses/alevel/index.html'],['practice','Practise','/practice.html'],['tools','Practice tools','/index.html#tools'],['student','My Work','/student.html'],['teacher','Teacher','/teacher.html'],['pricing','Pricing','/pricing.html']];
+const links=[['home','Dashboard','/index.html'],['gcse','GCSE Science','/courses/gcse/index.html'],['alevel','A-level Science','/courses/alevel/index.html'],['practice','Practise','/practice.html'],['equations','Equation Practice','/tools/equation-practice/index.html'],['tools','Practice tools','/index.html#tools'],['student','My Work','/student.html'],['teacher','Teacher','/teacher.html'],['pricing','Pricing','/pricing.html']];
 
 export default function RevisionNav({active}: {active: string}) {
   return <header className="revision-bar">

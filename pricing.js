@@ -7,6 +7,7 @@
   const paidLinks = [...document.querySelectorAll("a[data-stripe-link]")];
   let session = null;
   let subscription = null;
+  let entitlement = null;
 
   const planNames = {
     free: "Spark Free",
@@ -45,15 +46,27 @@
     }
   }
 
-  async function readSubscription(userId) {
-    if (!client || !userId) return null;
-    const { data, error } = await client
-      .from("spark_subscriptions")
-      .select("*")
-      .eq("user_id", userId)
-      .single();
-    if (error) return null;
-    return data || null;
+  async function readAccess(userId) {
+    if (!client || !userId) return { subscription: null, entitlement: null };
+    const [directResult, accessResult] = await Promise.all([
+      client.from("spark_subscriptions").select("*").eq("user_id", userId).maybeSingle(),
+      client.rpc("spark_get_access"),
+    ]);
+    return {
+      subscription: directResult.data || null,
+      entitlement: accessResult.error ? null : accessResult.data || null,
+    };
+  }
+
+  function currentAccessName() {
+    if (entitlement?.source === "school") return planNames[entitlement.school_plan] || "Spark School";
+    return planNames[entitlement?.plan || subscription?.plan] || "Spark Free";
+  }
+
+  function schoolAccessLabel() {
+    if (entitlement?.school_role === "owner") return "school licence owner · full Spark science access active";
+    if (entitlement?.school_role === "teacher") return "shared teacher account · full Spark science access active";
+    return "pupil seat · full Spark science access active";
   }
 
   function renderAccount() {
@@ -66,6 +79,15 @@
     }
 
     const email = escapeHtml(session.user.email || "your account");
+    if (entitlement?.source === "school" && entitlement.access_active) {
+      const schoolName = currentAccessName();
+      setAccountMessage(
+        `<strong>Signed in as ${email}</strong><span>${escapeHtml(schoolName)} · ${escapeHtml(schoolAccessLabel())}</span>`,
+        "success",
+      );
+      return;
+    }
+
     if (!subscription) {
       setAccountMessage(
         `<strong>Signed in as ${email}</strong><span>Current plan: Spark Free</span>`,
@@ -111,10 +133,16 @@
           accountBox?.scrollIntoView({ behavior: "smooth", block: "center" });
           return;
         }
-        if (subscription?.access_active) {
-          const name = planNames[subscription.plan] || "your current Spark plan";
+        if (entitlement?.access_active) {
+          const name = currentAccessName();
+          let detail = "Spark has blocked a second checkout so this account is not billed twice.";
+          if (entitlement.source === "school") {
+            detail = entitlement.school_role === "student"
+              ? "This pupil already has paid access through a school seat."
+              : "This teacher already has paid access through a shared school licence.";
+          }
           setAccountMessage(
-            `<strong>${escapeHtml(name)} is already active.</strong><span>Spark has blocked a second checkout so this account is not billed twice.</span>`,
+            `<strong>${escapeHtml(name)} access is already active.</strong><span>${escapeHtml(detail)}</span>`,
             "warning",
           );
           accountBox?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -129,12 +157,15 @@
   async function refreshSubscription() {
     if (!session?.user?.id) {
       subscription = null;
+      entitlement = null;
       renderAccount();
       return null;
     }
-    subscription = await readSubscription(session.user.id);
+    const result = await readAccess(session.user.id);
+    subscription = result.subscription;
+    entitlement = result.entitlement;
     renderAccount();
-    return subscription;
+    return entitlement || subscription;
   }
 
   async function init() {
@@ -162,8 +193,7 @@
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const current = await refreshSubscription();
       if (current?.access_active) {
-        const name = planNames[current.plan] || "Spark paid";
-        successBox.textContent = `${name} access is active on this account.`;
+        successBox.textContent = `${currentAccessName()} access is active on this account.`;
         break;
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));

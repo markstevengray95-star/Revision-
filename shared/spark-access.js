@@ -8,8 +8,11 @@
     ready: false,
     session: null,
     subscription: null,
+    entitlement: null,
     plan: "free",
     accessActive: false,
+    accessSource: "free",
+    schoolPlan: null,
   };
   let client = globalThis.revisionSupabase || null;
   let observer = null;
@@ -106,23 +109,32 @@
     const supabase = await ensureClient();
     state.session = null;
     state.subscription = null;
+    state.entitlement = null;
     state.plan = "free";
     state.accessActive = false;
+    state.accessSource = "free";
+    state.schoolPlan = null;
     if (!supabase) return state;
 
     const { data } = await supabase.auth.getSession();
     state.session = data?.session || null;
     if (!state.session?.user?.id) return state;
 
-    const { data: subscription, error } = await supabase
-      .from("spark_subscriptions")
-      .select("*")
-      .eq("user_id", state.session.user.id)
-      .single();
-    if (!error && subscription) {
-      state.subscription = subscription;
-      state.plan = subscription.plan || "free";
-      state.accessActive = Boolean(subscription.access_active);
+    const [{ data: directSubscription }, { data: access, error: accessError }] = await Promise.all([
+      supabase.from("spark_subscriptions").select("*").eq("user_id", state.session.user.id).maybeSingle(),
+      supabase.rpc("spark_get_access"),
+    ]);
+    state.subscription = directSubscription || null;
+    if (!accessError && access) {
+      state.entitlement = access;
+      state.plan = access.plan || "free";
+      state.accessActive = Boolean(access.access_active);
+      state.accessSource = access.source || "free";
+      state.schoolPlan = access.school_plan || null;
+    } else if (directSubscription) {
+      state.plan = directSubscription.plan || "free";
+      state.accessActive = Boolean(directSubscription.access_active);
+      state.accessSource = state.accessActive ? "individual" : "free";
     }
     return state;
   }
@@ -139,7 +151,9 @@
       bar.append(pill);
     }
     pill.dataset.active = String(state.accessActive);
-    pill.textContent = state.accessActive ? `Spark ${planName(state.plan)}` : "Spark Free";
+    if (!state.accessActive) pill.textContent = "Spark Free";
+    else if (state.accessSource === "school") pill.textContent = `Spark ${planName(state.schoolPlan || "school")}`;
+    else pill.textContent = `Spark ${planName(state.plan)}`;
   }
 
   function allAnchors(scope) {
@@ -231,7 +245,7 @@
       <section class="spark-access-gate-card" role="dialog" aria-modal="true" aria-labelledby="spark-gate-title">
         <span class="spark-gate-kicker">Premium Spark content</span>
         <h1 id="spark-gate-title">${name} access required</h1>
-        <p>${signedIn ? `This account is currently on ${state.accessActive ? `Spark ${planName(state.plan)}` : "Spark Free"}.` : "Sign in or choose a plan to open this feature."} Active subscriptions unlock automatically after Stripe confirms payment.</p>
+        <p>${signedIn ? `This account is currently on ${state.accessActive ? (state.accessSource === "school" ? `a Spark ${planName(state.schoolPlan || "school")} licence` : `Spark ${planName(state.plan)}`) : "Spark Free"}.` : "Sign in or choose a plan to open this feature."} Active subscriptions and school seats unlock automatically.</p>
         <div class="spark-access-gate-actions">
           <a href="${new URL("pricing.html", root).href}">View plans</a>
           <a href="${new URL(signedIn ? "index.html" : "student.html", root).href}">${signedIn ? "Back to dashboard" : "Sign in"}</a>
@@ -244,6 +258,7 @@
   function applyState() {
     document.documentElement.dataset.sparkPlan = state.plan;
     document.documentElement.dataset.sparkAccess = state.accessActive ? "active" : "free";
+    document.documentElement.dataset.sparkAccessSource = state.accessSource;
     updatePlanPill();
     decorateLinks(document);
     decorateGcseTopicCards(document);

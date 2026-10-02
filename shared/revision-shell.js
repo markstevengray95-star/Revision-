@@ -53,6 +53,7 @@
       [
         'shared/teacher-school-seats.js',
         'shared/teacher-school-email-invites.js',
+        'shared/teacher-school-admin.js',
       ].forEach(path=>{
         const filename=path.split('/').pop();
         if([...document.scripts].some(s=>s.src.endsWith('/'+filename)))return;
@@ -62,8 +63,8 @@
     if(document.readyState==='complete')loadTeacherExtras();else document.addEventListener('DOMContentLoaded',loadTeacherExtras,{once:true});
   }
   const loadAccess=()=>{
-    if([...document.scripts].some(s=>/shared\/spark-access\.js/.test(s.src)))return;
-    const access=document.createElement('script');access.src=new URL('shared/spark-access.js',root).href;access.defer=true;document.head.append(access);
+    if(![...document.scripts].some(s=>/shared\/spark-access\.js/.test(s.src))){const access=document.createElement('script');access.src=new URL('shared/spark-access.js',root).href;access.defer=true;document.head.append(access);}
+    if(![...document.scripts].some(s=>/shared\/spark-billing\.js/.test(s.src))){const billing=document.createElement('script');billing.src=new URL('shared/spark-billing.js',root).href;billing.defer=true;document.head.append(billing);}
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadAccess,{once:true});else loadAccess();
   window.REVISION_ROOT=root.href;

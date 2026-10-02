@@ -111,6 +111,15 @@
           accountBox?.scrollIntoView({ behavior: "smooth", block: "center" });
           return;
         }
+        if (subscription?.access_active) {
+          const name = planNames[subscription.plan] || "your current Spark plan";
+          setAccountMessage(
+            `<strong>${escapeHtml(name)} is already active.</strong><span>Spark has blocked a second checkout so this account is not billed twice.</span>`,
+            "warning",
+          );
+          accountBox?.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
         const target = checkoutUrl(link.dataset.stripeLink || link.href);
         if (target) location.href = target;
       });

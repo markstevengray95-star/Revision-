@@ -259,7 +259,7 @@
     return result.data;
   }
   function reset() {
-    preview = null;
+    invalidate();
     lastSuggestedTitle = "";
     $("activity-writing-label").hidden = true;
     matchClass();
@@ -284,7 +284,7 @@
   function renderResults(assignment) {
     const activity = activityFor(assignment.id),
       all = attemptsFor(assignment.id),
-      latest = latestFor(assignment.id),
+      latest = latestFor(assignment.id).filter(a=>window.REVISION_TEACHER_DATA.recipients(context.state,assignment).some(m=>m.student_id===a.student_id)),
       wrap = el("div", undefined, "activity-submission");
     wrap.append(
       el(

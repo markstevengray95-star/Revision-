@@ -91,7 +91,7 @@
     const automatic=kind==="quiz"?["choice"]:["choice",...(calculations?["calculation"]:[]),...(kind==="exam"&&includeWritten?["written"]:[])];
     const formats=difficulty?["written"]:format==="objective"?["choice",...(calculations?["calculation"]:[])]:format==="auto"?automatic:format==="mixed"?["choice","cloze","written",...(calculations?["calculation"]:[])]:[format];
     const poolRows=difficulty?rows.map(l=>({...l,questions:l.questions.filter(q=>difficulty==="application"?q.bankType==="application":q.difficulty==="challenge")})):rows;
-    const pack=H.build({v:1,l:level,s:subject,p:pathway,t:topic,n:count,d:demand,k:formats,z:hash(seed+":"+topic)},poolRows,extra);
+    const pack=H.build({v:1,l:level,s:subject,p:pathway,t:topic,n:count,d:demand,k:formats,z:hash(seed+":"+topic)},poolRows,extra,lessonIds?.length?window.REVISION_PRACTICE.lessons:[]);
     const questions=pack.questions.map((q,i)=>{
       const id="q"+(i+1);
       if(q.legacyActivity)return {...q.legacyActivity,id};

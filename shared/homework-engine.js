@@ -31,13 +31,13 @@
       return words.map((word,j)=>({sentence,answer:word[0],start:word.index,id:`${lesson.id}:gap:${index}:${j}`}));
     });
   }
-  function build(raw,lessons,extraCalculations=[]) {
+  function build(raw,lessons,extraCalculations=[],distractorLessons=[]) {
     const c=validate(raw),random=E.rng(c.z), pool=lessons.filter(l=>l.level===c.l&&(c.s==='all'||l.subject===c.s)&&(c.t==='all'||l.topic===c.t)&&(c.l!=='gcse'||c.p==='triple'||l.scope!=='triple'));
     const banks={written:[],choice:[],cloze:[],calculation:[]};
     const allowedText=text=>c.l!=='gcse'||c.p==='triple'||!/(?:biology|chemistry|physics)[ -]only|separate science|triple science/i.test(text);
     const gapBank=new Map(pool.map(l=>[l.id,gaps(l).filter(g=>allowedText(g.sentence))])),topicWords=new Map();
     pool.forEach(l=>{const key=l.subject+':'+l.topic;if(!topicWords.has(key))topicWords.set(key,new Set());gapBank.get(l.id).forEach(g=>topicWords.get(key).add(g.answer.toLowerCase()));});
-    const vocab=[...new Set([...gapBank.values()].flatMap(items=>items.map(g=>g.answer.toLowerCase())))];
+    const vocab=[...new Set([...gapBank.values()].flatMap(items=>items.map(g=>g.answer.toLowerCase())).concat(distractorLessons.filter(l=>l.level===c.l&&(c.s==='all'||l.subject===c.s)&&(c.t==='all'||l.topic===c.t)&&(c.l!=='gcse'||c.p==='triple'||l.scope!=='triple')).flatMap(l=>gaps(l).filter(g=>allowedText(g.sentence)).map(g=>g.answer.toLowerCase()))))];
     for(const l of shuffled(pool,random)) {
       for(const [i,q] of l.questions.entries()) {if(!allowedText(q.question))continue;const model=q.answer.map(line=>line.split(/(?<=[.!?])\s+/).filter(allowedText).join(' ')).filter(Boolean).join('\n');if(model)banks.written.push({id:`${l.id}:written:${i}`,type:'written',subject:l.subject,topic:l.topicTitle,source:l.href,prompt:q.question+(c.d==='stretch'?' Include a linked scientific explanation and relevant conditions.':''),model});}
       for(const g of gapBank.get(l.id)) {

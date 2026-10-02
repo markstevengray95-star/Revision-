@@ -2,7 +2,7 @@
   'use strict';
   const $=id=>document.getElementById(id), ui=window.REVISION_ACTIVITY_UI;
   let context, step=0, draftId=null;
-  const fields=['assignment-class','assignment-type','assignment-title','assignment-notes','assignment-due','activity-level','activity-subject','activity-pathway','activity-topic','activity-kind','activity-count','activity-format','activity-demand','activity-writing','activity-attempts','activity-feedback','activity-late','work-start','work-target','work-duration','work-mode','work-audience','work-lesson'];
+  const fields=['assignment-class','assignment-type','assignment-title','assignment-notes','assignment-due','activity-level','activity-subject','activity-pathway','activity-topic','activity-kind','activity-count','activity-writing','activity-attempts','activity-feedback','activity-late','activity-format','activity-demand','work-start','work-target','work-duration','work-mode','work-audience','work-lesson'];
   const steps=[];
   function field(title,id,type,value) {
     const l=ui.el('label',title), input=ui.el('input');input.id=id;input.type=type;input.value=value ?? '';l.append(input);return l;
@@ -25,11 +25,7 @@
     ['activity-level','activity-subject','activity-pathway','activity-topic'].forEach(id=>move(id,1));
     steps[1].append(select('Subtopic / lesson','work-lesson',[['','All lessons in this topic']]));
     steps[2].append(select('Activity','work-mode',[['lesson','Revision lesson'],['quiz','Quiz'],['flashcards','Flashcards + recall check'],['exam','Exam questions'],['test','Topic test'],['mixed','Mixed assignment']]));
-    const ready=ui.el('section');ready.append(ui.el('h3','Auto-marked homework'),ui.el('p','Choose a ready-made set, then review the generated questions before assigning.','panel-copy'));
-    for(const [title,format,kind,count] of [['Recall check','choice','quiz',8],['Mixed automatic questions','objective','revision',12],['Calculation practice','calculation','exam',10]]){
-      const b=ui.button(title,'automatic-preset','','teacher-button');b.onclick=()=>{$('activity-format').value=format;$('activity-kind').value=kind;$('activity-count').value=count;$('activity-writing').checked=false;$('work-mode').value=kind==='quiz'?'quiz':kind==='exam'?'exam':'mixed';$('work-lesson').value='';$('activity-format').dispatchEvent(new Event('change'));go(4);$('activity-generate').click();};ready.append(b);
-    }steps[2].append(ready);
-    $('activity-kind').closest('label').hidden=true;move('activity-kind',2);move('activity-count',2);move('activity-format',2);move('activity-demand',2);move('activity-writing',2);
+    $('activity-kind').closest('label').hidden=true;move('activity-kind',2);move('activity-count',2);move('activity-writing',2);move('activity-format',2);move('activity-demand',2);
     steps[3].append(select('Assign to','work-audience',[['all','Whole class'],['selected','Selected students']]),ui.el('div'));
     steps[3].lastChild.id='work-recipients';
     const extra=ui.el('details');extra.append(ui.el('summary','Also set to other classes'),ui.el('div'));extra.lastChild.id='work-extra-classes';steps[0].append(extra);
@@ -106,5 +102,5 @@
     return [meta.class_id,...extras].map(class_id=>({...base,class_id}));
   }
   async function afterAssigned() {if(draftId){await revisionSupabase.from('revision_teacher_drafts').delete().eq('id',draftId);draftId=null;}go(0);}
-  window.REVISION_SET_WORK={init,render,metadata,snapshot,restore,go,afterAssigned};
+  window.REVISION_SET_WORK={init,render,metadata,snapshot,restore,go,afterAssigned,reset(){draftId=null;go(0);$('work-recipients').replaceChildren();$('work-extra-classes').replaceChildren();}};
 })();

@@ -92,7 +92,30 @@
     return [...groups.values()].map(g=>({...g,average:Math.round(g.scores.reduce((a,b)=>a+b,0)/g.scores.length)}));
   }
   const followupBand = score => score===null ? null : score<50?'foundation':score<75?'consolidation':score<90?'application':'challenge';
-  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery, interventions, followupBand };
+  function alerts(state,now=new Date()) {
+    const out=[];const active=state.assignments.filter(a=>a.status==='active'&&new Date(a.due_at)<now);
+    for(const a of active){const missing=recipients(state,a).filter(m=>{const r=result(state,a,m.student_id);return !r.attempt&&!r.submission;});if(missing.length)out.push({key:'deadline:'+a.id+':'+a.due_at,title:`${a.title}: ${missing.length} students overdue`,classId:a.class_id,assignmentId:a.id});}
+    const cutoff=new Date(now);cutoff.setDate(cutoff.getDate()-30);
+    for(const c of state.classes){const all=latest(state.attempts).filter(a=>a.class_id===c.id&&a.review_state==='complete');
+      for(const m of state.members.filter(m=>m.class_id===c.id&&m.status==='joined')){
+        const missed=state.assignments.filter(a=>a.class_id===c.id&&new Date(a.due_at)<now&&new Date(a.due_at)>=cutoff&&recipients(state,a).some(r=>r.student_id===m.student_id)&&!result(state,a,m.student_id).attempt&&!result(state,a,m.student_id).submission);
+        if(missed.length>=3)out.push({key:'missed:'+c.id+':'+m.student_id+':'+missed.length,title:`${m.display_name||'Student'} has missed ${missed.length} assignments in 30 days`,classId:c.id,studentId:m.student_id});
+        const scores=all.filter(a=>a.student_id===m.student_id).sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
+        if(scores.length>=4){const change=(percent(scores[0].score,scores[0].total_max)+percent(scores[1].score,scores[1].total_max)-percent(scores[2].score,scores[2].total_max)-percent(scores[3].score,scores[3].total_max))/2;
+          if(Math.abs(change)>=15)out.push({key:'trend:'+c.id+':'+m.student_id+':'+scores[0].submitted_at,title:`${m.display_name||'Student'}: scores ${change>0?'improving':'falling'} by ${Math.round(Math.abs(change))} percentage points across the last four assignments`,classId:c.id,studentId:m.student_id});}
+      }
+      const questions=new Map();for(const e of evidence(state,c.id)){const key=e.assignmentId+':'+e.questionId,r=questions.get(key)||{e,students:new Set(),lost:new Set()};r.students.add(e.studentId);if(e.awarded<e.max)r.lost.add(e.studentId);questions.set(key,r);}
+      for(const [key,r]of questions)if(r.students.size>=3&&r.lost.size/r.students.size>0.5)out.push({key:'question:'+key+':'+r.lost.size,title:`${c.name}: ${r.lost.size}/${r.students.size} students lost marks on ${r.e.question.title||'a question'}`,classId:c.id,assignmentId:r.e.assignmentId});
+      const weak=mastery(state,c.id).find(r=>r.responses>=3&&r.score<75);if(weak)out.push({key:'next:'+c.id+':'+weak.id+':'+weak.score,title:`Recommended next: ${weak.title} · ${weak.score}% practice mastery`,classId:c.id,topic:weak.topic});
+    }return out;
+  }
+  function weeklySummary(state,classId,now=new Date()) {
+    const since=new Date(now);since.setDate(since.getDate()-7);
+    const attempts=latest(state.attempts).filter(a=>a.class_id===classId&&a.review_state==='complete'&&new Date(a.submitted_at)>=since&&new Date(a.submitted_at)<=now);
+    const scores=attempts.map(a=>percent(a.score,a.total_max)).filter(s=>s!==null);
+    return {completed:attempts.length,students:new Set(attempts.map(a=>a.student_id)).size,average:scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null};
+  }
+  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery, interventions, followupBand, alerts, weeklySummary };
   if (typeof module !== 'undefined') module.exports = api;
   else window.REVISION_TEACHER_DATA = api;
 })();

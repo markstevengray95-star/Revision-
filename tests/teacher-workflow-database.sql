@@ -2,7 +2,7 @@
 -- in a subtransaction; no real accounts, classes, emails or submissions are kept.
 do $$
 declare
- t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();n uuid:=gen_random_uuid();gid uuid;run_token uuid:=gen_random_uuid();run_result jsonb;cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
+ t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();n uuid:=gen_random_uuid();gid uuid;plan_id uuid;scheduled jsonb;run_token uuid:=gen_random_uuid();run_result jsonb;cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
  code text;meta jsonb;activity jsonb;result jsonb;first_id uuid;token uuid:=gen_random_uuid();blocked boolean;student_answers jsonb;
 begin
  begin
@@ -63,17 +63,27 @@ begin
   run_result:=public.revision_assign_followups(aid,jsonb_build_array(jsonb_build_object('meta',meta||jsonb_build_object('recipient_ids',jsonb_build_array(s)),'activity',activity)),run_token);
   if jsonb_array_length(run_result)<>1 then raise exception 'Followup not assigned';end if;
   if public.revision_assign_followups(aid,jsonb_build_array(jsonb_build_object('meta',meta||jsonb_build_object('recipient_ids',jsonb_build_array(s)),'activity',activity)),run_token) is distinct from run_result then raise exception 'Followup idempotency failed';end if;
+  insert into public.revision_homework_plans(teacher_id,class_id,name,payload)values(t,cid,'Half term',jsonb_build_object('entries',jsonb_build_array(jsonb_build_object('meta',meta,'activity',activity))))returning id into plan_id;
+  scheduled:=public.revision_schedule_plan(plan_id);if jsonb_array_length(scheduled)<>1 or public.revision_schedule_plan(plan_id)is distinct from scheduled then raise exception 'Planner scheduling/idempotency failed';end if;
+  perform public.revision_dismiss_alert('verification-alert');if not exists(select 1 from public.revision_teacher_alert_state where alert_key='verification-alert')then raise exception 'Alert dismissal failed';end if;
   gid:=public.revision_save_intervention(jsonb_build_object('class_id',cid,'name','Circuit fundamentals'),array[s]);
   if (select count(*)from public.revision_intervention_members where group_id=gid)<>1 then raise exception 'Group members not saved';end if;
   blocked:=false;begin perform public.revision_save_intervention(jsonb_build_object('id',gid,'class_id',cid,'name','Invalid group'),array[o]);exception when others then if sqlerrm like '%joined students%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Group membership validation bypass';end if;
+  result:=public.revision_assign_work(jsonb_build_array(meta||jsonb_build_object('recipient_ids',jsonb_build_array(s),'target_score',61,'estimated_minutes',25,'activity_mode','lesson')),activity||jsonb_build_object('study_material',jsonb_build_array(jsonb_build_object('title','Review','text','Read the worked example.'))));
+  duplicate_id:=(result->0->>'id')::uuid;
+  if public.revision_teacher_template(duplicate_id)->'activity'->'study_material'->0->>'text'<>'Read the worked example.'then raise exception 'Reuse lost study material';end if;
+  result:=public.revision_duplicate_activity(duplicate_id,now()+interval '8 days');duplicate_id:=(result->>'id')::uuid;
+  if not exists(select 1 from public.revision_assignments where id=duplicate_id and target_score=61 and estimated_minutes=25 and activity_mode='lesson' and recipient_ids=array[s])then raise exception 'Duplication lost audience/settings';end if;
+  if not exists(select 1 from public.revision_activities where assignment_id=duplicate_id and study_material->0->>'text'='Read the worked example.')then raise exception 'Duplication lost study material';end if;
   result:=public.revision_assign_work(jsonb_build_array(meta||jsonb_build_object('recipient_ids',jsonb_build_array(s))),activity);late_id:=(result->0->>'id')::uuid;
   perform set_config('request.jwt.claim.sub',n::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',n,'role','authenticated')::text,true);
   perform public.revision_ensure_profile('student','Nonrecipient');perform public.revision_join_class(code,'Nonrecipient');
   if exists(select 1 from public.revision_assignments where id=late_id)or exists(select 1 from public.revision_activities where assignment_id=late_id)then raise exception 'Nonrecipient can read targeted work';end if;
+  if exists(select 1 from public.revision_homework_plans where id=plan_id)or exists(select 1 from public.revision_teacher_alert_state where teacher_id=t)then raise exception 'Student can read teacher planner/alerts';end if;
   if exists(select 1 from public.revision_intervention_groups where id=gid)then raise exception 'Student can read teacher groups';end if;
   blocked:=false;begin perform public.revision_submit_activity(late_id,student_answers,gen_random_uuid());exception when others then if sqlerrm like '%not available%'then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Nonrecipient submission bypass';end if;
   raise exception using errcode='ZX001',message='Rollback verification fixtures';
  exception when sqlstate 'ZX001'then null;
  end;
 end $$;
-select 'Passed: scheduled release, RPC guards, reuse, atomic multi-class ownership, generation, private keys, student membership, saved drafts, objective marking, written review, idempotency, legacy bypass protection, score tampering protection, retry limits, deadline, feedback release, duplication and class isolation. Fixtures rolled back.' as activity_database_verification;
+select 'Passed: planner scheduling/idempotency, alert ownership, intervention membership, targeted access, follow-up idempotency, study timing, scheduled release, RPC guards, reuse, atomic multi-class ownership, generation, private keys, student membership, saved drafts, objective marking, written review, idempotency, legacy bypass protection, score tampering protection, retry limits, deadline, feedback release, duplication and class isolation. Fixtures rolled back.' as activity_database_verification;

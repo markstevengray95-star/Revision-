@@ -17,3 +17,5 @@ state.activities[0].questions=[{id:'q',marks:2,title:'Energy stores',type:'choic
 state.activities[0].questions=['q1','q2','q3'].map(id=>({id,marks:1,title:'Energy',type:'choice'}));state.attempts[1].marks=['q1','q2','q3'].map(id=>({id,awarded:0,max_marks:1}));assert.equal(d.interventions(state,'c')[0].category,'topic');state.attempts[1].marks=state.attempts[1].marks.slice(0,1);assert.equal(d.interventions(state,'c').length,0,'One response is insufficient for grouping');
 
 assert.equal(d.followupBand(null),null);assert.equal(d.followupBand(49),'foundation');assert.equal(d.followupBand(50),'consolidation');assert.equal(d.followupBand(75),'application');assert.equal(d.followupBand(90),'challenge');
+
+state.assignments[0].recipient_ids=null;state.assignments.push({...state.assignments[0],id:'b'},{...state.assignments[0],id:'c'});assert.ok(d.alerts(state).some(a=>a.key.startsWith('deadline:')));assert.equal(d.weeklySummary(state,'c').average,null);

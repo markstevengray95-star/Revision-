@@ -67,5 +67,5 @@
     for(const a of assignments) { const r=data.result(context.state,a,member.student_id); p.append(el('p',`${a.title} · ${r.status} · ${r.score===null?'—':r.score+'%'} · ${r.attempts} attempts`)); }
     views.classes.append(p); show('classes'); p.scrollIntoView({behavior:'smooth'});
   }
-  window.REVISION_TEACHER_WORKSPACE={init,render,show,profile};
+  window.REVISION_TEACHER_WORKSPACE={init,render,show,profile,clearProfile:()=>$('workspace-student-profile')?.remove()};
 })();

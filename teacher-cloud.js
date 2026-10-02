@@ -149,6 +149,7 @@
     window.REVISION_SET_WORK.init({state, showNotice, loadTeacherData});
     window.REVISION_MARKBOOK.init({state, showNotice});
     window.REVISION_INSIGHTS.init({state, showNotice});
+    window.REVISION_INTERVENTIONS.init({state, showNotice, loadTeacherData});
     els.assignmentDue.value = localDateString(7);
     client.auth.onAuthStateChange((_event, session) => {
       void applySession(session);
@@ -248,6 +249,7 @@
       state.attempts = [];
       state.drafts = [];
       state.teacherDrafts = [];
+      state.interventionGroups = [];state.interventionMembers = [];
       els.authPanel.hidden = false;
       els.app.hidden = true;
       els.accountEmail.textContent = "";
@@ -263,6 +265,7 @@
       state.attempts = [];
       state.drafts = [];
       state.teacherDrafts = [];
+      state.interventionGroups = [];state.interventionMembers = [];
       els.app.hidden = true;
     }
     state.user = session.user;
@@ -313,6 +316,7 @@
         state.attempts = [];
       state.drafts = [];
       state.teacherDrafts = [];
+      state.interventionGroups = [];state.interventionMembers = [];
       } else {
         const [
           membersResult,
@@ -366,6 +370,7 @@
         selectedClassId = null;
       const drafts=await client.from('revision_teacher_drafts').select('*').eq('teacher_id',uid).order('created_at',{ascending:false});
       if(!current())return; if(drafts.error)throw drafts.error;state.teacherDrafts=drafts.data||[];
+      const [groups,groupMembers]=await Promise.all([client.from('revision_intervention_groups').select('*').eq('teacher_id',uid),client.from('revision_intervention_members').select('*').eq('teacher_id',uid)]);if(!current())return;if(groups.error||groupMembers.error)throw groups.error||groupMembers.error;state.interventionGroups=groups.data||[];state.interventionMembers=groupMembers.data||[];
       renderAll();
       if (announce) showNotice("Cloud data refreshed.");
     } catch (error) {
@@ -384,6 +389,7 @@
     window.REVISION_SET_WORK?.render();
     window.REVISION_MARKBOOK?.render();
     window.REVISION_INSIGHTS?.render();
+    window.REVISION_INTERVENTIONS?.render();
   }
   function renderMetrics() {
     els.metricClasses.textContent = String(state.classes.length);

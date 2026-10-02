@@ -46,7 +46,7 @@
       $('activity-writing').checked=['exam','test'].includes(mode);$('activity-writing').dispatchEvent(new Event('change'));
       $('activity-feedback').value=['lesson','flashcards'].includes(mode)?'immediate':'after_final_attempt';
     };
-    $('assignment-class').addEventListener('change',()=>{renderRecipients();renderLessons();});$('work-audience').onchange=renderRecipients;
+    $('assignment-class').addEventListener('change',()=>{render();});$('work-audience').onchange=renderRecipients;
     for(const id of ['activity-topic','activity-level','activity-subject','activity-pathway']) $(id).addEventListener('change',()=>setTimeout(renderLessons,0));
     $('work-lesson').onchange=()=>window.REVISION_TEACHER_ACTIVITIES.invalidate();
     const drafts=ui.el('section',undefined,'teacher-panel');drafts.id='work-drafts';$('workspace-set-work').append(drafts);
@@ -61,6 +61,7 @@
   function renderRecipients() {
     const list=$('work-recipients'), checked=new Set([...list.querySelectorAll('input:checked')].map(i=>i.value));list.replaceChildren();
     list.hidden=$('work-audience').value==='all';
+    const gid=$('work-audience').value.startsWith('group:')?$('work-audience').value.slice(6):null;if(gid){checked.clear();(context.state.interventionMembers||[]).filter(m=>m.group_id===gid).forEach(m=>checked.add(m.student_id));}
     context.state.members.filter(m=>m.class_id===$('assignment-class').value&&m.status==='joined').forEach(m=>{const l=ui.el('label',undefined,'checkbox-label'),i=ui.el('input');i.type='checkbox';i.value=m.student_id;i.checked=checked.has(m.student_id);l.append(i,ui.el('span',m.display_name||m.student_email||'Student'));list.append(l);});
     if(!list.children.length)list.append(ui.el('p','Students must join the class before you can target them individually.','panel-copy'));
   }
@@ -68,6 +69,7 @@
     if(!context)return;
     const extra=$('work-extra-classes'),selected=new Set([...extra.querySelectorAll('input:checked')].map(i=>i.value));extra.replaceChildren();
     context.state.classes.filter(c=>!c.archived).forEach(c=>{const l=ui.el('label',undefined,'checkbox-label'),i=ui.el('input');i.type='checkbox';i.value=c.id;i.checked=selected.has(c.id);l.append(i,ui.el('span',c.name));extra.append(l);});
+    const audience=$('work-audience'),current=audience.value;audience.replaceChildren(new Option('Whole class','all'),new Option('Selected students','selected'),...(context.state.interventionGroups||[]).filter(g=>g.class_id===$('assignment-class').value).map(g=>new Option(g.name,'group:'+g.id)));if([...audience.options].some(o=>o.value===current))audience.value=current;
     renderRecipients();renderLessons();
     const target=$('work-drafts');target.replaceChildren(ui.el('h2','Saved drafts and previous homework'));
     for(const d of context.state.teacherDrafts||[]) {const b=ui.button(d.title,'load-draft',d.id,'teacher-button');b.onclick=()=>restore(d.payload,d.id);target.append(b);const del=ui.button('Delete draft','delete-draft',d.id);del.onclick=async()=>{if(!confirm('Delete this draft?'))return;const r=await revisionSupabase.from('revision_teacher_drafts').delete().eq('id',d.id);if(r.error)context.showNotice(r.error.message,'error');else context.loadTeacherData();};target.append(del);}
@@ -92,7 +94,7 @@
   }
   function metadata(meta) {
     for(const f of $('assignment-form').querySelectorAll('input,select,textarea')) if(!f.checkValidity()){go(steps.findIndex(s=>s.contains(f)));f.reportValidity();throw Error('Complete the highlighted field.');}
-    const selected=$('work-audience').value==='selected'?snapshot().recipients:null;
+    const selected=$('work-audience').value!=='all'?snapshot().recipients:null;
     if(selected&&!selected.length)throw Error('Select at least one joined student.');
     const extras=snapshot().classes.filter(id=>id!==meta.class_id);
     if(selected&&extras.length)throw Error('Individual student targeting supports one class at a time.');

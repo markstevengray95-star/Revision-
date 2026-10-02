@@ -78,7 +78,20 @@
     }
     return [...map.values()].map(r=>({...r,score:percent(r.awarded,r.max),studentCount:r.students.size})).sort((a,b)=>a.score-b.score);
   }
-  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery };
+  function interventions(state,classId) {
+    const groups=new Map(),add=(id,title,category,topic,member,score)=>{const g=groups.get(id)||{id,title,category,topic,students:[],scores:[]};g.students.push(member.student_id);g.scores.push(score);groups.set(id,g);};
+    for(const member of state.members.filter(m=>m.class_id===classId&&m.status==='joined')){
+      const rows=evidence(state,classId,member.student_id),topics=mastery(state,classId,'topic',member.student_id),skills=mastery(state,classId,'skill',member.student_id);
+      for(const r of topics)if(r.responses>=3&&r.score<50)add(r.id,'Topic support · '+r.title,'topic',r.topic,member,r.score);
+      const calc=skills.find(s=>s.id==='calculation'),exam=skills.find(s=>s.id==='exam'),recall=skills.find(s=>s.id==='recall');
+      if(calc?.responses>=2&&calc.score<50)add('calculations','Calculation support','calculation','',member,calc.score);
+      if(exam?.responses>=2&&recall?.responses>=2&&recall.score>=70&&exam.score<60)add('exam','Exam technique','exam','',member,exam.score);
+      const overall=percent(rows.reduce((s,r)=>s+r.awarded,0),rows.reduce((s,r)=>s+r.max,0));
+      if(rows.length>=3&&overall>=85)add('extension','Extension','extension','',member,overall);
+    }
+    return [...groups.values()].map(g=>({...g,average:Math.round(g.scores.reduce((a,b)=>a+b,0)/g.scores.length)}));
+  }
+  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery, interventions };
   if (typeof module !== 'undefined') module.exports = api;
   else window.REVISION_TEACHER_DATA = api;
 })();

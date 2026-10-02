@@ -2,11 +2,11 @@
 -- in a subtransaction; no real accounts, classes, emails or submissions are kept.
 do $$
 declare
- t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
+ t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();n uuid:=gen_random_uuid();gid uuid;cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
  code text;meta jsonb;activity jsonb;result jsonb;first_id uuid;token uuid:=gen_random_uuid();blocked boolean;student_answers jsonb;
 begin
  begin
-  insert into auth.users(id,email)values(t,t||'@revision-test.invalid'),(s,s||'@revision-test.invalid'),(o,o||'@revision-test.invalid');
+  insert into auth.users(id,email)values(t,t||'@revision-test.invalid'),(s,s||'@revision-test.invalid'),(o,o||'@revision-test.invalid'),(n,n||'@revision-test.invalid');
   perform set_config('request.jwt.claim.sub',t::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',t,'role','authenticated')::text,true);
   set local role authenticated;
   perform public.revision_ensure_profile('teacher','Test teacher');
@@ -60,6 +60,15 @@ begin
   blocked:=false;begin perform public.revision_submit_activity(late_id,student_answers,gen_random_uuid());exception when others then if sqlerrm like '%not available%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Scheduled submit bypass';end if;
   perform set_config('request.jwt.claim.sub',t::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',t,'role','authenticated')::text,true);
   blocked:=false;begin perform public.revision_assign_work(jsonb_build_array(meta,meta||jsonb_build_object('class_id',gen_random_uuid())),activity);exception when others then if sqlerrm like '%own this active%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Atomic class ownership bypass';end if;
+  gid:=public.revision_save_intervention(jsonb_build_object('class_id',cid,'name','Circuit fundamentals'),array[s]);
+  if (select count(*)from public.revision_intervention_members where group_id=gid)<>1 then raise exception 'Group members not saved';end if;
+  blocked:=false;begin perform public.revision_save_intervention(jsonb_build_object('id',gid,'class_id',cid,'name','Invalid group'),array[o]);exception when others then if sqlerrm like '%joined students%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Group membership validation bypass';end if;
+  result:=public.revision_assign_work(jsonb_build_array(meta||jsonb_build_object('recipient_ids',jsonb_build_array(s))),activity);late_id:=(result->0->>'id')::uuid;
+  perform set_config('request.jwt.claim.sub',n::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',n,'role','authenticated')::text,true);
+  perform public.revision_ensure_profile('student','Nonrecipient');perform public.revision_join_class(code,'Nonrecipient');
+  if exists(select 1 from public.revision_assignments where id=late_id)or exists(select 1 from public.revision_activities where assignment_id=late_id)then raise exception 'Nonrecipient can read targeted work';end if;
+  if exists(select 1 from public.revision_intervention_groups where id=gid)then raise exception 'Student can read teacher groups';end if;
+  blocked:=false;begin perform public.revision_submit_activity(late_id,student_answers,gen_random_uuid());exception when others then if sqlerrm like '%not available%'then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Nonrecipient submission bypass';end if;
   raise exception using errcode='ZX001',message='Rollback verification fixtures';
  exception when sqlstate 'ZX001'then null;
  end;

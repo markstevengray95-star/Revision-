@@ -27,3 +27,6 @@ Class markbook with assignment/topic/student selection and due-date periods. Lat
 
 ## Phase 5
 Question metadata includes subject/topic/subtopic/skill and optional teacher-verified specification references. Topic/subtopic/skill mastery uses latest marked question evidence, displays sample size and ignores unmarked answers. Lost marks flag questions and possible teaching checks; they do not assert a diagnosed misconception from a wrong answer alone. Selected pupils can be sent into the intervention assignment wizard.
+
+## Phase 6
+Evidence-based topic/calculation/exam/extension suggestions with minimum sample requirements. Teachers review names, save groups, edit membership and select a saved group in Set Work. Group writes validate class ownership and joined membership atomically.

@@ -50,6 +50,11 @@
     const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('teacher-simple.css',root).href;document.head.append(style);
     const enhancement=document.createElement('script');enhancement.src=new URL('teacher-simple.js',root).href;enhancement.defer=true;document.head.append(enhancement);
   }
+  const loadAccess=()=>{
+    if([...document.scripts].some(s=>/shared\/spark-access\.js/.test(s.src)))return;
+    const access=document.createElement('script');access.src=new URL('shared/spark-access.js',root).href;access.defer=true;document.head.append(access);
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadAccess,{once:true});else loadAccess();
   window.REVISION_ROOT=root.href;
   window.SPARK_ROOT=root.href;
 })();

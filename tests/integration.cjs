@@ -18,7 +18,6 @@ assert.equal(JSON.stringify(context.window.REVISION_CATALOG),JSON.stringify(cata
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
 let assets=0;
 const htmlFiles=[path.join(root,'index.html'),path.join(root,'teacher.html'),path.join(root,'student.html'),path.join(root,'activity.html'),...walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))];
-// Check scripts and stylesheets requested by the combined dashboard, teacher/student workspaces and topic apps.
 for(const file of htmlFiles){
   const html=fs.readFileSync(file,'utf8');
   assert.ok(html.includes('shared/revision-shell.js'),`Missing shared navigation: ${file}`);
@@ -40,7 +39,12 @@ for(const file of ['teacher.html','teacher-dashboard.css','teacher-cloud.css','t
 const shell=fs.readFileSync(path.join(root,'shared/revision-shell.js'),'utf8');
 assert.ok(shell.includes('teacher-simple.css'),'Teacher shell must load simplified dashboard styling');
 assert.ok(shell.includes('teacher-simple.js'),'Teacher shell must load simplified dashboard logic');
+assert.ok(shell.includes("Spark<span>.</span>"),'Shared navigation must use Spark branding');
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
+assert.equal(manifest.short_name,'Spark');
+assert.ok(manifest.name.startsWith('Spark'));
+assert.ok(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('<title>Spark · GCSE & A-level Science</title>'));
 for(const file of ['teacher-cloud.js','teacher-activities.js','teacher-simple.js','activity.js','shared/activity-generator.js','shared/activity-ui.js','student-dashboard.js','shared/revision-supabase.js','shared/revision-shell.js']){
   new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file});
 }
-console.log(`Integration passed: 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, simple teacher monitoring, self-contained workspaces, and valid workspace scripts.`);
+console.log(`Integration passed: Spark branding, 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, simple teacher monitoring, self-contained workspaces, and valid workspace scripts.`);

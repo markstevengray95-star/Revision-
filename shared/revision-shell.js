@@ -9,15 +9,16 @@
   const level=relative==='teacher.html'?'teacher':['student.html','activity.html'].includes(relative)?'student':relative==='practice.html'?'practice':relative.startsWith('courses/gcse/')?'gcse':relative.startsWith('courses/alevel/')?'alevel':relative.startsWith('tools/')?'tools':'home';
   const params=new URLSearchParams(location.search);
   const subject=['biology','chemistry','physics'].includes(params.get('subject'))?params.get('subject'):'physics';
+  const sparkWordmark='Spark<svg class="spark-bolt" aria-hidden="true" viewBox="0 0 12 18" focusable="false"><path d="M7.2 0 1.4 9h4L3.8 18 10.6 7.2H6.8z" fill="currentColor"/></svg>';
   const applyBrand=()=>{
     document.title=document.title.replace(/\bRevision\b/g,'Spark');
-    document.querySelectorAll('.revision-wordmark').forEach(node=>{node.innerHTML='Spark<span>.</span>';});
+    document.querySelectorAll('.revision-wordmark').forEach(node=>{node.innerHTML=sparkWordmark;});
     const description=document.querySelector('meta[name="description"]');
     if(description)description.content=description.content.replace(/\bRevision\b/g,'Spark');
   };
   const bar=document.createElement('header');bar.className='revision-bar';
   const wrap=document.createElement('div');wrap.className='revision-bar-inner';
-  const brand=document.createElement('a');brand.className='revision-wordmark';brand.href=root.href;brand.innerHTML='Spark<span>.</span>';
+  const brand=document.createElement('a');brand.className='revision-wordmark';brand.href=root.href;brand.innerHTML=sparkWordmark;
   const nav=document.createElement('nav');nav.className='revision-nav';nav.setAttribute('aria-label','Spark app');
   const links=[['home','Dashboard','index.html'],['gcse','GCSE Science','courses/gcse/index.html'],['alevel','A-level Science','courses/alevel/index.html'],['practice','Practise',`practice.html${level==='gcse'||level==='alevel'?'?level='+level+'&subject='+subject:''}`],['tools','Practice tools','index.html#tools'],['student','My Work','student.html'],['teacher','Teacher','teacher.html']];
   links.forEach(([key,label,target])=>{const a=document.createElement('a');a.href=new URL(target,root).href;a.textContent=label;if(level===key)a.setAttribute('aria-current','page');nav.append(a);});

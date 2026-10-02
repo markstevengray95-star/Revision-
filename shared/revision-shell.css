@@ -2,7 +2,7 @@
 .revision-bar,.revision-bar *{box-sizing:border-box}
 .revision-bar{position:sticky;top:0;z-index:1000;background:rgba(10,20,34,.97);border-bottom:1px solid var(--revision-line);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--revision-text);isolation:isolate}
 .revision-bar-inner{width:min(1240px,calc(100% - 40px));margin:0 auto;min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:22px}
-.revision-wordmark{font-weight:850;font-size:1.45rem;letter-spacing:-.055em;white-space:nowrap;color:var(--revision-text);text-decoration:none}.revision-wordmark span{color:var(--revision-accent)}
+.revision-wordmark{font-weight:850;font-size:1.45rem;letter-spacing:-.055em;white-space:nowrap;color:var(--revision-text);text-decoration:none}.revision-wordmark span{display:inline-block;width:.56em;height:.82em;margin-left:.18em;background:var(--revision-accent);clip-path:polygon(58% 0,18% 48%,45% 48%,31% 100%,82% 40%,55% 40%);vertical-align:-.06em;font-size:0;line-height:0}
 .revision-nav{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.revision-nav a{border-radius:9px;color:var(--revision-muted);padding:9px 13px;font-size:.86rem;font-weight:650;line-height:1.35;text-decoration:none;border:1px solid transparent}.revision-nav a:hover{color:var(--revision-text);background:#1c2c40}.revision-nav a[aria-current="page"]{color:var(--revision-accent);background:#18312f;border-color:#2e514b}
 .revision-context{font-size:.72rem;color:var(--revision-muted);letter-spacing:.07em;text-transform:uppercase}
 .revision-skip{position:fixed;left:16px;top:-100px;z-index:2000;padding:12px;background:var(--revision-accent);color:#07151d;border-radius:8px}.revision-skip:focus{top:12px}

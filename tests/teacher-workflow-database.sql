@@ -21,9 +21,11 @@ begin
   if (select count(*)from public.revision_activities where assignment_id=aid)<>1 then raise exception 'Joined student cannot read activity';end if;
   blocked:=false;begin perform keys from private.revision_activity_keys;exception when insufficient_privilege then blocked:=true;end;if not blocked then raise exception 'Private answer keys are readable';end if;
   perform public.revision_save_activity_draft(aid,'{"q1":"a"}');
+  perform public.revision_record_study(aid,120,'{"q1":60}');
   if (select answers->>'q1'from public.revision_activity_drafts where assignment_id=aid)<>'a' then raise exception 'Draft did not persist';end if;
   student_answers:='{"q1":"a","q2":"5","q3":"A written explanation"}';
   result:=public.revision_submit_activity(aid,student_answers,token);first_id:=(result->>'id')::uuid;
+  if result->>'time_spent_seconds'<>'120' or result->'question_times'->>'q1'<>'60' then raise exception 'Timing lost on submission';end if;
   if result->>'score'<>'1' or result->>'auto_max'<>'2' or result->>'review_state'<>'pending' then raise exception 'Wrong automatic or written marking';end if;
   if exists(select 1 from public.revision_activity_drafts where assignment_id=aid) then raise exception 'Submitted draft remains';end if;
   if (public.revision_submit_activity(aid,student_answers,token)->>'id')::uuid<>first_id or(select count(*)from public.revision_activity_attempts where assignment_id=aid)<>1 then raise exception 'Retry was not idempotent';end if;

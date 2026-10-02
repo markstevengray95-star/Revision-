@@ -18,6 +18,11 @@
     timer,
     token,
     localKey;
+  let studySeconds=0, questionTimes={}, lastInteraction=Date.now();
+  for(const event of ['pointerdown','keydown','input'])document.addEventListener(event,()=>{lastInteraction=Date.now();});
+  const studyTimer=setInterval(()=>{if(!editing||!sessionAlive||document.hidden||!document.hasFocus()||Date.now()-lastInteraction>60000||studySeconds>=43200)return;studySeconds++;const card=document.activeElement?.closest('[id^="question-"]');if(card){const key=card.id.slice(9);questionTimes[key]=(questionTimes[key]||0)+1;}},1000);
+  window.addEventListener('pagehide',()=>clearInterval(studyTimer));
+  async function recordStudy(){if(!editing||!sessionAlive)return;const r=await client.rpc('revision_record_study',{p_assignment_id:id,p_seconds:studySeconds,p_question_times:questionTimes});if(r.error)throw r.error;}
   let sessionAlive = true;
   const latest = () => attempts[attempts.length - 1] || null;
   const maySubmit = () =>
@@ -168,6 +173,7 @@
         draft &&
         (!latest() ||
           new Date(draft.updated_at) > new Date(latest().submitted_at));
+    studySeconds=draft?.time_spent_seconds||0;questionTimes=draft?.question_times||{};
     editing =
       !teacher && maySubmit() && (!latest() || !!cloudRecent || !!local);
     answers = editing
@@ -456,6 +462,7 @@
         p_answers: JSON.parse(snapshot),
       });
       if (error) throw error;
+      await recordStudy();
       if (JSON.stringify(answers) === snapshot) {
         dirty = false;
         try {
@@ -500,6 +507,7 @@
         .querySelectorAll("input,textarea")
         .forEach((n) => (n.disabled = true));
       remember();
+      await recordStudy();
       const { data, error } = await client.rpc("revision_submit_activity", {
         p_assignment_id: id,
         p_answers: answers,

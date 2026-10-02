@@ -16,3 +16,8 @@ Five-section navigation, real result metrics, rename/archive/restore and student
 
 ## Phase 2
 Five-step Set Work wizard; topic/lesson selection; six activity presets; cloud drafts; targeted students and atomic multi-class assignments; scheduled release, target and duration; reuse and duplicate homework. New release and recipient rules are enforced on reads, draft saving, submission and feedback.
+
+## Phase 3
+Assignment reports show all recipients, including saved drafts, with completion/overdue/target filters and expandable answer review. Active time and question time are estimates recorded only during recent interaction in a focused, visible tab. Historical rows display an em dash when timing is unavailable.
+
+Timing is saved with each submitted attempt and survives duplicate submission tokens. Live rollback fixtures verify time is carried over without leaving test accounts.

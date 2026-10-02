@@ -281,9 +281,7 @@
         "assignment-details",
       ),
     );
-    const joined = context.state.members.filter(
-      (m) => m.class_id === assignment.class_id && m.status === "joined",
-    );
+    const joined = window.REVISION_TEACHER_DATA.recipients(context.state,assignment);
     const strip = el("div", undefined, "activity-stat-strip");
     const complete = latest.filter((a) => a.review_state === "complete");
     const average = complete.length
@@ -349,10 +347,24 @@
       });
       wrap.append(gaps);
     }
+    const table=el('table',undefined,'workspace-table'),head=el('thead'),tr=el('tr');
+    for(const title of ['Student','Status','Score','Attempts','Active time (estimate)'])tr.append(el('th',title));head.append(tr);table.append(head);
+    const tbody=el('tbody');table.append(tbody);const tableWrap=el('div',undefined,'workspace-table-wrap');tableWrap.append(table);
+    const filter=el('select');filter.setAttribute('aria-label','Filter assignment results');
+    ['All','Complete','Incomplete','Overdue','Below target'].forEach(v=>filter.append(new Option(v,v)));
+    wrap.append(el('p',`${joined.length} assigned students · Target ${assignment.target_score??75}%`),filter,tableWrap);
+    const draw=()=>{tbody.replaceChildren();for(const member of joined){const r=window.REVISION_TEACHER_DATA.result(context.state,assignment,member.student_id);
+      if(filter.value==='Complete'&&r.status!=='Complete'||filter.value==='Incomplete'&&r.status==='Complete'||filter.value==='Overdue'&&!r.overdue||filter.value==='Below target'&&!r.belowTarget)continue;
+      const row=el('tr'),who=el('td'),open=button(member.display_name||member.student_email||'Student','open-result',member.student_id);
+      open.onclick=()=>{const detail=[...wrap.querySelectorAll('[data-student-id]')].find(d=>d.dataset.studentId===member.student_id);if(detail){detail.open=true;detail.scrollIntoView({behavior:'smooth'});}else context.showNotice(r.status==='In progress'?'This student has a saved draft but has not submitted.':'No submission to review yet.','info');};who.append(open);row.append(who);
+      for(const v of [r.overdue?'Overdue · '+r.status:r.status,r.score===null?'—':r.score+'%',r.attempts,r.time===null?'—':Math.ceil(r.time/60)+' min'])row.append(el('td',String(v)));tbody.append(row);
+    }if(!tbody.children.length){const row=el('tr'),cell=el('td','No students match this filter.');cell.colSpan=5;row.append(cell);tbody.append(row);}};
+    filter.onchange=draw;draw();
     latest.forEach((attempt) => {
       const member = joined.find((m) => m.student_id === attempt.student_id),
         details = el("details", undefined, "submission-row");
       details.dataset.attemptId = attempt.id;
+      details.dataset.studentId = attempt.student_id;
       const summary = el(
         "summary",
         `${member?.display_name || member?.student_email || "Student"} · ${attempt.score}/${attempt.total_max}${attempt.review_state === "pending" ? " so far · needs review" : ""} · attempt ${attempt.attempt_no}`,
@@ -381,6 +393,7 @@
         const mark = attempt.marks.find((m) => m.id === q.id),
           row = el("div", undefined, "activity-review-item");
         row.append(el("h4", q.prompt));
+        row.append(el('p',`${q.title||activity.topic_title} · ${q.type==='number'?'Calculation':q.type==='written'?'Exam technique':'Recall'} · ${attempt.question_times?.[q.id]===undefined?'Time not recorded':attempt.question_times[q.id]+' seconds (estimate)'}`,'question-meta'));
         let answer = attempt.answers[q.id];
         if (q.type === "choice")
           answer = q.options.find((o) => o.id === answer)?.text || answer;
@@ -505,9 +518,7 @@
   }
   function exportResults(assignment) {
     const latest = latestFor(assignment.id),
-      members = context.state.members.filter(
-        (m) => m.class_id === assignment.class_id && m.status === "joined",
-      );
+      members = window.REVISION_TEACHER_DATA.recipients(context.state,assignment);
     const rows = [
       [
         "Student",

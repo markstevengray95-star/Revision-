@@ -10,6 +10,7 @@
     submissions: [],
     activities: [],
     attempts: [],
+    drafts: [],
   };
   let selectedClassId = null;
   let sessionVersion = 0;
@@ -243,6 +244,7 @@
       state.submissions = [];
       state.activities = [];
       state.attempts = [];
+      state.drafts = [];
       state.teacherDrafts = [];
       els.authPanel.hidden = false;
       els.app.hidden = true;
@@ -257,6 +259,7 @@
       state.submissions = [];
       state.activities = [];
       state.attempts = [];
+      state.drafts = [];
       state.teacherDrafts = [];
       els.app.hidden = true;
     }
@@ -306,6 +309,7 @@
         state.submissions = [];
         state.activities = [];
         state.attempts = [];
+      state.drafts = [];
       state.teacherDrafts = [];
       } else {
         const [
@@ -314,6 +318,7 @@
           submissionsResult,
           activitiesResult,
           attemptsResult,
+          draftsResult,
         ] = await Promise.all([
           client
             .from("revision_class_members")
@@ -336,6 +341,7 @@
             .select("*")
             .in("class_id", ids)
             .order("submitted_at", { ascending: false }),
+          client.from("revision_activity_drafts").select("*"),
         ]);
         if (!current()) return;
         if (membersResult.error) throw membersResult.error;
@@ -343,11 +349,13 @@
         if (submissionsResult.error) throw submissionsResult.error;
         if (activitiesResult.error) throw activitiesResult.error;
         if (attemptsResult.error) throw attemptsResult.error;
+        if (draftsResult.error) throw draftsResult.error;
         state.members = membersResult.data || [];
         state.assignments = assignmentsResult.data || [];
         state.submissions = submissionsResult.data || [];
         state.activities = activitiesResult.data || [];
         state.attempts = attemptsResult.data || [];
+        state.drafts = (draftsResult.data||[]).filter(d=>state.assignments.some(a=>a.id===d.assignment_id));
       }
       if (
         selectedClassId &&

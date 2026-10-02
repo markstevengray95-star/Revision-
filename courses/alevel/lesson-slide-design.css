@@ -83,3 +83,137 @@
  .lesson-presentation-primary .lesson-presentation-shell .phase3-deck-side,.ls-support,.phase3-top,.phase3-bottom{display:none!important}
  .lesson-presentation-primary .lesson-presentation-shell .deep-slide{height:auto;overflow:visible;box-shadow:none}
 }
+
+/* Physics presentation layout refresh
+   Keep every authored Physics slide, diagram, equation and support panel, but present
+   the deck with the cleaner, centred presentation rhythm used by Chemistry. */
+@media(min-width:901px){
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .deep-deck{
+    grid-template-columns:1fr;
+    grid-template-rows:auto minmax(0,1fr);
+    gap:10px;
+    padding:10px 14px 12px;
+    background:linear-gradient(145deg,#050b16,#0f172a 58%,#172554);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-side{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    min-height:54px;
+    padding:7px 10px;
+    overflow:visible;
+    border-radius:13px;
+    background:rgba(23,37,56,.94);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-side>div:first-child{
+    display:flex;
+    align-items:baseline;
+    gap:9px;
+    min-width:0;
+    flex:1;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-side h2{
+    margin:0;
+    max-width:36vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:.92rem;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-side p{display:none}
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) [data-outline-toggle]{
+    flex:0 0 auto;
+    padding:8px 10px;
+    white-space:nowrap;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-tools{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:5px;
+    min-width:max-content;
+    margin:0;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-tools button{
+    min-height:34px;
+    padding:7px 10px;
+    white-space:nowrap;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-slide-list{display:none}
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell).ls-outline-open .phase3-slide-list{
+    position:absolute;
+    z-index:90;
+    top:62px;
+    left:14px;
+    width:min(390px,42vw);
+    max-height:calc(100dvh - 92px);
+    overflow:auto;
+    display:grid;
+    align-content:start;
+    gap:5px;
+    padding:10px;
+    border:1px solid #415a78;
+    border-radius:12px;
+    background:#142238;
+    box-shadow:0 20px 50px rgba(0,0,0,.38);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-main{
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto auto;
+    gap:7px;
+    min-height:0;
+    overflow:hidden;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-top,
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-bottom{
+    width:min(100%,calc((100dvh - 150px)*16/9));
+    margin-inline:auto;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .deep-slide{
+    align-self:center;
+    justify-self:center;
+    width:min(100%,calc((100dvh - 150px)*16/9));
+    height:auto;
+    max-height:calc(100dvh - 150px);
+    aspect-ratio:16/9;
+    padding:clamp(24px,3vw,48px);
+    border-radius:18px;
+    overflow:auto;
+    scrollbar-gutter:stable;
+    background:linear-gradient(180deg,#fff,#f8fbff);
+    box-shadow:inset 0 0 0 1px rgba(15,23,42,.06),0 24px 64px rgba(2,6,23,.28);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .ls-support{
+    width:min(100%,calc((100dvh - 150px)*16/9));
+    max-height:22dvh;
+    margin-inline:auto;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .ls-slide-content{
+    margin-block:auto;
+    width:100%;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .ls-with-visual{
+    grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);
+    gap:clamp(18px,2.2vw,34px);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .ls-figure{
+    padding:14px;
+    border-radius:14px;
+    background:#f5f8fc;
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .ls-figure svg{max-height:300px}
+}
+
+@media(max-width:900px){
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .phase3-deck-side{
+    border-radius:11px;
+    background:rgba(23,37,56,.96);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .deep-slide{
+    border-radius:14px;
+    background:linear-gradient(180deg,#fff,#f8fbff);
+  }
+  .lesson-presentation-primary .lesson-presentation-shell:not(.chemistry-presentation-shell):not(.biology-presentation-shell):not(.subject-presentation-shell) .ls-with-visual{grid-template-columns:1fr}
+}

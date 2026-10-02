@@ -41,5 +41,9 @@
     const remember=()=>{try{const url=new URL(location.href);localStorage.setItem('revision-last-study-v1',JSON.stringify({path:url.pathname.slice(root.pathname.length)+url.search+url.hash,level,at:Date.now()}));}catch{}};
     window.addEventListener('coursecontextchange',remember);window.addEventListener('hashchange',remember);window.addEventListener('pagehide',remember);
   }
+  if(level==='teacher'){
+    const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('teacher-simple.css',root).href;document.head.append(style);
+    const enhancement=document.createElement('script');enhancement.src=new URL('teacher-simple.js',root).href;enhancement.defer=true;document.head.append(enhancement);
+  }
   window.REVISION_ROOT=root.href;
 })();

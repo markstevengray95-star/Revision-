@@ -1,12 +1,43 @@
 {
   "name": "revision-science",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "One AQA GCSE and A-level science revision app",
   "scripts": {
-    "dev": "node scripts/serve.cjs",
-    "start": "node scripts/serve.cjs",
-    "build": "node scripts/build.cjs",
-    "test": "node tests/integration.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs"
-  }
+    "dev": "node scripts/build-graph-styles.cjs && node scripts/build.cjs && next dev --webpack",
+    "build": "node scripts/build-graph-styles.cjs && node scripts/build.cjs && next build --webpack",
+    "start": "next start",
+    "test": "node tests/integration.cjs && node tests/unified-tools.cjs && node tests/graph-practice.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs",
+    "test:marking": "node --experimental-strip-types --test src/modules/alevel/lib/offlineMarker.test.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^2.21.0",
+    "@google/generative-ai": "^0.24.1",
+    "@radix-ui/react-slot": "^1.3.3",
+    "@types/katex": "^0.16.8",
+    "chart.js": "^4.5.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^13.2.0",
+    "katex": "^0.18.7",
+    "lucide-react": "^1.43.0",
+    "mammoth": "^1.12.2",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "19.2.8",
+    "react-katex": "^3.1.0",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-katex": "^3.0.4",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "description": "GCSE and A-level courses, practicals, simulations and exam marking in one deployment"
 }

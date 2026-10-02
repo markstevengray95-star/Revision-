@@ -1,0 +1,29 @@
+:root{color-scheme:light}
+body.graph-practice{margin:0;display:block!important;height:auto!important;overflow:auto!important;font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;background:#eef3f7;color:#172b40}
+.graph-workspace{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:calc(100vh - 67px)}
+.graph-workspace>nav{width:240px;position:sticky;top:67px;align-self:start;max-height:calc(100vh - 67px);background:#102336}
+.graph-workspace>main{padding:32px;overflow:visible;height:auto}
+.module-section{height:auto!important}.module-section>div:last-child{align-items:flex-start}
+.module-section>div:last-child>div:first-child{overflow:visible;padding-bottom:24px}
+.graph-workspace .canvas-container{height:500px;min-height:400px!important;position:sticky;top:90px;border:1px solid #c7d5e1;box-shadow:0 8px 30px #173c5910}
+.canvas-container canvas{width:100%;height:100%}
+.graph-workspace h2{letter-spacing:-.04em;font-size:clamp(1.6rem,3vw,2.1rem)}
+.graph-workspace button,.graph-workspace input,.graph-workspace select{min-height:38px}
+.graph-workspace button:disabled{opacity:.5;cursor:not-allowed}
+.graph-workspace :focus-visible{outline:3px solid #0891b2;outline-offset:3px}
+.graph-workspace input,.graph-workspace select{background:#fff;color:#152c43}
+.graph-workspace button{cursor:pointer}.graph-workspace [hidden]{display:none!important}
+.graph-workspace .graph-progress{padding:18px 24px;border-top:1px solid #294458;font-size:13px;color:#c4e5de}
+.graph-progress strong{display:block;margin-bottom:8px}.graph-progress progress{width:100%;accent-color:#80e0cc}
+.graph-progress small{display:block;margin-top:8px;color:#a4b4c5;line-height:1.5}
+.graph-workspace .coordinate-entry{padding:14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;margin-top:14px;font-size:13px}
+.coordinate-entry .fields{display:flex;gap:8px;margin:8px 0;flex-wrap:wrap}.coordinate-entry label{flex:1;min-width:85px}.coordinate-entry input{display:block;width:100%;max-width:140px;padding:6px;border:1px solid #bccbda;border-radius:6px}
+.coordinate-entry button{padding:8px 12px;border-radius:7px;background:#dbeafe;color:#173f79;font-weight:650}
+.graph-note{font-size:13px;line-height:1.6;color:#4c6378;margin:12px 0}
+#custom-alert{position:fixed;top:auto;bottom:20px;width:min(650px,calc(100% - 28px));z-index:2000}
+#test-completion-screen{position:static!important;inset:auto!important;margin-top:20px;padding:20px;border:1px solid #c9e5d8;align-items:stretch!important}
+.test-review{text-align:left;font-size:13px;line-height:1.6}.test-review li{padding:10px 0;border-bottom:1px solid #d8e3eb}.test-review strong{display:block;color:#233f57}
+.bar-entry{display:grid;grid-template-columns:1fr 100px;align-items:center;gap:10px;margin:7px 0}.bar-entry input{width:100%;padding:5px;border:1px solid #cbd5e1;border-radius:6px}
+@media(max-width:1100px){.graph-workspace{grid-template-columns:200px minmax(0,1fr)}.graph-workspace>nav{width:200px}.graph-workspace>main{padding:24px}.canvas-container{height:440px}.module-section>div:last-child{gap:20px}}
+@media(max-width:1023px){.graph-workspace .canvas-container{position:relative;top:auto;width:100%;flex:auto}.module-section>div:last-child>div:first-child{width:100%}}
+@media(max-width:700px){.graph-workspace{display:block}.graph-workspace>nav{position:static;width:100%;max-height:none}.graph-workspace>nav>div:first-child{padding:18px 20px}.graph-workspace>nav ul{display:flex;flex-direction:row;padding:0 10px 10px;overflow:auto;gap:5px}.graph-workspace>nav li{flex:0 0 auto}.graph-workspace>nav li button{padding:10px;font-size:12px;border-radius:8px;border-left:0}.graph-workspace>nav>div:last-child{display:none}.graph-workspace .graph-progress{padding:10px 20px}.graph-progress progress{max-width:220px}.graph-workspace>main{padding:20px 14px}.canvas-container{height:400px;order:-1}.module-section>div:last-child{display:flex;flex-direction:column}.module-section>div:first-child{flex-wrap:wrap;gap:12px}.graph-workspace h2{font-size:1.6rem}.graph-workspace .text-xs{font-size:13px}.graph-workspace .text-sm{font-size:14px}#test-canvas-wrapper{order:0}}

@@ -52,5 +52,19 @@
     }
   ],
   "alevel": "27892ec06ad2a152b592ab8477cae75317c35cf6",
-  "gcse": "47cd5cb32b14d48082569168e723d776fbcf4c7d"
+  "gcse": "47cd5cb32b14d48082569168e723d776fbcf4c7d",
+  "tools": {
+    "gcseExam": {
+      "repository": "markstevengray95-star/gcse-exam-questions",
+      "commit": "1b11272a8faba61624fe6202c6f2ea38cfd6d8ec"
+    },
+    "alevelMarking": {
+      "repository": "markstevengray95-star/alevel-marking-",
+      "tree": "68a7fbb945426635d4e8de9083f2bf59630f6540"
+    },
+    "practicalSimulator": {
+      "repository": "markstevengray95-star/practical-sim",
+      "tree": "3574106fa40223b94af3d5f9a410153051e779cc"
+    }
+  }
 }

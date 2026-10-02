@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const math=require('../tools/graph-practice/graph-math.js');
+assert.ok(Number.isNaN(math.numeric('')));assert.ok(Number.isNaN(math.numeric('20abc')));assert.ok(Number.isNaN(math.numeric('Infinity')));assert.equal(math.numeric(' 17.5 '),17.5);
+assert.ok(math.close('17.5',17.5,.01));assert.ok(!math.close('17.9',17.5,.01));
+assert.equal(math.springConstant(2),50,'2 cm/N corresponds to 50 N/m');
+assert.equal(math.gradient({x:10,y:40},{x:30,y:10}),-1.5);assert.ok(Number.isNaN(math.gradient({x:10,y:40},{x:10,y:10})));
+assert.equal(math.fitError([{x:0,y:0},{x:10,y:20}],[{x:2,y:4},{x:8,y:16}]),0);
+assert.ok(math.fitError([{x:0,y:20},{x:10,y:20}],[{x:2,y:4},{x:8,y:16}])>10,'An unrelated fit must fail');
+assert.ok(!Number.isFinite(math.fitError([{x:4,y:8},{x:10,y:20}],[{x:2,y:4}])),'A fit must cover the measured points');
+const state={currentQ:0,score:0,answers:[],answered:false,questions:[{type:'input',text:'Area',correctAnswer:17.5,tolerance:.01}]};
+assert.equal(math.gradeTest(state,''),null);assert.equal(state.answered,false);assert.equal(math.gradeTest(state,'17.5'),true);assert.equal(math.gradeTest(state,'17.5'),null);assert.equal(state.score,1);assert.equal(state.answers.length,1,'Repeated submissions cannot inflate scores');
+console.log('Graph skills passed: strict numeric answers, decimal areas, SI conversion, signed gradients, fit coverage and single-attempt scoring.');

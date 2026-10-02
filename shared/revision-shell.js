@@ -6,14 +6,14 @@
   if(!script)return;
   const root=new URL('../',script.src);
   const relative=location.pathname.startsWith(root.pathname)?location.pathname.slice(root.pathname.length):'';
-  const level=relative==='teacher.html'?'teacher':relative==='student.html'?'student':relative==='practice.html'?'practice':relative.startsWith('courses/gcse/')?'gcse':relative.startsWith('courses/alevel/')?'alevel':'home';
+  const level=relative==='teacher.html'?'teacher':relative==='student.html'?'student':relative==='practice.html'?'practice':relative.startsWith('courses/gcse/')?'gcse':relative.startsWith('courses/alevel/')?'alevel':relative.startsWith('tools/')?'tools':'home';
   const params=new URLSearchParams(location.search);
   const subject=['biology','chemistry','physics'].includes(params.get('subject'))?params.get('subject'):'physics';
   const bar=document.createElement('header');bar.className='revision-bar';
   const wrap=document.createElement('div');wrap.className='revision-bar-inner';
   const brand=document.createElement('a');brand.className='revision-wordmark';brand.href=root.href;brand.innerHTML='Revision<span>.</span>';
   const nav=document.createElement('nav');nav.className='revision-nav';nav.setAttribute('aria-label','Revision app');
-  const links=[['home','Dashboard','index.html'],['gcse','GCSE Science','courses/gcse/index.html'],['alevel','A-level Science','courses/alevel/index.html'],['practice','Practise',`practice.html${level==='gcse'||level==='alevel'?'?level='+level+'&subject='+subject:''}`],['student','My Work','student.html'],['teacher','Teacher','teacher.html']];
+  const links=[['home','Dashboard','index.html'],['gcse','GCSE Science','courses/gcse/index.html'],['alevel','A-level Science','courses/alevel/index.html'],['practice','Practise',`practice.html${level==='gcse'||level==='alevel'?'?level='+level+'&subject='+subject:''}`],['tools','Practice tools','index.html#tools'],['student','My Work','student.html'],['teacher','Teacher','teacher.html']];
   links.forEach(([key,label,target])=>{const a=document.createElement('a');a.href=new URL(target,root).href;a.textContent=label;if(level===key)a.setAttribute('aria-current','page');nav.append(a);});
   const practiceLink=nav.querySelector('a[href*="practice.html"]');
   practiceLink.addEventListener('click',()=>{
@@ -31,7 +31,7 @@
     }
     practiceLink.href=url.href;
   });
-  const context=document.createElement('span');context.className='revision-context';context.textContent=level==='home'?'Your science, together':level==='teacher'?'Teacher workspace':level==='student'?'Student workspace':level==='practice'?'Recall · Check · Apply':level==='gcse'?'AQA · GCSE Science':`AQA · A-level ${subject[0].toUpperCase()+subject.slice(1)}`;
+  const context=document.createElement('span');context.className='revision-context';context.textContent=level==='home'?'Your science, together':level==='teacher'?'Teacher workspace':level==='student'?'Student workspace':level==='tools'?'Practice tools':level==='practice'?'Recall · Check · Apply':level==='gcse'?'AQA · GCSE Science':`AQA · A-level ${subject[0].toUpperCase()+subject.slice(1)}`;
   wrap.append(brand,nav,context);bar.append(wrap);document.body.prepend(bar);
   if(level==='gcse'||level==='alevel'){
     document.body.classList.add('revision-integrated');

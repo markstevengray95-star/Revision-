@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const markingUrl=(window.ALEVEL_MARKING_APP_URL||localStorage.getItem('alevel-marking-app-url')||'https://alevel-marking.vercel.app').replace(/\/$/,'');
+  const markingUrl='../../tools/alevel-marking';
   const tools={
     practicals:{
       id:'practicals',
@@ -17,7 +17,7 @@
       eyebrow:'AQA A-Level Physics · Exam practice',
       url:markingUrl,
       repo:'https://github.com/markstevengray95-star/alevel-marking-',
-      external:true
+      external:false
     }
   };
 
@@ -277,7 +277,7 @@
     if(source)source.href=tool.repo;
     if(externalNote){
       externalNote.hidden=!tool.external;
-      externalNote.textContent=tool.external?'The marking engine stays on its own secure deployment so AI marking continues to work. If embedding is blocked, use Open full app.':'';
+      externalNote.textContent='';
     }
     setLoading(true,tool.id==='practicals'?'Opening Practical Lab…':'Opening Exam Practice & Marking…');
     setShellForTool(true);
@@ -396,5 +396,5 @@
 
   ensureHomeDashboard();
   setAreaState('learn');
-  window.CourseTools={tools,openTool,closeTool,showTools,resumeLearning,updateHomeDashboard,getActive:()=>active?{...active}:null,setMarkingUrl:url=>{if(url){localStorage.setItem('alevel-marking-app-url',String(url).replace(/\/$/,''));location.reload();}}};
+  window.CourseTools={tools,openTool,closeTool,showTools,resumeLearning,updateHomeDashboard,getActive:()=>active?{...active}:null,setMarkingUrl:()=>{} };
 })();

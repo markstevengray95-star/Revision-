@@ -49,6 +49,11 @@
   if(level==='teacher'){
     const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('teacher-simple.css',root).href;document.head.append(style);
     const enhancement=document.createElement('script');enhancement.src=new URL('teacher-simple.js',root).href;enhancement.defer=true;document.head.append(enhancement);
+    const loadSchoolSeats=()=>{
+      if([...document.scripts].some(s=>/shared\/teacher-school-seats\.js/.test(s.src)))return;
+      const seats=document.createElement('script');seats.src=new URL('shared/teacher-school-seats.js',root).href;document.head.append(seats);
+    };
+    if(document.readyState==='complete')loadSchoolSeats();else document.addEventListener('DOMContentLoaded',loadSchoolSeats,{once:true});
   }
   const loadAccess=()=>{
     if([...document.scripts].some(s=>/shared\/spark-access\.js/.test(s.src)))return;

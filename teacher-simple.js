@@ -1,5 +1,6 @@
 (() => {
   "use strict";
+  if (document.body.dataset.workspace === "teacher") return;
 
   const $ = (id) => document.getElementById(id);
   const STORAGE_KEY = "revision-teacher-view-v2";

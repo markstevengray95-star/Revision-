@@ -39,7 +39,7 @@ for(const file of ['teacher.html','teacher-dashboard.css','teacher-cloud.css','t
 const shell=fs.readFileSync(path.join(root,'shared/revision-shell.js'),'utf8');
 assert.ok(shell.includes('teacher-simple.css'),'Teacher shell must load simplified dashboard styling');
 assert.ok(shell.includes('teacher-simple.js'),'Teacher shell must load simplified dashboard logic');
-assert.ok(shell.includes("Spark<span>.</span>"),'Shared navigation must use Spark branding');
+assert.ok(shell.includes('Spark') && shell.includes('spark-bolt'),'Shared navigation must use Spark branding');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
 assert.equal(manifest.short_name,'Spark');
 assert.ok(manifest.name.startsWith('Spark'));

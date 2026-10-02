@@ -1,0 +1,15 @@
+# Teacher platform delivery
+
+Each phase is tested and pushed separately to main.
+
+1. Dashboard and Classes
+2. Set Work
+3. Assignment tracking
+4. Markbook
+5. Topic mastery
+6. Intervention groups
+7. Adaptive follow-up
+8. Homework planner and alerts
+
+## Phase 1
+Five-section navigation, real result metrics, rename/archive/restore and student profiles. Pending written reviews are excluded from averages. Archived classes can be restored. The existing integration branding assertion now matches the Spark lightning icon.

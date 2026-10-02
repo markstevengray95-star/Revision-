@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="teacher-dashboard.css" />
     <link rel="stylesheet" href="teacher-cloud.css" />
     <link rel="stylesheet" href="activities.css" />
+    <link rel="stylesheet" href="teacher-workspace.css" />
     <script src="shared/revision-shell.js" defer></script>
     <script src="shared/revision-supabase.js" defer></script>
     <script src="practice-data.js" defer></script>
@@ -25,9 +26,11 @@
     <script src="shared/activity-generator.js" defer></script>
     <script src="shared/activity-ui.js" defer></script>
     <script src="teacher-activities.js" defer></script>
+    <script src="shared/teacher-data.js" defer></script>
+    <script src="teacher-workspace.js" defer></script>
     <script src="teacher-cloud.js" defer></script>
   </head>
-  <body class="teacher-dashboard">
+  <body class="teacher-dashboard" data-workspace="teacher">
     <a class="revision-skip" href="#teacher-main">Skip to teacher dashboard</a>
     <main id="teacher-main" class="teacher-wrap">
       <section class="teacher-hero" aria-labelledby="teacher-title">

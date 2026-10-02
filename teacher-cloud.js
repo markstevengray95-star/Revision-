@@ -14,6 +14,7 @@
   let selectedClassId = null;
   let sessionVersion = 0;
   let loadVersion = 0;
+  let showArchived = false;
 
   const $ = (id) => document.getElementById(id);
   const els = {
@@ -143,6 +144,7 @@
       showNotice,
       loadTeacherData,
     });
+    window.REVISION_TEACHER_WORKSPACE.init({state, showNotice, loadTeacherData, toggleArchived: async b => {showArchived=!showArchived;b.textContent=showArchived?'Show active classes':'Show archived classes';await loadTeacherData(false);}});
     els.assignmentDue.value = localDateString(7);
     client.auth.onAuthStateChange((_event, session) => {
       void applySession(session);
@@ -289,7 +291,7 @@
         .from("revision_classes")
         .select("*")
         .eq("teacher_id", uid)
-        .eq("archived", false)
+        .eq("archived", showArchived)
         .order("created_at", { ascending: true });
       if (!current()) return;
       if (classError) throw classError;
@@ -362,6 +364,7 @@
     renderClasses();
     renderClassDetail();
     renderAssignments();
+    window.REVISION_TEACHER_WORKSPACE?.render();
   }
   function renderMetrics() {
     els.metricClasses.textContent = String(state.classes.length);
@@ -445,6 +448,8 @@
       actions.append(
         button("Open class", "open-class", group.id),
         button("Assign", "assign-class", group.id),
+        button("Rename", "rename-class", group.id),
+        button(group.archived ? "Restore" : "Archive", "archive-class", group.id),
         button("Delete", "delete-class", group.id, "mini-button danger"),
       );
       card.append(top, stats, actions);
@@ -509,6 +514,7 @@
       copy.append(name, meta);
       row.append(
         copy,
+        button("Profile", "student-profile", member.id),
         button(
           "Remove",
           "remove-student",
@@ -820,12 +826,14 @@
     const group = classById(id);
     if (!group) return;
     if (action === "open-class") {
+      window.REVISION_TEACHER_WORKSPACE.show('classes');
       selectedClassId = id;
       renderClasses();
       renderClassDetail();
       els.detailPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     if (action === "assign-class") {
+      window.REVISION_TEACHER_WORKSPACE.show('set-work');
       els.assignmentClass.value = id;
       window.REVISION_TEACHER_ACTIVITIES.matchClass();
       $("assign-work").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -833,6 +841,13 @@
     if (action === "copy-code") {
       await copyText(group.join_code);
       showNotice(`Class code ${group.join_code} copied.`);
+    }
+    if (action === 'rename-class' || action === 'archive-class') {
+      const name = action === 'rename-class' ? prompt('Class name', group.name)?.trim() : null;
+      if (action === 'rename-class' && (!name || name.length < 2 || name.length > 80)) return;
+      const {error} = await client.from('revision_classes').update(action === 'rename-class' ? {name} : {archived: !group.archived}).eq('id',id);
+      if(error) showNotice(messageFrom(error,'Class could not be updated.'),'error');
+      else await loadTeacherData(false);
     }
     if (action === "delete-class") {
       if (
@@ -856,10 +871,11 @@
   }
 
   async function onRosterAction(event) {
-    const target = event.target.closest('[data-action="remove-student"]');
+    const target = event.target.closest('[data-action="remove-student"],[data-action="student-profile"]');
     if (!target) return;
     const member = state.members.find((item) => item.id === target.dataset.id);
     if (!member) return;
+    if (target.dataset.action === 'student-profile') { window.REVISION_TEACHER_WORKSPACE.profile(member); return; }
     if (!confirm(`Remove ${memberLabel(member)} from this class?`)) return;
     const { error } = await client
       .from("revision_class_members")

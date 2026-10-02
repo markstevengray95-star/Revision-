@@ -63,6 +63,12 @@
     return planNames[entitlement?.plan || subscription?.plan] || "Spark Free";
   }
 
+  function schoolAccessLabel() {
+    if (entitlement?.school_role === "owner") return "school licence owner · full Spark science access active";
+    if (entitlement?.school_role === "teacher") return "shared teacher account · full Spark science access active";
+    return "pupil seat · full Spark science access active";
+  }
+
   function renderAccount() {
     if (!session?.user) {
       setAccountMessage(
@@ -76,7 +82,7 @@
     if (entitlement?.source === "school" && entitlement.access_active) {
       const schoolName = currentAccessName();
       setAccountMessage(
-        `<strong>Signed in as ${email}</strong><span>${escapeHtml(schoolName)} pupil seat · full Spark science access active</span>`,
+        `<strong>Signed in as ${email}</strong><span>${escapeHtml(schoolName)} · ${escapeHtml(schoolAccessLabel())}</span>`,
         "success",
       );
       return;
@@ -129,9 +135,12 @@
         }
         if (entitlement?.access_active) {
           const name = currentAccessName();
-          const detail = entitlement.source === "school"
-            ? "This pupil already has paid access through a school seat."
-            : "Spark has blocked a second checkout so this account is not billed twice.";
+          let detail = "Spark has blocked a second checkout so this account is not billed twice.";
+          if (entitlement.source === "school") {
+            detail = entitlement.school_role === "student"
+              ? "This pupil already has paid access through a school seat."
+              : "This teacher already has paid access through a shared school licence.";
+          }
           setAccountMessage(
             `<strong>${escapeHtml(name)} access is already active.</strong><span>${escapeHtml(detail)}</span>`,
             "warning",

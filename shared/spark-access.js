@@ -13,6 +13,8 @@
   };
   let client = globalThis.revisionSupabase || null;
   let observer = null;
+  let routePatched = false;
+  const FREE_GCSE_TOPICS = new Set(["b1", "c1", "p1"]);
 
   const rank = (plan) => ({ free: 0, plus: 1, pro: 2, school: 2, school_plus: 2, whole_school: 2 }[plan] ?? 0);
   const planName = (plan) => ({
@@ -30,6 +32,11 @@
     return rank(state.plan) >= rank(required);
   }
 
+  function gcseTopicRequirement(topicId) {
+    if (!topicId || FREE_GCSE_TOPICS.has(String(topicId).toLowerCase())) return null;
+    return "plus";
+  }
+
   function requirementForUrl(urlLike) {
     let url;
     try { url = new URL(urlLike, location.href); } catch { return null; }
@@ -38,6 +45,7 @@
     if (path === "pricing.html" || path === "student.html" || path === "teacher.html" || path === "index.html" || path === "") return null;
     if (path === "practice.html" && url.searchParams.get("level") === "alevel") return "pro";
     if (path.startsWith("courses/alevel/")) return "pro";
+    if (path.startsWith("courses/gcse/")) return gcseTopicRequirement(url.searchParams.get("topic"));
     if (path.startsWith("tools/alevel-marking")) return "pro";
     if (path.startsWith("tools/question-bank/")) return "plus";
     if (path.startsWith("tools/full-papers/")) return "plus";
@@ -59,6 +67,8 @@
       .spark-plan-pill[data-active="true"]{border-color:#2e514b;background:#15342f;color:#bff5e7}
       a[data-spark-locked="true"]{position:relative;opacity:.72}
       a[data-spark-locked="true"]::after{content:"LOCKED";margin-left:7px;padding:2px 5px;border:1px solid #52677c;border-radius:999px;font-size:.55rem;letter-spacing:.06em;vertical-align:middle;color:#c5d1dc}
+      .topic-card[data-spark-locked="true"]{position:relative;opacity:.68}
+      .topic-card[data-spark-locked="true"]::after{content:"PLUS";position:absolute;right:12px;bottom:12px;padding:4px 7px;border:1px solid #52677c;background:#111f30;border-radius:999px;font-size:.58rem;font-weight:900;letter-spacing:.07em;color:#c5d1dc}
       .spark-access-gate{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;padding:24px;background:rgba(6,13,23,.94);backdrop-filter:blur(14px);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#edf3f8}
       .spark-access-gate-card{width:min(560px,100%);padding:30px;border:1px solid #2a3b4f;border-radius:22px;background:#111f30;box-shadow:0 28px 80px rgba(0,0,0,.35);text-align:center}
       .spark-access-gate-card .spark-gate-kicker{display:inline-block;margin-bottom:12px;color:#80e0cc;font-size:.75rem;font-weight:850;letter-spacing:.11em;text-transform:uppercase}
@@ -132,9 +142,15 @@
     pill.textContent = state.accessActive ? `Spark ${planName(state.plan)}` : "Spark Free";
   }
 
+  function allAnchors(scope) {
+    const links = [];
+    if (scope?.matches?.("a[href]")) links.push(scope);
+    if (scope?.querySelectorAll) links.push(...scope.querySelectorAll("a[href]"));
+    return links;
+  }
+
   function decorateLinks(scope = document) {
-    const links = scope.querySelectorAll ? scope.querySelectorAll("a[href]") : [];
-    links.forEach((link) => {
+    allAnchors(scope).forEach((link) => {
       if (link.closest(".spark-access-gate")) return;
       const required = requirementForUrl(link.href);
       if (!required) {
@@ -150,12 +166,48 @@
         const need = link.dataset.sparkRequired;
         if (!need || allowed(need)) return;
         event.preventDefault();
-        const pricing = new URL("pricing.html", root);
-        pricing.searchParams.set("required", need);
-        pricing.searchParams.set("return", location.pathname + location.search + location.hash);
-        location.href = pricing.href;
-      });
+        event.stopImmediatePropagation();
+        goToPricing(need);
+      }, true);
     });
+  }
+
+  function allTopicCards(scope) {
+    const cards = [];
+    if (scope?.matches?.(".topic-card[data-topic]")) cards.push(scope);
+    if (scope?.querySelectorAll) cards.push(...scope.querySelectorAll(".topic-card[data-topic]"));
+    return cards;
+  }
+
+  function decorateGcseTopicCards(scope = document) {
+    allTopicCards(scope).forEach((card) => {
+      const required = gcseTopicRequirement(card.dataset.topic);
+      card.dataset.sparkLocked = String(Boolean(required && !allowed(required)));
+      if (card.dataset.sparkTopicGuardBound === "true") return;
+      card.dataset.sparkTopicGuardBound = "true";
+      card.addEventListener("click", (event) => {
+        const need = gcseTopicRequirement(card.dataset.topic);
+        if (!need || allowed(need)) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        goToPricing(need);
+      }, true);
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const need = gcseTopicRequirement(card.dataset.topic);
+        if (!need || allowed(need)) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        goToPricing(need);
+      }, true);
+    });
+  }
+
+  function goToPricing(required) {
+    const pricing = new URL("pricing.html", root);
+    pricing.searchParams.set("required", required);
+    pricing.searchParams.set("return", location.pathname + location.search + location.hash);
+    location.href = pricing.href;
   }
 
   function removeGate() {
@@ -194,6 +246,7 @@
     document.documentElement.dataset.sparkAccess = state.accessActive ? "active" : "free";
     updatePlanPill();
     decorateLinks(document);
+    decorateGcseTopicCards(document);
     renderGate(currentRequirement());
     window.dispatchEvent(new CustomEvent("sparkaccesschange", { detail: { ...state } }));
   }
@@ -205,12 +258,35 @@
     return { ...state };
   }
 
+  function routeChanged() {
+    decorateLinks(document);
+    decorateGcseTopicCards(document);
+    renderGate(currentRequirement());
+  }
+
+  function patchHistory() {
+    if (routePatched) return;
+    routePatched = true;
+    for (const method of ["pushState", "replaceState"]) {
+      const original = history[method];
+      history[method] = function (...args) {
+        const result = original.apply(this, args);
+        queueMicrotask(routeChanged);
+        return result;
+      };
+    }
+    window.addEventListener("popstate", routeChanged);
+    window.addEventListener("hashchange", routeChanged);
+  }
+
   function watchDom() {
     if (observer) return;
     observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === 1) decorateLinks(node);
+          if (node.nodeType !== 1) return;
+          decorateLinks(node);
+          decorateGcseTopicCards(node);
         });
       }
     });
@@ -222,15 +298,15 @@
     refresh,
     canAccess: allowed,
     requiredFor: requirementForUrl,
+    freeGcseTopics: [...FREE_GCSE_TOPICS],
   };
 
   async function init() {
     addStyles();
+    patchHistory();
     watchDom();
     await refresh();
-    if (client) {
-      client.auth.onAuthStateChange(() => { void refresh(); });
-    }
+    if (client) client.auth.onAuthStateChange(() => { void refresh(); });
     window.addEventListener("focus", () => { void refresh(); });
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) void refresh();

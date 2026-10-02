@@ -2,7 +2,7 @@
 -- in a subtransaction; no real accounts, classes, emails or submissions are kept.
 do $$
 declare
- t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();n uuid:=gen_random_uuid();gid uuid;cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
+ t uuid:=gen_random_uuid();s uuid:=gen_random_uuid();o uuid:=gen_random_uuid();n uuid:=gen_random_uuid();gid uuid;run_token uuid:=gen_random_uuid();run_result jsonb;cid uuid;aid uuid;duplicate_id uuid;late_id uuid;
  code text;meta jsonb;activity jsonb;result jsonb;first_id uuid;token uuid:=gen_random_uuid();blocked boolean;student_answers jsonb;
 begin
  begin
@@ -60,6 +60,9 @@ begin
   blocked:=false;begin perform public.revision_submit_activity(late_id,student_answers,gen_random_uuid());exception when others then if sqlerrm like '%not available%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Scheduled submit bypass';end if;
   perform set_config('request.jwt.claim.sub',t::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',t,'role','authenticated')::text,true);
   blocked:=false;begin perform public.revision_assign_work(jsonb_build_array(meta,meta||jsonb_build_object('class_id',gen_random_uuid())),activity);exception when others then if sqlerrm like '%own this active%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Atomic class ownership bypass';end if;
+  run_result:=public.revision_assign_followups(aid,jsonb_build_array(jsonb_build_object('meta',meta||jsonb_build_object('recipient_ids',jsonb_build_array(s)),'activity',activity)),run_token);
+  if jsonb_array_length(run_result)<>1 then raise exception 'Followup not assigned';end if;
+  if public.revision_assign_followups(aid,jsonb_build_array(jsonb_build_object('meta',meta||jsonb_build_object('recipient_ids',jsonb_build_array(s)),'activity',activity)),run_token) is distinct from run_result then raise exception 'Followup idempotency failed';end if;
   gid:=public.revision_save_intervention(jsonb_build_object('class_id',cid,'name','Circuit fundamentals'),array[s]);
   if (select count(*)from public.revision_intervention_members where group_id=gid)<>1 then raise exception 'Group members not saved';end if;
   blocked:=false;begin perform public.revision_save_intervention(jsonb_build_object('id',gid,'class_id',cid,'name','Invalid group'),array[o]);exception when others then if sqlerrm like '%joined students%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Group membership validation bypass';end if;

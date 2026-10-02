@@ -150,6 +150,7 @@
     window.REVISION_MARKBOOK.init({state, showNotice});
     window.REVISION_INSIGHTS.init({state, showNotice});
     window.REVISION_INTERVENTIONS.init({state, showNotice, loadTeacherData});
+    window.REVISION_FOLLOWUPS.init({state, showNotice, loadTeacherData});
     els.assignmentDue.value = localDateString(7);
     client.auth.onAuthStateChange((_event, session) => {
       void applySession(session);
@@ -390,6 +391,7 @@
     window.REVISION_MARKBOOK?.render();
     window.REVISION_INSIGHTS?.render();
     window.REVISION_INTERVENTIONS?.render();
+    window.REVISION_FOLLOWUPS?.render();
   }
   function renderMetrics() {
     els.metricClasses.textContent = String(state.classes.length);

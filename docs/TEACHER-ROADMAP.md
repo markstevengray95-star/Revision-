@@ -30,3 +30,6 @@ Question metadata includes subject/topic/subtopic/skill and optional teacher-ver
 
 ## Phase 6
 Evidence-based topic/calculation/exam/extension suggestions with minimum sample requirements. Teachers review names, save groups, edit membership and select a saved group in Set Work. Group writes validate class ownership and joined membership atomically.
+
+## Phase 7
+Teacher-approved per-student follow-up plans use exact non-overlapping score bands. Foundation includes reteach notes and worked examples; consolidation mixes retrieval and calculations; application/challenge draws on the existing application/synoptic question bank and requires teacher review for written marks. Plans exclude pending/unsubmitted results and show every question and mark scheme before approval. Assignment runs are atomic and idempotent. Short subtopics can supply fewer distinct recall questions than requested; preview shows the actual count.

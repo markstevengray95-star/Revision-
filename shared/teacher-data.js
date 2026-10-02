@@ -91,7 +91,8 @@
     }
     return [...groups.values()].map(g=>({...g,average:Math.round(g.scores.reduce((a,b)=>a+b,0)/g.scores.length)}));
   }
-  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery, interventions };
+  const followupBand = score => score===null ? null : score<50?'foundation':score<75?'consolidation':score<90?'application':'challenge';
+  const api = { percent, latest, recipients, result, overview, markbook, evidence, mastery, interventions, followupBand };
   if (typeof module !== 'undefined') module.exports = api;
   else window.REVISION_TEACHER_DATA = api;
 })();

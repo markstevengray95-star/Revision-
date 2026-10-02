@@ -151,8 +151,10 @@
       key: { value: p.result, tolerance, solution: p.steps },
     };
   }
-  function written(lesson, seed, index) {
-    const p = lesson.questions[seed % lesson.questions.length];
+  function written(lesson, seed, index, difficulty) {
+    const candidates=difficulty ? lesson.questions.filter(p=>difficulty==='application'?p.bankType==='application':p.difficulty==='challenge') : lesson.questions;
+    if(!candidates.length)return null;
+    const p = candidates[seed % candidates.length];
     return {
       id: `q${index + 1}`,
       type: "written",
@@ -174,6 +176,7 @@
     seed = 0,
     includeWritten = true,
     lessonIds,
+    difficulty,
   }) {
     const rows = shuffle(
       window.REVISION_PRACTICE.lessons.filter(
@@ -203,10 +206,10 @@
           s = hash(`${seed}:${i}:${retry}`);
         q =
           kind === "exam"
-            ? i % 3 === 0 && retry < 20
+            ? i % 3 === 0 && retry < 20 && !difficulty
               ? number(l, s, i, rows)
               : includeWritten
-                ? written(l, s, i)
+                ? written(l, s, i, difficulty)
                 : choice(l, s, i)
             : kind === "revision" && i % 3 === 2 && retry < 20
               ? number(l, s, i, rows)
@@ -221,7 +224,7 @@
         questions.push(q);
       }
     }
-    if (questions.length < 3)
+    if (questions.length < (lessonIds?.length ? 1 : 3))
       throw Error(
         "This selection has too few distinct questions. Choose another topic.",
       );

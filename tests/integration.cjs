@@ -17,7 +17,7 @@ const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(path
 assert.equal(JSON.stringify(context.window.REVISION_CATALOG),JSON.stringify(catalog),'Catalog is out of date');
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
 let assets=0;
-const htmlFiles=[path.join(root,'index.html'),path.join(root,'teacher.html'),path.join(root,'student.html'),...walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))];
+const htmlFiles=[path.join(root,'index.html'),path.join(root,'teacher.html'),path.join(root,'student.html'),path.join(root,'activity.html'),...walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))];
 // Check scripts and stylesheets requested by the combined dashboard, teacher/student workspaces and topic apps.
 for(const file of htmlFiles){
   const html=fs.readFileSync(file,'utf8');
@@ -30,14 +30,14 @@ for(const file of htmlFiles){
     assert.ok(fs.existsSync(resolved),`Missing HTML asset: ${path.relative(root,file)} → ${href}`);assets++;
   }
 }
-for(const page of ['teacher.html','student.html']){
+for(const page of ['teacher.html','student.html','activity.html']){
   const html=fs.readFileSync(path.join(root,page),'utf8');
   assert.ok(!/<script\b[^>]*src=["']https?:\/\//i.test(html),`${page} must not depend on an external runtime script`);
 }
 for(const file of ['teacher.html','teacher-dashboard.css','teacher-cloud.css','teacher-cloud.js','student.html','student-dashboard.js','shared/revision-supabase.js']){
   assert.ok(fs.existsSync(path.join(root,file)),`Missing cloud workspace asset: ${file}`);
 }
-for(const file of ['teacher-cloud.js','student-dashboard.js','shared/revision-supabase.js','shared/revision-shell.js']){
+for(const file of ['teacher-cloud.js','teacher-activities.js','activity.js','shared/activity-generator.js','shared/activity-ui.js','student-dashboard.js','shared/revision-supabase.js','shared/revision-shell.js']){
   new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file});
 }
 console.log(`Integration passed: 6 courses, 44 topic links, teacher/student cloud assets, ${assets} local HTML assets, self-contained workspaces, and valid workspace scripts.`);

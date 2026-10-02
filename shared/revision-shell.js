@@ -6,7 +6,7 @@
   if(!script)return;
   const root=new URL('../',script.src);
   const relative=location.pathname.startsWith(root.pathname)?location.pathname.slice(root.pathname.length):'';
-  const level=relative==='teacher.html'?'teacher':relative==='student.html'?'student':relative==='practice.html'?'practice':relative.startsWith('courses/gcse/')?'gcse':relative.startsWith('courses/alevel/')?'alevel':relative.startsWith('tools/')?'tools':'home';
+  const level=relative==='teacher.html'?'teacher':['student.html','activity.html'].includes(relative)?'student':relative==='practice.html'?'practice':relative.startsWith('courses/gcse/')?'gcse':relative.startsWith('courses/alevel/')?'alevel':relative.startsWith('tools/')?'tools':'home';
   const params=new URLSearchParams(location.search);
   const subject=['biology','chemistry','physics'].includes(params.get('subject'))?params.get('subject'):'physics';
   const bar=document.createElement('header');bar.className='revision-bar';

@@ -1,0 +1,334 @@
+.activity-builder {
+  display: grid;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--revision-line);
+}
+.activity-preview {
+  display: grid;
+  gap: 12px;
+  max-height: 560px;
+  overflow: auto;
+  padding: 3px;
+}
+.activity-preview:empty {
+  display: none;
+}
+.activity-question {
+  background: #0b1828;
+  border: 1px solid #2b4154;
+  border-radius: 12px;
+  padding: 18px;
+  min-width: 0;
+}
+.activity-question h3 {
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin: 8px 0 16px;
+}
+.activity-question p,
+.activity-question li {
+  font-size: 0.84rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.activity-question ol {
+  padding-left: 22px;
+}
+.activity-question summary {
+  font-size: 0.8rem;
+  color: var(--revision-accent);
+  cursor: pointer;
+}
+.question-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--revision-muted);
+  font-size: 0.7rem;
+}
+.question-options {
+  display: grid;
+  gap: 9px;
+  margin: 12px 0;
+}
+.question-options label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--revision-line);
+  border-radius: 10px;
+  padding: 12px;
+  background: #112438;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.question-options label:has(input:checked) {
+  border-color: var(--revision-accent);
+  background: #143a37;
+}
+.question-options input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--revision-accent);
+  flex-shrink: 0;
+}
+.activity-answer {
+  width: 100%;
+  border: 1px solid var(--revision-line);
+  background: #102132;
+  color: var(--revision-text);
+  padding: 12px;
+  border-radius: 9px;
+  line-height: 1.5;
+}
+.activity-answer-number {
+  max-width: 300px;
+}
+.activity-unit {
+  color: var(--revision-muted);
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+.activity-wrap {
+  max-width: 960px;
+}
+.activity-topbar {
+  position: sticky;
+  top: 65px;
+  z-index: 20;
+  background: #102132f5;
+  border: 1px solid var(--revision-line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.activity-topbar p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.activity-topbar progress {
+  display: block;
+  width: 100%;
+  height: 7px;
+  margin-top: 9px;
+  accent-color: var(--revision-accent);
+}
+.activity-topbar > div {
+  flex: 1;
+  min-width: 0;
+}
+.activity-question-list {
+  display: grid;
+  gap: 16px;
+}
+.activity-result {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid #416c63;
+  background: #12332f;
+  border-radius: 16px;
+}
+.activity-result h2 {
+  margin-top: 0;
+}
+.activity-score {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--revision-accent);
+}
+.activity-result p {
+  line-height: 1.6;
+  font-size: 0.88rem;
+}
+.question-feedback {
+  padding: 12px;
+  border-left: 3px solid var(--revision-accent);
+  margin-top: 14px;
+  background: #102d2b;
+}
+.question-feedback[data-correct="false"] {
+  border-color: #f2c779;
+  background: #2f2b20;
+}
+.question-feedback[data-review="true"] {
+  border-color: #abbded;
+  background: #202b41;
+}
+.activity-footer-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+.activity-submission {
+  display: grid;
+  gap: 12px;
+}
+.activity-review-item {
+  border-top: 1px solid var(--revision-line);
+  padding-top: 12px;
+}
+.activity-review-item h4 {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+.activity-review-item p {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  margin: 5px 0;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+.activity-review-item label {
+  font-size: 0.74rem;
+}
+.activity-review-score {
+  max-width: 120px;
+  margin: 6px;
+}
+.activity-review-item details {
+  font-size: 0.76rem;
+  color: #c8d5de;
+}
+.activity-stat-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  margin: 14px 0;
+}
+.activity-stat-strip span {
+  border: 1px solid var(--revision-line);
+  padding: 8px;
+  border-radius: 8px;
+}
+.activity-missing {
+  font-size: 0.72rem;
+  color: #e8c796;
+  line-height: 1.6;
+}
+.activity-preview-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+.activity-preparation {
+  padding: 16px;
+  border: 1px solid var(--revision-line);
+  border-radius: 12px;
+  margin: 16px 0;
+}
+.activity-preparation p {
+  line-height: 1.6;
+  font-size: 0.85rem;
+}
+.activity-preparation a {
+  display: block;
+  margin: 8px 0;
+  color: var(--revision-accent);
+  font-size: 0.8rem;
+}
+.activity-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.custom-question {
+  padding: 12px;
+  border: 1px solid var(--revision-line);
+  border-radius: 10px;
+}
+.custom-question summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.custom-question .teacher-form {
+  margin-top: 14px;
+}
+.activity-notice {
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.activity-status-filter {
+  width: 100%;
+  margin-top: 8px;
+}
+.question-review-error {
+  outline: 2px solid #eda3af;
+  outline-offset: 3px;
+}
+.teacher-form input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  accent-color: var(--revision-accent);
+}
+.teacher-form .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.activity-pending {
+  color: #f2c779;
+}
+.activity-result details {
+  margin-top: 16px;
+}
+.activity-result summary {
+  cursor: pointer;
+}
+.activity-recommendations {
+  padding-top: 10px;
+}
+.activity-builder select,
+.activity-builder input {
+  min-width: 0;
+}
+.assignment-card h3,
+.assignment-class-name {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 650px) {
+  .activity-topbar {
+    top: 105px;
+    flex-wrap: wrap;
+    padding: 12px;
+  }
+  .activity-topbar > div {
+    flex-basis: 100%;
+  }
+  .activity-topbar button {
+    flex: 1;
+  }
+  .activity-question {
+    padding: 14px;
+  }
+  .activity-question h3 {
+    font-size: 0.94rem;
+  }
+  .activity-result {
+    padding: 18px;
+  }
+  .activity-preview {
+    max-height: 430px;
+  }
+  .activity-stat-strip span {
+    flex: 1;
+  }
+  .question-options label {
+    font-size: 0.82rem;
+  }
+  .activity-footer-actions .teacher-button {
+    width: 100%;
+  }
+}

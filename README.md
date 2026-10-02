@@ -43,6 +43,7 @@ The separate GCSE practical repository is not included. Source revisions are rec
 - Direct links select the correct course, subject, topic and GCSE pathway. GCSE topic navigation supports browser Back / Forward.
 - The latest study page is available through Continue studying.
 - A shared Practise page with lesson-linked retrieval, missing-word and accuracy activities, plus 44 topic data challenges with worked solutions. Written answers are self-assessed; numeric and missing-word answers are checked automatically.
+- A cloud Teacher workspace and My Work area with assignable topic quizzes, exam practice and guided revision. Students complete activities in the app with saved drafts, server-marked choice/numerical questions, worked feedback and attempt history. Teachers preview and customise questions, set deadlines/retries, review optional written answers, see class gaps and export results. See [ASSIGNED-ACTIVITIES.md](ASSIGNED-ACTIVITIES.md) for marking controls, database setup and verification.
 - Original course storage keys are retained. Progress and notes already on the same origin remain readable; browser storage from a different deployed domain does not transfer automatically.
 
 ## Project layout
@@ -63,7 +64,7 @@ The separate GCSE practical repository is not included. Source revisions are rec
 
 The existing account, subscription, teacher and cloud-sync integrations are preserved. Their original course entitlements still apply; this merge does not combine paid subscriptions or migrate backend databases. Register a new deployment's sign-in redirect URL with the existing authentication provider before testing login there.
 
-Live Physics Coach requests require `AI_GATEWAY_API_KEY` in Vercel. Without it, the original client uses its offline tutor. The local server serves the app and returns a clear unavailable response for API calls; it does not simulate cloud services. Backend-connected account, payment and teacher workflows require their existing configured services and were not validated by local static checks.
+Live Physics Coach requests require `AI_GATEWAY_API_KEY` in Vercel. Without it, the original client uses its offline tutor. Backend-connected account and payment workflows require their existing configured services. The root Teacher/My Work activity workflow was verified with temporary accounts against the connected Supabase project; its additive schema is in `supabase/topic-activities.sql`.
 
 ## Runtime fixes
 

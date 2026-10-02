@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0a1422" />
+    <title>Assigned Activity · Revision</title>
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="shared/revision-shell.css" />
+    <link rel="stylesheet" href="teacher-dashboard.css" />
+    <link rel="stylesheet" href="teacher-cloud.css" />
+    <link rel="stylesheet" href="activities.css" />
+    <script src="shared/revision-shell.js" defer></script>
+    <script src="shared/revision-supabase.js" defer></script>
+    <script src="shared/activity-ui.js" defer></script>
+    <script src="activity.js" defer></script>
+  </head>
+  <body class="teacher-dashboard">
+    <a class="revision-skip" href="#activity-main">Skip to activity</a>
+    <main id="activity-main" class="teacher-wrap activity-wrap">
+      <section class="teacher-hero">
+        <div>
+          <span class="teacher-eyebrow" id="activity-meta"
+            >ASSIGNED ACTIVITY</span
+          >
+          <h1 id="activity-title">Loading your activity…</h1>
+          <p id="activity-description">Your answers are saved as you work.</p>
+        </div>
+      </section>
+      <div
+        id="activity-notice"
+        class="teacher-notice"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+      <section id="activity-unavailable" class="teacher-panel" hidden>
+        <h2>Activity unavailable</h2>
+        <p id="activity-error" class="activity-notice"></p>
+        <a class="teacher-button primary" href="student.html">Go to My Work</a>
+      </section>
+      <section id="activity-workspace" hidden>
+        <div id="activity-topbar" class="activity-topbar">
+          <div>
+            <p id="activity-progress">0 answered</p>
+            <progress
+              id="activity-progress-bar"
+              max="1"
+              value="0"
+              aria-label="Questions answered"
+            ></progress>
+          </div>
+          <p id="activity-save-state" role="status" aria-live="polite">Saved</p>
+          <button id="activity-save" class="teacher-button" type="button">
+            Save draft</button
+          ><a class="teacher-button" href="student.html">My Work</a>
+        </div>
+        <div
+          id="activity-preparation"
+          class="activity-preparation"
+          hidden
+        ></div>
+        <section
+          id="activity-result"
+          class="activity-result"
+          aria-live="polite"
+          hidden
+        ></section>
+        <form id="activity-answer-form">
+          <div id="activity-questions" class="activity-question-list"></div>
+          <div class="activity-footer-actions">
+            <button
+              id="activity-submit"
+              class="teacher-button primary"
+              type="submit"
+            >
+              Submit for marking</button
+            ><button
+              id="activity-retry"
+              class="teacher-button"
+              type="button"
+              hidden
+            >
+              Start another attempt</button
+            ><button id="activity-refresh" class="teacher-button" type="button">
+              Refresh results
+            </button>
+          </div>
+        </form>
+      </section>
+      <footer class="teacher-footer">
+        <span class="revision-wordmark">Revision<span>.</span></span>
+        <p>Topic practice · saved drafts · marks and feedback</p>
+      </footer>
+    </main>
+  </body>
+</html>

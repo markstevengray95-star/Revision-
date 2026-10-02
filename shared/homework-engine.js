@@ -52,7 +52,7 @@
       }
     }
     for(const k of ['written','choice','cloze'])banks[k]=shuffled(banks[k],random);
-    const equations=E.available({level:c.l,subject:c.s,pathway:c.p,topic:c.t});
+    const equations=E.available({level:c.l,subject:c.s,pathway:c.p,topic:c.t}).filter(d=>c.t!=="all"||!["astrophysics","medical","engineering","turning-points","electronics"].includes(d.topic));
     if(c.k.includes('calculation')&&equations.length) {
       const order=shuffled(equations,random);
       for(let i=0;i<c.n*3;i++) {const d=order[i%order.length],q=E.build(d.id,Math.floor(random()*4294967296),c.d);banks.calculation.push({id:q.id,type:'calculation',subject:d.subject,topic:d.name,prompt:q.prompt,model:q.steps.join('\n'),calculation:q});}

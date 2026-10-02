@@ -149,3 +149,6 @@ for(const [level,subject,topic] of [['gcse','biology','b1'],['gcse','chemistry',
 const missingWords=w.REVISION_ACTIVITIES.generate({level:'gcse',subject:'biology',topic:'b1',format:'cloze',count:20});assert.ok(missingWords.questions.every(q=>q.type==='written'&&q.marks===1));
 assert.throws(()=>w.REVISION_ACTIVITIES.generate({level:'gcse',subject:'physics',topic:'p1',count:61}),/3–60/);
 console.log('Expanded activities passed: 60 unique mixed/calculation questions for all six courses, fresh seeds, teacher-reviewed missing words and no private fields in student specifications.');
+
+for(const level of ['gcse','alevel'])for(const subject of ['physics','chemistry','biology']){const q=w.REVISION_ACTIVITIES.generate({level,subject,topic:'all',format:'objective',kind:'exam',includeWritten:true,count:60,seed:13});assert.equal(q.questions.length,60);assert.ok(q.questions.every(x=>x.type!=='written'),'Objective mode must remain automatically markable even in exam mode');}
+console.log('Objective homework passed: all six courses support 60 auto-marked questions with teacher writing enabled.');

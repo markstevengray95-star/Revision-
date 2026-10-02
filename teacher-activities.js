@@ -104,11 +104,14 @@
         $("assignment-title").value === lastSuggestedTitle
       )
         $("assignment-title").value = lastSuggestedTitle =
-          `${preview.topicTitle} · ${preview.kind === "exam" ? "exam practice" : preview.kind}`.slice(
+          `${preview.topicTitle} · ${$("assignment-type").value === "homework" ? "homework" : preview.kind === "exam" ? "exam practice" : preview.kind}`.slice(
             0,
             120,
           );
     } catch (e) {
+      preview = null;
+      $("activity-preview").replaceChildren();
+      $("activity-preview-summary").textContent = e.message;
       context.showNotice(e.message, "error");
     }
   }

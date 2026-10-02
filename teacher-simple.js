@@ -94,7 +94,7 @@
     if ($("new-class")) views.classes.append($("new-class"));
     if (classListPanel) views.classes.append(classListPanel);
     if ($("class-detail-panel")) views.classes.append($("class-detail-panel"));
-    views["set-work"].append(buildPresetPanel());
+    views["set-work"].append(buildAutoMarkPanel(), buildPresetPanel());
     if ($("assign-work")) views["set-work"].append($("assign-work"));
     views.monitor.append(buildMonitoringPanel());
     if (assignmentPanel) views.monitor.append(assignmentPanel);
@@ -168,13 +168,24 @@
     return panel;
   }
 
+  function buildAutoMarkPanel() {
+    const panel=el('section','teacher-panel teacher-preset-panel');
+    panel.append(el('span','teacher-eyebrow','AUTOMATIC MARKING'),el('h2',undefined,'Auto-marked homework'),el('p','panel-copy','Set questions with clear objective answers. Numerical answers use an agreed tolerance; multiple choice is marked instantly. Scores appear in Monitor and feedback follows your release setting. Written explanations stay in teacher review.'));
+    const grid=el('div','teacher-preset-grid');
+    [{id:'auto-recall',name:'Auto-marked recall',detail:'20 multiple-choice questions',count:20,format:'choice'},
+     {id:'auto-mixed',name:'Auto-marked mixed homework',detail:'30 recall and calculation questions',count:30,format:'objective'},
+     {id:'auto-calculations',name:'Auto-marked calculations',detail:'20 fresh numerical answers',count:20,format:'calculation'}].forEach(p=>{
+       const b=button('','teacher-preset');b.dataset.preset=p.id;b.append(el('strong',undefined,p.name),el('span',undefined,p.detail));
+       b.addEventListener('click',()=>applyPreset({...p,kind:'revision',assignmentType:'homework',demand:'standard',writing:false,attempts:2,feedback:'immediate'},b));grid.append(b);
+     });panel.append(grid);return panel;
+  }
   function buildPresetPanel() {
     const panel = el("section", "teacher-panel teacher-preset-panel");
     const heading = el("div", "panel-heading");
     const copy = el("div");
     copy.append(el("span", "teacher-eyebrow", "ACTIVITY LIBRARY"), el("h2", undefined, "Choose a ready-made activity"));
     heading.append(copy);
-    panel.append(heading, el("p", "panel-copy", "Pick a format, then choose the class and topic below. Press Generate again whenever you want a different version of the questions."));
+    panel.append(heading, el("p", "panel-copy", "Pick a format, then choose the class and topic below. Each choice generates questions immediately for the selected topic. Choose a class and Assign work when the preview is ready; Generate creates a fresh version."));
     const grid = el("div", "teacher-preset-grid");
     PRESETS.forEach((preset) => {
       const b = button("", "teacher-preset");
@@ -201,6 +212,12 @@
     kind.dispatchEvent(new Event("change", { bubbles: true }));
     count.dispatchEvent(new Event("change", { bubbles: true }));
     writing?.dispatchEvent(new Event("change", { bubbles: true }));
+    if (preset.assignmentType || preset.id === "extended") {
+      $("assignment-type").value = preset.assignmentType || "homework";
+      $("assignment-type").dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    $("activity-generate")?.click();
+    $("activity-preview-summary")?.scrollIntoView({behavior:"smooth",block:"nearest"});
     document.querySelectorAll(".teacher-preset").forEach((b) => b.dataset.selected = "false");
     node.dataset.selected = "true";
     $("activity-topic")?.focus({ preventScroll: true });
@@ -251,6 +268,7 @@
     const summary = el("div", "monitor-summary");
     summary.id = "monitor-summary";
     panel.append(summary);
+    const autoResults=el("section","monitor-box");autoResults.append(el("h3",undefined,"Auto-marked homework results"),el("p","panel-copy","Latest attempt per student and assignment. Automatic points are shown separately while written responses await review."));const autoList=el("div","monitor-list");autoList.id="monitor-auto-results";autoResults.append(autoList);panel.append(autoResults);
 
     const split = el("div", "monitor-split");
     const attention = el("section", "monitor-box");
@@ -440,6 +458,7 @@
     attention.replaceChildren();
     topics.replaceChildren();
     tbody.replaceChildren();
+    $("monitor-auto-results")?.replaceChildren();
     if (!monitor.userId) {
       if (status) status.textContent = "Sign in to see class monitoring.";
       return;
@@ -466,6 +485,11 @@
     });
     if (status) status.textContent = `${rows.length} students · ${assignments.length} assignments in this view`;
 
+    const automaticHost=$("monitor-auto-results"),latestAuto=new Map();
+    const ids=new Set(assignments.map(a=>a.id));
+    monitor.attempts.filter(a=>ids.has(a.assignment_id)&&Number(a.auto_max)>0).forEach(a=>{const key=a.assignment_id+":"+a.student_id;const old=latestAuto.get(key);if(!old||Number(a.attempt_no)>Number(old.attempt_no))latestAuto.set(key,a);});
+    if(automaticHost){if(!latestAuto.size)automaticHost.append(el("p","monitor-empty","No automatically marked attempts yet. Assign a task from Auto-marked homework in Set work."));
+      [...latestAuto.values()].sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at)).forEach(a=>{const task=assignments.find(t=>t.id===a.assignment_id),member=monitor.members.find(m=>m.student_id===a.student_id&&m.class_id===task?.class_id);const item=el("div","monitor-list-row");item.append(el("strong",undefined,(member?.display_name||member?.student_email||"Student")+" · "+(task?.title||"Homework")),el("span",undefined,a.auto_score+" / "+a.auto_max+" automatically marked · "+percent(a.auto_score,a.auto_max)+"%"+(a.review_state==="pending"?" · written review pending":"")));automaticHost.append(item);});}
     const needs = rows.filter((row) => row.overdue > 0 || (row.average !== null && row.average < 60)).sort((a, b) => b.overdue - a.overdue || (a.average ?? 101) - (b.average ?? 101));
     if (!needs.length) attention.append(el("p", "monitor-empty", "No overdue work or low-score flags in this view."));
     needs.slice(0, 8).forEach((row) => {

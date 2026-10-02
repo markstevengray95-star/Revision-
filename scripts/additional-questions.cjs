@@ -292,10 +292,10 @@ const scenarios=[
     "choice": {
       "question": "Which genotype is homozygous recessive?",
       "options": [
-        "aa",
-        "Aa",
-        "AA",
-        "A"
+        "Homozygous recessive (aa)",
+        "Heterozygous (Aa)",
+        "Homozygous dominant (AA)",
+        "A single allele (A)"
       ],
       "correct": 0
     }

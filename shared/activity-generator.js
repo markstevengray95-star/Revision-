@@ -100,7 +100,7 @@
       let lesson=q.source?rows.find(l=>l.href===q.source):null;
       if(!lesson){const words=q.topic.toLowerCase().match(/[a-z]{4,}/g)||[];lesson=[...rows].sort((a,b)=>words.reduce((n,w)=>n+(b.title.toLowerCase().includes(w.slice(0,-1))?1:0)-(a.title.toLowerCase().includes(w.slice(0,-1))?1:0),0))[0];}
       const common={id,title:q.topic,lessonId:lesson.id,lessonHref:lesson.href,prompt:q.prompt,sourceQuestionId:q.id,bankType:q.bankType||null,authored:!!q.authored};
-      if(q.type==="choice"){const options=q.options.map((text,j)=>({id:"o"+(j+1),text}));return {...common,type:"choice",marks:1,options,key:{correct:options.find(o=>o.text.toLowerCase()===q.expected.toLowerCase()).id,solution:[q.model]}};}
+      if(q.type==="choice"){const options=q.options.map((text,j)=>({id:"o"+(j+1),text}));return {...common,type:"choice",marks:1,options,key:{correct:options.find(o=>o.text===q.expected).id,solution:[q.model]}};}
       if(q.type==="calculation"){const c=q.calculation,tolerance=c.expected===0?1e-12:0.51*10**(Math.floor(Math.log10(Math.abs(c.expected)))-2);return {...common,type:"number",marks:1,prompt:q.prompt+" Give the final answer to 3 significant figures.",unit:c.unit,key:{value:c.expected,tolerance,solution:c.steps}};}
       return {...common,type:"written",marks:q.type==="cloze"?1:(q.marks||Math.min(4,Math.max(2,q.model.split("\n").length))),prompt:q.type==="cloze"?"Complete the missing scientific word.\n"+q.prompt:q.prompt,key:{solution:q.model.split("\n")}};
     });

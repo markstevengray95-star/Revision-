@@ -10,7 +10,7 @@ assert.equal(new Set(authored.map(q=>q.lesson.level+':'+q.lesson.subject+':'+q.l
 for(const q of authored){
   assert.ok(q.question.startsWith(q.context));assert.equal(q.marks,q.answer.length);
   assert.ok(q.lesson.href&&q.answer.every(a=>a.trim()));
-  if(q.options){assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);assert.equal(q.answer[0],q.options[q.correct]);}
+  if(q.options){assert.equal(q.options.length,4);assert.equal(new Set(q.options.map(x=>x.toLowerCase())).size,4);assert.equal(q.answer[0],q.options[q.correct]);}
 }
 const w={REVISION_PRACTICE:data},ctx=vm.createContext({window:w,console});
 for(const file of ['shared/practice-skills.js','shared/equation-bank.js','shared/homework-engine.js','shared/activity-generator.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),ctx);

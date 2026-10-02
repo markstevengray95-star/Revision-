@@ -63,6 +63,7 @@ for (const level of ["gcse", "alevel"])
                 assert.equal(
                   new Set(q.options.map((o) => o.text.toLowerCase())).size,
                   q.options.length,
+                  JSON.stringify({level,subject,topic:topic.id,kind,seed,prompt:q.prompt,options:q.options}),
                 );
                 const option = q.options.find((o) => o.id === q.key.correct);
                 assert.ok(option);

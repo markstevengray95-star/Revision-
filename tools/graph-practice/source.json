@@ -1,0 +1,12 @@
+{
+  "source": "User-provided science_graph_skills_masterclass.html",
+  "sha256": "fb1d1f09a99a61b3eb851feb5ecc91c9c1e79a0fa4c3f045adf83154c31c777f",
+  "modules": [
+    "Plotting and best fit",
+    "Interpreting relationships",
+    "Gradients and tangents",
+    "Area under graphs",
+    "Bar charts",
+    "Final test"
+  ]
+}

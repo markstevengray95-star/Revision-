@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/build.cjs && next dev --webpack",
-    "build": "node scripts/build.cjs && next build --webpack",
+    "dev": "node scripts/build-graph-styles.cjs && node scripts/build.cjs && next dev --webpack",
+    "build": "node scripts/build-graph-styles.cjs && node scripts/build.cjs && next build --webpack",
     "start": "next start",
-    "test": "node tests/integration.cjs && node tests/unified-tools.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs",
+    "test": "node tests/integration.cjs && node tests/unified-tools.cjs && node tests/graph-practice.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs",
     "test:marking": "node --experimental-strip-types --test src/modules/alevel/lib/offlineMarker.test.mjs"
   },
   "dependencies": {

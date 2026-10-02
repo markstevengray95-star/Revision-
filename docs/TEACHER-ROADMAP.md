@@ -13,3 +13,6 @@ Each phase is tested and pushed separately to main.
 
 ## Phase 1
 Five-section navigation, real result metrics, rename/archive/restore and student profiles. Pending written reviews are excluded from averages. Archived classes can be restored. The existing integration branding assertion now matches the Spark lightning icon.
+
+## Phase 2
+Five-step Set Work wizard; topic/lesson selection; six activity presets; cloud drafts; targeted students and atomic multi-class assignments; scheduled release, target and duration; reuse and duplicate homework. New release and recipient rules are enforced on reads, draft saving, submission and feedback.

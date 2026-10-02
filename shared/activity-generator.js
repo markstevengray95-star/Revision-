@@ -173,6 +173,7 @@
     count = 6,
     seed = 0,
     includeWritten = true,
+    lessonIds,
   }) {
     const rows = shuffle(
       window.REVISION_PRACTICE.lessons.filter(
@@ -180,6 +181,7 @@
           l.level === level &&
           l.subject === subject &&
           l.topic === topic &&
+          (!lessonIds?.length || lessonIds.includes(l.id)) &&
           (level !== "gcse" || pathway === "triple" || l.scope !== "triple"),
       ),
       hash(`${seed}:${topic}`),

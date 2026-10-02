@@ -93,7 +93,10 @@
         count: Number($("activity-count").value),
         seed: ++seed,
         includeWritten: $("activity-writing").checked,
+        lessonIds: $("work-lesson")?.value ? [$("work-lesson").value] : undefined,
       });
+      const ids=new Set(preview.questions.map(q=>q.lessonId));
+      preview.study_material=['lesson','flashcards'].includes($("work-mode")?.value) ? window.REVISION_PRACTICE.lessons.filter(l=>ids.has(l.id)).map(l=>({title:l.title,text:l.core})) : [];
       renderPreview();
       if (
         !$("assignment-title").value.trim() ||
@@ -115,6 +118,7 @@
     const auto = preview.questions.filter((q) => q.type !== "written");
     $("activity-preview-summary").textContent =
       `${preview.questions.length} questions · ${bank.total(preview)} marks · ${auto.length} automatically marked · ${preview.questions.length - auto.length} written responses for teacher review. Check the wording and answers before assigning.`;
+    (preview.study_material||[]).forEach(c=>{const d=el('details');d.append(el('summary',c.title),el('p',c.text));target.append(d);});
     preview.questions.forEach((q, i) => {
       const card = el("article", undefined, "activity-question");
       const head = el("div", undefined, "activity-preview-header");
@@ -236,8 +240,8 @@
       allow_late: $("activity-late").checked,
     };
     const result = await globalThis.revisionSupabase.rpc(
-      "revision_assign_activity",
-      { p_assignment: meta, p_activity },
+      "revision_assign_work",
+      { p_assignments: window.REVISION_SET_WORK.metadata(meta), p_activity },
     );
     if (result.error) throw result.error;
     return result.data;
@@ -552,5 +556,8 @@
     review,
     duplicate,
     exportResults,
+    invalidate,
+    getPreview: () => preview,
+    setPreview: value => { preview=value; renderPreview(); },
   };
 })();

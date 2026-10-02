@@ -233,7 +233,7 @@
   function renderPreparation() {
     const box = $("activity-preparation");
     box.replaceChildren();
-    box.hidden = activity.kind !== "revision";
+    box.hidden = activity.kind !== "revision" && assignment.activity_mode !== 'flashcards';
     if (box.hidden) return;
     box.append(
       el("strong", "Read, recall, then check"),
@@ -242,6 +242,7 @@
         "Use the linked lessons to revise this topic. Complete the questions here when you are ready. Your question score measures the activity; opening a lesson does not prove mastery.",
       ),
     );
+    (activity.study_material||[]).forEach(c=>{const card=el('details',undefined,'activity-question');card.append(el('summary',assignment.activity_mode==='flashcards'?c.title+' · Reveal card':c.title),el('p',c.text));box.append(card);});
     const seen = new Set();
     activity.questions.forEach((q) => {
       if (seen.has(q.lessonId)) return;

@@ -49,8 +49,17 @@ begin
   if exists(select 1 from public.revision_activities where assignment_id=aid)or exists(select 1 from public.revision_activity_attempts where assignment_id=aid)then raise exception 'Unrelated account can read work';end if;
   blocked:=false;begin perform public.revision_activity_feedback(aid,first_id);exception when others then if sqlerrm like '%unavailable%'then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Unrelated account can obtain solutions';end if;
   blocked:=false;begin perform public.revision_review_activity(first_id,'{"q3":2}','Other teacher');exception when others then if sqlerrm like '%not found%'then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Wrong teacher can mark work';end if;
+  perform set_config('request.jwt.claim.sub',t::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',t,'role','authenticated')::text,true);
+  result:=public.revision_assign_work(jsonb_build_array(meta||jsonb_build_object('start_at',now()+interval '1 day','recipient_ids',jsonb_build_array(s))),activity);late_id:=(result->0->>'id')::uuid;
+  if public.revision_teacher_template(late_id)->'activity'->'questions'->0->'key' is null then raise exception 'Teacher reuse lost answer keys';end if;
+  perform set_config('request.jwt.claim.sub',s::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',s,'role','authenticated')::text,true);
+  if exists(select 1 from public.revision_assignments where id=late_id) or exists(select 1 from public.revision_activities where assignment_id=late_id) then raise exception 'Scheduled content visible early';end if;
+  blocked:=false;begin perform public.revision_save_activity_draft(late_id,student_answers);exception when others then if sqlerrm like '%not available%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Scheduled draft bypass';end if;
+  blocked:=false;begin perform public.revision_submit_activity(late_id,student_answers,gen_random_uuid());exception when others then if sqlerrm like '%not available%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Scheduled submit bypass';end if;
+  perform set_config('request.jwt.claim.sub',t::text,true);perform set_config('request.jwt.claims',jsonb_build_object('sub',t,'role','authenticated')::text,true);
+  blocked:=false;begin perform public.revision_assign_work(jsonb_build_array(meta,meta||jsonb_build_object('class_id',gen_random_uuid())),activity);exception when others then if sqlerrm like '%own this active%' then blocked:=true;else raise;end if;end;if not blocked then raise exception 'Atomic class ownership bypass';end if;
   raise exception using errcode='ZX001',message='Rollback verification fixtures';
  exception when sqlstate 'ZX001'then null;
  end;
 end $$;
-select 'Passed: generation, private keys, student membership, saved drafts, objective marking, written review, idempotency, legacy bypass protection, score tampering protection, retry limits, deadline, feedback release, duplication and class isolation. Fixtures rolled back.' as activity_database_verification;
+select 'Passed: scheduled release, RPC guards, reuse, atomic multi-class ownership, generation, private keys, student membership, saved drafts, objective marking, written review, idempotency, legacy bypass protection, score tampering protection, retry limits, deadline, feedback release, duplication and class isolation. Fixtures rolled back.' as activity_database_verification;

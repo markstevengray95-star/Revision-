@@ -145,6 +145,7 @@
       loadTeacherData,
     });
     window.REVISION_TEACHER_WORKSPACE.init({state, showNotice, loadTeacherData, toggleArchived: async b => {showArchived=!showArchived;b.textContent=showArchived?'Show active classes':'Show archived classes';await loadTeacherData(false);}});
+    window.REVISION_SET_WORK.init({state, showNotice, loadTeacherData});
     els.assignmentDue.value = localDateString(7);
     client.auth.onAuthStateChange((_event, session) => {
       void applySession(session);
@@ -242,6 +243,7 @@
       state.submissions = [];
       state.activities = [];
       state.attempts = [];
+      state.teacherDrafts = [];
       els.authPanel.hidden = false;
       els.app.hidden = true;
       els.accountEmail.textContent = "";
@@ -255,6 +257,7 @@
       state.submissions = [];
       state.activities = [];
       state.attempts = [];
+      state.teacherDrafts = [];
       els.app.hidden = true;
     }
     state.user = session.user;
@@ -303,6 +306,7 @@
         state.submissions = [];
         state.activities = [];
         state.attempts = [];
+      state.teacherDrafts = [];
       } else {
         const [
           membersResult,
@@ -350,6 +354,8 @@
         !state.classes.some((item) => item.id === selectedClassId)
       )
         selectedClassId = null;
+      const drafts=await client.from('revision_teacher_drafts').select('*').eq('teacher_id',uid).order('created_at',{ascending:false});
+      if(!current())return; if(drafts.error)throw drafts.error;state.teacherDrafts=drafts.data||[];
       renderAll();
       if (announce) showNotice("Cloud data refreshed.");
     } catch (error) {
@@ -365,6 +371,7 @@
     renderClassDetail();
     renderAssignments();
     window.REVISION_TEACHER_WORKSPACE?.render();
+    window.REVISION_SET_WORK?.render();
   }
   function renderMetrics() {
     els.metricClasses.textContent = String(state.classes.length);
@@ -802,6 +809,7 @@
         instructions: cleanMultiline(els.assignmentNotes.value, 4000),
         due_at: toEndOfDayIso(els.assignmentDue.value),
       });
+      await window.REVISION_SET_WORK.afterAssigned();
       els.assignmentForm.reset();
       els.assignmentDue.value = localDateString(7);
       els.assignmentClass.value = classId;

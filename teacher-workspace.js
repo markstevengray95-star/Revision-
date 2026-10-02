@@ -33,8 +33,8 @@
     views.classes.append($('new-class'), classes, $('class-detail-panel'), backup);
     const archive=button('Show archived classes','show-archived','','teacher-button'); archive.onclick=()=>api.toggleArchived(archive); classes.prepend(archive);
     views['set-work'].append($('assign-work'));
-    views.markbook.append(panel('Class markbook','workspace-markbook'));
-    views.insights.append(panel('Topics needing attention','workspace-insights'));
+    views.markbook.append(panel('Class markbook','markbook-content'));
+    views.insights.append(panel('Topics needing attention','insights-content'));
     old.remove(); app.querySelector('.metrics-grid').remove();
     nav.addEventListener('click', e => { const b=e.target.closest('[data-workspace-view]'); if(b) show(b.dataset.workspaceView); });
     document.addEventListener('click', e => {
@@ -55,7 +55,7 @@
     target.querySelector('[data-action="workspace-set"]').onclick=()=>show('set-work');
     if(!summary.recent.length) target.append(el('p','Completed results will appear here.','panel-copy'));
     summary.recent.forEach(a => { const m=state.members.find(m=>m.student_id===a.student_id && m.class_id===a.class_id), task=state.assignments.find(t=>t.id===a.assignment_id); target.append(el('p',`${m?.display_name || 'Student'} · ${task?.title || 'Assignment'} · ${data.percent(a.score,a.total_max)}%`)); });
-    const insight=$('workspace-insights'); insight.replaceChildren(el('h2','Topics needing attention'));
+    const insight=$('insights-content'); insight.replaceChildren(el('h2','Topics needing attention'));
     const weak=state.activities.map(a=>({a,marks:data.latest(state.attempts).filter(r=>r.assignment_id===a.assignment_id && r.review_state==='complete')})).filter(x=>x.marks.length).map(x=>({...x,score:Math.round(x.marks.reduce((s,a)=>s+data.percent(a.score,a.total_max),0)/x.marks.length)})).filter(x=>x.score<75).sort((a,b)=>a.score-b.score);
     if(!weak.length) insight.append(el('p','No flagged topics yet. Results from completed work will highlight areas to revisit.','panel-copy'));
     weak.forEach(x=>insight.append(el('p',`${x.a.topic_title} · ${x.score}% · ${x.marks.length} results`)));

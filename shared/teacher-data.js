@@ -42,7 +42,23 @@
       below: [...averages.values()].filter(v => v.reduce((a,b) => a+b,0)/v.length < 50).length,
       recent: latest(state.attempts).filter(a => a.review_state === 'complete').sort((a,b) => new Date(b.submitted_at)-new Date(a.submitted_at)).slice(0,5) };
   }
-  const api = { percent, latest, recipients, result, overview };
+  function markbook(state, {classId, view='assignment', studentId='', from='', to=''}={}) {
+    const assignments=state.assignments.filter(a=>a.class_id===classId && (!from || a.due_at.slice(0,10)>=from) && (!to || a.due_at.slice(0,10)<=to));
+    const members=state.members.filter(m=>m.class_id===classId && m.status==='joined' && (!studentId || m.student_id===studentId));
+    const topicFor=a=>state.activities.find(v=>v.assignment_id===a.id)?.topic_key || a.id;
+    const columns=view==='topic'?[...new Map(assignments.map(a=>[topicFor(a),{id:topicFor(a),title:state.activities.find(v=>v.assignment_id===a.id)?.topic_title || a.title}])).values()]:assignments.map(a=>({id:a.id,title:a.title}));
+    const rows=members.map(member=>{
+      const values=columns.map(col=>{
+        const tasks=assignments.filter(a=>(view==='topic'?topicFor(a):a.id)===col.id && recipients(state,a).some(m=>m.student_id===member.student_id));
+        const results=tasks.map(a=>result(state,a,member.student_id)), scores=results.map(r=>r.score).filter(s=>s!==null);
+        return {score:scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null,status:!tasks.length?'Not assigned':results.some(r=>r.status==='Needs review')?'Needs review':results.some(r=>r.status!=='Complete')?'Incomplete':'Complete'};
+      });
+      const scored=values.map(v=>v.score).filter(s=>s!==null);
+      return {member,values,average:scored.length?Math.round(scored.reduce((a,b)=>a+b,0)/scored.length):null};
+    });
+    return {columns,rows};
+  }
+  const api = { percent, latest, recipients, result, overview, markbook };
   if (typeof module !== 'undefined') module.exports = api;
   else window.REVISION_TEACHER_DATA = api;
 })();

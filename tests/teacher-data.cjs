@@ -8,3 +8,6 @@ state.attempts[1].review_state='complete';assert.equal(d.overview(state).average
 state.assignments[0].recipient_ids=['s'];assert.equal(d.recipients(state,state.assignments[0]).length,1);assert.equal(d.overview(state).overdue,0);
 assert.equal(d.percent(null,10),null);assert.equal(d.percent(0,10),0);
 console.log('Teacher data passed: latest attempt, pending review, recipient scopes, overdue students and averages.');
+
+state.activities=[{assignment_id:'a',topic_key:'gcse:physics:p1',topic_title:'Energy'}];
+const book=d.markbook(state,{classId:'c',view:'topic'});assert.equal(book.rows[0].average,80);assert.equal(book.rows[1].values[0].status,'Not assigned');assert.equal(book.rows[1].average,null);assert.equal(d.markbook(state,{classId:'c',from:'2099-01-01'}).columns.length,0);

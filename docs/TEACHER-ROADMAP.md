@@ -21,3 +21,6 @@ Five-step Set Work wizard; topic/lesson selection; six activity presets; cloud d
 Assignment reports show all recipients, including saved drafts, with completion/overdue/target filters and expandable answer review. Active time and question time are estimates recorded only during recent interaction in a focused, visible tab. Historical rows display an em dash when timing is unavailable.
 
 Timing is saved with each submitted attempt and survives duplicate submission tokens. Live rollback fixtures verify time is carried over without leaving test accounts.
+
+## Phase 4
+Class markbook with assignment/topic/student selection and due-date periods. Latest marked results only; pending reviews and unassigned students remain distinct from zero. Exports include formula-safe CSV, native .xlsx with Unicode text, and a print layout for browser Save as PDF.

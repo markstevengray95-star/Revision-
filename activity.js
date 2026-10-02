@@ -501,6 +501,7 @@
     clearTimeout(timer);
     try {
       if (savePromise) await savePromise;
+      await saveDraft(true);
       busy = true;
       $("activity-submit").disabled = true;
       $("activity-questions")
@@ -547,6 +548,7 @@
   function retry() {
     if (!maySubmit() || busy) return;
     answers = {};
+    studySeconds=0;questionTimes={};
     editing = true;
     token = crypto.randomUUID();
     dirty = true;

@@ -17,7 +17,7 @@ const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync(path
 assert.equal(JSON.stringify(context.window.REVISION_CATALOG),JSON.stringify(catalog),'Catalog is out of date');
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
 let assets=0;
-const htmlFiles=[path.join(root,'index.html'),path.join(root,'teacher.html'),path.join(root,'student.html'),path.join(root,'activity.html'),...walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))];
+const htmlFiles=[path.join(root,'index.html'),path.join(root,'teacher.html'),path.join(root,'student.html'),path.join(root,'activity.html'),path.join(root,'tools/equation-practice/index.html'),...walk(path.join(root,'courses')).filter(f=>f.endsWith('.html'))];
 // Check scripts and stylesheets requested by the combined dashboard, teacher/student workspaces and topic apps.
 for(const file of htmlFiles){
   const html=fs.readFileSync(file,'utf8');

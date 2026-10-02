@@ -11,7 +11,7 @@ writePractice();
 if(path.resolve(dist)!==path.resolve(root,'dist')||!dist.startsWith(root+path.sep))throw new Error('Invalid build output directory');
 fs.rmSync(dist,{recursive:true,force:true});
 fs.mkdirSync(dist,{recursive:true});
-for(const name of ['index.html','dashboard.css','dashboard.js','catalog.js','practice.html','practice.css','practice.js','practice-data.js','icon.svg','manifest.webmanifest','.nojekyll','teacher.html','teacher-dashboard.css','teacher-cloud.css','teacher-cloud.js','student.html','student-dashboard.js','activity.html','activity.js','activities.css','teacher-activities.js','shared','courses','tools']){
+for(const name of ['index.html','dashboard.css','dashboard.js','catalog.js','practice.html','practice.css','practice.js','practice-data.js','icon.svg','manifest.webmanifest','.nojekyll','teacher.html','teacher-dashboard.css','teacher-cloud.css','teacher-cloud.js','teacher-simple.css','teacher-simple.js','student.html','student-dashboard.js','activity.html','activity.js','activities.css','teacher-activities.js','shared','courses','tools']){
   fs.cpSync(path.join(root,name),path.join(dist,name),{recursive:true,filter:source=>!source.split(path.sep).some(p=>['.git','node_modules','tests','scripts','supabase','.github'].includes(p))});
 }
 // Preserve the upstream stable Paper 3 renderer used by its deployment build.

@@ -12,6 +12,8 @@
     { id: "exam", name: "Exam practice", detail: "6 exam-style questions with written responses", kind: "exam", count: 6, writing: true, attempts: 1, feedback: "after_due" },
     { id: "topic-test", name: "Topic test", detail: "12-question assessed task", kind: "exam", count: 12, writing: true, attempts: 1, feedback: "after_due" },
     { id: "assessment", name: "Full topic assessment", detail: "15-question mixed assessment", kind: "exam", count: 15, writing: true, attempts: 1, feedback: "after_due" },
+    { id: "equations", name: "Equation drill", detail: "20 fresh calculations with worked feedback", kind: "revision", count: 20, format: "calculation", demand: "standard", writing: false, attempts: 3, feedback: "immediate" },
+    { id: "extended", name: "Extended homework", detail: "60 varied questions; written answers reviewed", kind: "revision", count: 60, format: "mixed", demand: "standard", writing: true, attempts: 2, feedback: "after_final_attempt" },
   ];
 
   const monitor = {
@@ -114,8 +116,14 @@
     try {
       saved = localStorage.getItem(STORAGE_KEY) || "overview";
     } catch {}
+    if (location.hash === "#assign-work") saved = "set-work";
+    else if (location.hash === "#new-class") saved = "classes";
     if (!views[saved]) saved = "overview";
     openView(saved, false);
+    window.addEventListener("hashchange", () => {
+      if (location.hash === "#assign-work") openView("set-work", false);
+      else if (location.hash === "#new-class") openView("classes", false);
+    });
     simplifyActivityOptions();
   }
 
@@ -184,6 +192,9 @@
     if (!kind || !count) return;
     kind.value = preset.kind;
     count.value = String(preset.count);
+    const format = $("activity-format"), demand = $("activity-demand");
+    if (format) format.value = preset.format || "auto";
+    if (demand) demand.value = preset.demand || "standard";
     if (writing) writing.checked = preset.writing;
     if (attempts) attempts.value = String(preset.attempts);
     if (feedback) feedback.value = preset.feedback;

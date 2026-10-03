@@ -1,3 +1,5 @@
+import { offlineMark as markCalculation } from '../../alevel/lib/offlineMarker.ts';
+
 type MarkPointEvidence = {
   scheme: string;
   markCode: string;
@@ -362,6 +364,9 @@ export function offlineMark(body: any) {
   const questionType = String(body.questionType || '');
   const subject = String(body.subject || 'Science');
   const isCalculation = isLikelyCalculation(commandWord, scheme, questionType);
+
+  // Share equation equivalence, unit and accuracy checks across both courses.
+  if (isCalculation) return markCalculation(body);
 
   const points: MarkPointEvidence[] = scheme.map(point => pointEvidence(answer, point));
   const credited = points.filter(point => point.strong);

@@ -14,5 +14,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: npm run audit
       - run: npm run test:marking
       - run: npm run build

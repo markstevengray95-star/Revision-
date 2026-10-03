@@ -22,10 +22,10 @@
     return [...slide.classList].find(c=>c.startsWith('slide-'))?.replace('slide-','')||'slide';
   }
   function phaseFor(type){
-    if(['title','retrieval','objectives'].includes(type))return ['Ready','Prepare'];
-    if(['teach','specpoint','terms','worked'].includes(type))return ['Learn','Teach'];
-    if(['practice'].includes(type))return ['Practise','Apply'];
-    if(['spec','exam'].includes(type))return ['Check','Assess'];
+    if(['title','retrieval','objectives'].includes(type))return ['Start','Prepare'];
+    if(['teach','teachchunk','specpoint','terms','worked'].includes(type))return ['Learn','Teach'];
+    if(['practice','specapply','chunkcheck'].includes(type))return ['Practise','Apply'];
+    if(['spec','exam'].includes(type))return ['Review','Assess'];
     return ['Review','Reflect'];
   }
   function slideLabel(slide,index){

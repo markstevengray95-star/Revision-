@@ -16,5 +16,7 @@ assert.ok(!/vercel\.app/.test(read('courses/alevel/course-tools.js')));
 assert.ok(!/vercel\.app/.test(read('courses/gcse/project-hub.js')));
 for(const file of ['courses/alevel/tools/practicals/index.html','tools/practical-sim/index.html','tools/graph-practice/index.html','tools/equation-practice/index.html']){assert.ok(read(file).includes('shared/revision-shell.js'));assert.ok(read('index.html').includes(`href="${file}"`));}
 assert.ok(!/cdn.tailwindcss.com|fonts.googleapis.com/.test(read('tools/graph-practice/index.html')),'Graph practice styles must be local');
+assert.ok(!/cdn.tailwindcss.com|fonts.googleapis.com|tailwind\.config/.test(read('tools/practical-sim/index.html')),'Practical simulator styles must be local');
+assert.ok(read('tools/practical-sim/utilities.css').includes('.grid'),'Practical simulator utilities must be compiled');
 assert.equal(JSON.parse(read('vercel.json')).framework,'nextjs');
 console.log('Unified tools passed: five local launchers, isolated marking handlers, and shared navigation.');

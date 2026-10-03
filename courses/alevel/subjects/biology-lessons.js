@@ -9,7 +9,10 @@
   function content(ref){return window.ALEVEL_BIOLOGY_CONTENT?.get?.(ref)||null;}
   function savedPositions(){try{return JSON.parse(localStorage.getItem(POSITION_KEY)||'{}')||{};}catch{return {};}}
   function savePosition(){if(!deck)return;try{const saved=savedPositions();saved[deck.id]=slideIndex;localStorage.setItem(POSITION_KEY,JSON.stringify(saved));}catch{}}
-  function slide(group,kicker,title,bullets,options={}){return{group,kicker,title,bullets:list(bullets),layout:options.layout||'content',note:options.note||'',solution:list(options.solution),equation:options.equation||'',practice:options.practice||null};}
+  function slide(group,kicker,title,bullets,options={}){
+    const stage={Teach:'Learn',Apply:'Practise',Assess:'Review',Finish:'Review'}[group]||group;
+    return{group:stage,kicker,title,bullets:list(bullets),layout:options.layout||'content',note:options.note||'',solution:list(options.solution),equation:options.equation||'',practice:options.practice||null};
+  }
 
   function buildDeck(context){
     const {config,topic,section}=context||{};
@@ -55,10 +58,9 @@
     if(s.practice)return `<div class="phase3-kicker">${esc(s.kicker)}</div><h2>${esc(s.title)}</h2>${window.ALEVEL_SCIENCE_ANSWERS.presentationHtml(s.practice,practiceIndex)}`;
     const bullets=list(s.bullets).map(x=>`<li>${esc(x)}</li>`).join('');
     const kicker=`<div class="phase3-kicker">${esc(s.kicker)}</div>`;
-    const note=s.note?`<div class="phase3-note">${esc(s.note)}</div>`:'';
-    if(s.layout==='title')return `${kicker}<h1>${esc(s.title)}</h1><ul>${bullets}</ul>${note}`;
-    if(s.layout==='equation')return `${kicker}<h2>${esc(s.title)}</h2><div class="phase3-equation">${esc(s.equation)}</div><ul>${bullets}</ul>${note}`;
-    return `${kicker}<h2>${esc(s.title)}</h2><ul>${bullets}</ul>${note}`;
+    if(s.layout==='title')return `${kicker}<h1>${esc(s.title)}</h1><ul>${bullets}</ul>`;
+    if(s.layout==='equation')return `${kicker}<h2>${esc(s.title)}</h2><div class="phase3-equation">${esc(s.equation)}</div><ul>${bullets}</ul>`;
+    return `${kicker}<h2>${esc(s.title)}</h2><ul>${bullets}</ul>`;
   }
 
   function ensureShell(){

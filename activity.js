@@ -277,6 +277,8 @@
       const h = el("h3", q.prompt);
       h.id = `prompt-${q.id}`;
       card.append(meta, h);
+      const figure = window.REVISION_ACTIVITY_UI.taskFigure(q);
+      if (figure) card.append(figure);
       if (q.type === "choice") {
         const options = el("div", undefined, "question-options");
         options.setAttribute("role", "group");

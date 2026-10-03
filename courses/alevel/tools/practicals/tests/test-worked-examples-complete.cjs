@@ -4,7 +4,7 @@ const vm=require('node:vm');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const source=fs.readFileSync(path.join(root,'lab-book-examples-complete.js'),'utf8');
-const base=fs.readFileSync(path.join(root,'lab-book-examples.js'),'utf8');
+const base=fs.readFileSync(path.join(root,'lab-book-examples.js'),'utf8').replace(/\r\n/g,'\n');
 const start=base.indexOf('const E={'),end=base.indexOf('\n};\nwindow.LAB_BOOK_EXAMPLES=E;',start);
 assert.ok(start>=0&&end>start,'Could not locate the existing worked-example data');
 const seed={};vm.runInNewContext(base.slice(start,end+3)+'\nglobalThis.examples=E;',seed);

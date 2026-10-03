@@ -1,13 +1,19 @@
 import fs from 'node:fs';
 global.window={};
+global.document={readyState:'loading',addEventListener(){}};
 await import('../subjects/biology-content.js');
+await import('../subjects/biology-answer-detail.js');
+await import('../subjects/chemistry-physical-detail.js');
+await import('../subjects/chemistry-inorganic-detail.js');
+await import('../subjects/chemistry-organic-detail.js');
+await import('../subjects/chemistry-detail.js');
 await import('../subjects/chemistry-content.js');
 await import('../subjects/assessment-data.js');
 const data=window.ALEVEL_ASSESSMENT_DATA;
 const bridge=fs.readFileSync('subject-tool-bridge.js','utf8');
 const failures=[];
 if(!data)failures.push('Assessment data registry missing');
-const expected={biology:window.ALEVEL_BIOLOGY_CONTENT?.count||0,chemistry:window.ALEVEL_CHEMISTRY_CONTENT?.count||0};
+const expected={biology:window.ALEVEL_BIOLOGY_CONTENT?.count||0,chemistry:new Set([...window.ALEVEL_CHEMISTRY_CONTENT.refs,...window.ALEVEL_CHEMISTRY_DETAIL.rows.map(r=>r.ref)]).size};
 for(const subject of ['biology','chemistry']){
   const bank=data?.banks?.[subject]||[];
   if(!expected[subject])failures.push(`${subject}: source profile registry missing`);
@@ -19,7 +25,7 @@ for(const subject of ['biology','chemistry']){
     for(const ao of ['AO1','AO2','AO3'])if(!q.some(x=>x.ao===ao))failures.push(`${subject} ${ref}: ${ao} missing`);
     if(!q.some(x=>x.practical))failures.push(`${subject} ${ref}: practical/data question missing`);
   }
-  if(!bank.every(q=>q.marks===4&&Array.isArray(q.markPoints)&&q.markPoints.length))failures.push(`${subject}: invalid marks or mark points`);
+  if(!bank.every(q=>Number.isInteger(q.marks)&&q.marks>0&&q.marks<=4&&Array.isArray(q.markPoints)&&q.markPoints.length===q.marks))failures.push(`${subject}: invalid marks or mark points`);
 }
 if(data?.exam?.biology?.papers?.paper1?.marks!==91||data?.exam?.biology?.papers?.paper2?.marks!==91||data?.exam?.biology?.papers?.paper3?.marks!==78)failures.push('Biology paper mark structure incorrect');
 if(data?.exam?.chemistry?.papers?.paper1?.marks!==105||data?.exam?.chemistry?.papers?.paper2?.marks!==105||data?.exam?.chemistry?.papers?.paper3?.marks!==90)failures.push('Chemistry paper mark structure incorrect');

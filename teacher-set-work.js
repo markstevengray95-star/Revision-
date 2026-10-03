@@ -1,8 +1,8 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id), ui=window.REVISION_ACTIVITY_UI;
-  let context, step=0, draftId=null;
-  const fields=['assignment-class','assignment-type','assignment-title','assignment-notes','assignment-due','activity-level','activity-subject','activity-pathway','activity-topic','activity-kind','activity-count','activity-format','activity-demand','activity-writing','activity-attempts','activity-feedback','activity-late','work-start','work-target','work-duration','work-mode','work-audience','work-lesson'];
+  let context, step=0, draftId=null, mixKey='';
+  const fields=['assignment-class','assignment-type','assignment-title','assignment-notes','assignment-due','activity-level','activity-subject','activity-pathway','activity-topic','activity-kind','activity-count','activity-writing','activity-attempts','activity-feedback','activity-late','activity-format','activity-demand','work-start','work-target','work-duration','work-mode','work-audience','work-lesson'];
   const steps=[];
   function field(title,id,type,value) {
     const l=ui.el('label',title), input=ui.el('input');input.id=id;input.type=type;input.value=value ?? '';l.append(input);return l;
@@ -29,6 +29,7 @@
     for(const preset of window.RevisionTaskPresets.presets){
       const b=ui.button(preset.title,'automatic-preset',preset.id,'teacher-button');b.title=preset.description;b.setAttribute('aria-label',preset.title+'. '+preset.description);
       b.onclick=()=>{
+        clearPreset();
         $('work-lesson').value='';
         if(preset.allTopics){$('activity-topic').value='all';$('activity-topic').dispatchEvent(new Event('change'));}
         $('activity-format').value=preset.format;$('activity-kind').value=preset.kind;
@@ -42,7 +43,12 @@
         go(4);$('activity-generate').click();
       };ready.append(b);
     }steps[2].append(ready);
-    $('activity-kind').closest('label').hidden=true;move('activity-kind',2);move('activity-count',2);move('activity-format',2);move('activity-demand',2);move('activity-writing',2);
+    const presetLabel=select('Homework preset','work-preset',[['','Custom activity'],...window.REVISION_HOMEWORK_PRESETS.list.map(p=>[p.id,p.title])]);
+    steps[2].prepend(presetLabel);
+    const description=ui.el('p',undefined,'panel-copy');description.id='work-preset-description';description.setAttribute('aria-live','polite');presetLabel.after(description);
+    const older=ui.el('fieldset');older.id='work-older-topics';older.hidden=true;description.after(older);
+    $('work-preset').onchange=applyPreset;
+    $('activity-kind').closest('label').hidden=true;move('activity-kind',2);move('activity-count',2);move('activity-writing',2);move('activity-format',2);move('activity-demand',2);
     steps[3].append(select('Assign to','work-audience',[['all','Whole class'],['selected','Selected students']]),ui.el('div'));
     steps[3].lastChild.id='work-recipients';
     const extra=ui.el('details');extra.append(ui.el('summary','Also set to other classes'),ui.el('div'));extra.lastChild.id='work-extra-classes';steps[0].append(extra);
@@ -64,10 +70,43 @@
       $('activity-feedback').value=['lesson','flashcards'].includes(mode)?'immediate':'after_final_attempt';
     };
     $('assignment-class').addEventListener('change',()=>{render();});$('work-audience').onchange=renderRecipients;
-    for(const id of ['activity-topic','activity-level','activity-subject','activity-pathway']) $(id).addEventListener('change',()=>setTimeout(renderLessons,0));
+    for(const id of ['activity-topic','activity-level','activity-subject','activity-pathway']) $(id).addEventListener('change',()=>setTimeout(()=>{renderLessons();renderPresetTopics();},0));
     $('work-lesson').onchange=()=>window.REVISION_TEACHER_ACTIVITIES.invalidate();
     const drafts=ui.el('section',undefined,'teacher-panel');drafts.id='work-drafts';$('workspace-set-work').append(drafts);
     $('work-mode').value='quiz';go(0);renderLessons();
+    clearPreset();
+  }
+  function presetSelection(){return {presetId:$('work-preset').value,olderTopics:[...$('work-older-topics').querySelectorAll('input:checked')].map(i=>i.value)};}
+  function clearPreset(){if(!$('work-preset'))return;$('activity-count').min=3;$('work-preset').value='';mixKey='';$('work-older-topics').replaceChildren();renderPresetTopics();}
+  function applyPreset(){
+    const p=window.REVISION_HOMEWORK_PRESETS.get($('work-preset').value);
+    window.REVISION_TEACHER_ACTIVITIES.invalidate();
+    if(!p){renderPresetTopics();return;}
+    $('work-mode').value=p.mode;$('work-mode').dispatchEvent(new Event('change'));
+    $('activity-format').value=p.format;$('activity-format').dispatchEvent(new Event('change'));
+    $('activity-count').min=p.id==='weekly'?6:3;$('activity-count').value=p.count;$('activity-writing').checked=p.writing;$('activity-writing').dispatchEvent(new Event('change'));
+    $('activity-attempts').value='2';$('activity-feedback').value=p.feedback;$('activity-demand').value='standard';
+    $('assignment-type').value='homework';$('work-duration').value=p.minutes;$('assignment-notes').value=p.instructions;
+    if(p.id!=='recap')$('work-lesson').value='';
+    if(['recap','weekly'].includes(p.id)&&$('activity-topic').value==='all'){
+      $('activity-topic').value=window.REVISION_ACTIVITIES.topics($('activity-level').value,$('activity-subject').value,$('activity-pathway').value).find(t=>t.id!=='all')?.id||'';
+      $('activity-topic').dispatchEvent(new Event('change'));
+    }
+    $('assignment-title').value=p.title+' · '+($('activity-topic').selectedOptions[0]?.textContent||'Revision');
+    renderPresetTopics();
+  }
+  function renderPresetTopics(saved){
+    if(!$('work-preset'))return;
+    const p=window.REVISION_HOMEWORK_PRESETS.get($('work-preset').value),target=$('work-older-topics');
+    $('work-preset-description').textContent=p?p.description+' You can adjust the question count and estimated duration before previewing.':'Choose a template to fill in the homework settings, or build your own activity.';
+    target.hidden=p?.id!=='weekly';if(target.hidden)return;
+    const level=$('activity-level').value,subject=$('activity-subject').value,pathway=$('activity-pathway').value,current=$('activity-topic').value,cid=$('assignment-class').value;
+    const key=[level,subject,pathway,current,cid].join(':'),previous=presetSelection().olderTopics;
+    const topics=window.REVISION_ACTIVITIES.topics(level,subject,pathway).filter(t=>t.id!=='all'&&t.id!==current);
+    const taught=(context.state.activities||[]).filter(a=>a.class_id===cid&&a.topic_key.startsWith(level+':'+subject+':')&&context.state.assignments.some(t=>t.id===a.assignment_id&&(new Date(t.due_at)<new Date()||context.state.attempts.some(x=>x.assignment_id===t.id&&x.review_state==='complete')))).map(a=>a.topic_key.split(':').slice(2).join(':'));
+    const chosen=new Set(saved??(mixKey===key?previous:topics.filter(t=>taught.includes(t.id)).slice(0,2).map(t=>t.id)));mixKey=key;
+    target.replaceChildren(ui.el('legend','Older topics to revisit (choose 1–3)'),ui.el('p','Current topic: '+($('activity-topic').selectedOptions[0]?.textContent||'Choose a topic')+'. Select only older topics you have already taught.','panel-copy'));
+    for(const t of topics){const label=ui.el('label',undefined,'checkbox-label'),i=ui.el('input');i.type='checkbox';i.value=t.id;i.checked=chosen.has(t.id);i.onchange=()=>{if(presetSelection().olderTopics.length>3){i.checked=false;context.showNotice('Choose up to three older topics.','error');}window.REVISION_TEACHER_ACTIVITIES.invalidate();};label.append(i,ui.el('span',t.title));target.append(label);}
   }
   function renderLessons() {
     const s=$('work-lesson'),previous=s.value;
@@ -87,24 +126,25 @@
     const extra=$('work-extra-classes'),selected=new Set([...extra.querySelectorAll('input:checked')].map(i=>i.value));extra.replaceChildren();
     context.state.classes.filter(c=>!c.archived).forEach(c=>{const l=ui.el('label',undefined,'checkbox-label'),i=ui.el('input');i.type='checkbox';i.value=c.id;i.checked=selected.has(c.id);l.append(i,ui.el('span',c.name));extra.append(l);});
     const audience=$('work-audience'),current=audience.value;audience.replaceChildren(new Option('Whole class','all'),new Option('Selected students','selected'),...(context.state.interventionGroups||[]).filter(g=>g.class_id===$('assignment-class').value).map(g=>new Option(g.name,'group:'+g.id)));if([...audience.options].some(o=>o.value===current))audience.value=current;
-    renderRecipients();renderLessons();
+    renderRecipients();renderLessons();renderPresetTopics();
     const target=$('work-drafts');target.replaceChildren(ui.el('h2','Saved drafts and previous homework'));
     for(const d of context.state.teacherDrafts||[]) {const b=ui.button(d.title,'load-draft',d.id,'teacher-button');b.onclick=()=>restore(d.payload,d.id);target.append(b);const del=ui.button('Delete draft','delete-draft',d.id);del.onclick=async()=>{if(!confirm('Delete this draft?'))return;const r=await revisionSupabase.from('revision_teacher_drafts').delete().eq('id',d.id);if(r.error)context.showNotice(r.error.message,'error');else context.loadTeacherData();};target.append(del);}
     const reuse=select('Reuse previous homework','work-reuse',[['','Choose an assignment'],...context.state.assignments.map(a=>[a.id,a.title])]);target.append(reuse);
-    $('work-reuse').onchange=async()=>{if(!$('work-reuse').value)return;const r=await revisionSupabase.rpc('revision_teacher_template',{aid:$('work-reuse').value});if(r.error)return context.showNotice(r.error.message,'error');const t=r.data;window.REVISION_TEACHER_ACTIVITIES.setPreview(t.activity);$('assignment-class').value=t.meta.class_id;$('assignment-title').value=t.meta.title+' (copy)';$('assignment-notes').value=t.meta.instructions;$('activity-attempts').value=t.activity.attempts_limit;$('activity-feedback').value=t.activity.feedback_mode;$('activity-late').checked=t.activity.allow_late;$('work-target').value=t.meta.target_score;$('work-duration').value=t.meta.estimated_minutes;$('work-mode').value=t.meta.activity_mode;go(4);window.REVISION_TEACHER_WORKSPACE.show('set-work');};
+    $('work-reuse').onchange=async()=>{if(!$('work-reuse').value)return;clearPreset();const uid=context.state.user?.id;const r=await revisionSupabase.rpc('revision_teacher_template',{aid:$('work-reuse').value});if(uid!==context.state.user?.id)return;if(r.error)return context.showNotice(r.error.message,'error');const t=r.data;window.REVISION_TEACHER_ACTIVITIES.setPreview(t.activity);$('assignment-class').value=t.meta.class_id;$('assignment-title').value=t.meta.title+' (copy)';$('assignment-notes').value=t.meta.instructions;$('activity-attempts').value=t.activity.attempts_limit;$('activity-feedback').value=t.activity.feedback_mode;$('activity-late').checked=t.activity.allow_late;$('work-target').value=t.meta.target_score;$('work-duration').value=t.meta.estimated_minutes;$('work-mode').value=t.meta.activity_mode;go(4);window.REVISION_TEACHER_WORKSPACE.show('set-work');};
   }
-  function snapshot() {return {fields:Object.fromEntries(fields.map(id=>[id,$(id).type==='checkbox'?$(id).checked:$(id).value])),preview:window.REVISION_TEACHER_ACTIVITIES.getPreview(),recipients:[...$('work-recipients').querySelectorAll('input:checked')].map(i=>i.value),classes:[...$('work-extra-classes').querySelectorAll('input:checked')].map(i=>i.value)};}
+  function snapshot() {return {fields:Object.fromEntries([...fields,'work-preset'].map(id=>[id,$(id).type==='checkbox'?$(id).checked:$(id).value])),olderTopics:presetSelection().olderTopics,preview:window.REVISION_TEACHER_ACTIVITIES.getPreview(),recipients:[...$('work-recipients').querySelectorAll('input:checked')].map(i=>i.value),classes:[...$('work-extra-classes').querySelectorAll('input:checked')].map(i=>i.value)};}
   async function saveDraft() {
     const payload=snapshot(),title=$('assignment-title').value.trim()||'Untitled homework';
     let query=revisionSupabase.from('revision_teacher_drafts')[draftId?'update':'insert']({teacher_id:context.state.user.id,title,payload}); if(draftId)query=query.eq('id',draftId); const r=await query;
     if(r.error)context.showNotice(r.error.message,'error');else{context.showNotice('Draft saved.');await context.loadTeacherData();}
   }
   function restore(payload,id=null) {
-    draftId=id;
+    clearPreset();draftId=id;
     const v=payload.fields||{};
     for(const key of ['assignment-class','activity-level','activity-subject','activity-pathway']) if(v[key]!==undefined){$(key).value=v[key];$(key).dispatchEvent(new Event('change'));}
     for(const [key,value] of Object.entries(v))if($(key)){if($(key).type==='checkbox')$(key).checked=value;else $(key).value=value;}
     renderLessons();if(v['work-lesson'])$('work-lesson').value=v['work-lesson'];renderRecipients();
+    renderPresetTopics(payload.olderTopics||[]);
     for(const i of $('work-recipients').querySelectorAll('input'))i.checked=(payload.recipients||[]).includes(i.value);
     for(const i of $('work-extra-classes').querySelectorAll('input'))i.checked=(payload.classes||[]).includes(i.value);
     window.REVISION_TEACHER_ACTIVITIES.setPreview(payload.preview);go(0);window.REVISION_TEACHER_WORKSPACE.show('set-work');
@@ -118,6 +158,6 @@
     const base={...meta,start_at:$('work-start').value?new Date($('work-start').value).toISOString():new Date().toISOString(),recipient_ids:selected,target_score:Number($('work-target').value),estimated_minutes:Number($('work-duration').value),activity_mode:$('work-mode').value};
     return [meta.class_id,...extras].map(class_id=>({...base,class_id}));
   }
-  async function afterAssigned() {if(draftId){await revisionSupabase.from('revision_teacher_drafts').delete().eq('id',draftId);draftId=null;}go(0);}
-  window.REVISION_SET_WORK={init,render,metadata,snapshot,restore,go,afterAssigned,reset(){draftId=null;go(0);$('work-recipients').replaceChildren();$('work-extra-classes').replaceChildren();}};
+  async function afterAssigned() {if(draftId){await revisionSupabase.from('revision_teacher_drafts').delete().eq('id',draftId);draftId=null;}clearPreset();go(0);}
+  window.REVISION_SET_WORK={init,render,metadata,snapshot,restore,go,afterAssigned,presetSelection,clearPreset,reset(){draftId=null;clearPreset();go(0);$('work-recipients').replaceChildren();$('work-extra-classes').replaceChildren();}};
 })();

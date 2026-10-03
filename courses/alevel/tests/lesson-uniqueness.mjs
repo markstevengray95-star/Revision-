@@ -57,11 +57,11 @@ for(let i=0;i<lessons.length;i+=1){
 }
 
 const requiredDeepeningSignals = [
-  'Reasoning chain',
-  'Second representation',
-  'Misconception repair',
-  'Claim → Evidence → Reasoning',
-  'Defend the physics',
+  'reasoning:',
+  'representation:',
+  'misconception:',
+  'teacherAnswer:',
+  'ALEVEL_SLIDE_DESIGN',
   'profile.focus',
   'profile.title',
   'primaryEquation'

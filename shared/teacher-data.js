@@ -64,7 +64,10 @@
       const activity=state.activities.find(v=>v.assignment_id===a.assignment_id),assignment=state.assignments.find(v=>v.id===a.assignment_id);
       if(!activity||!assignment||!recipients(state,assignment).some(m=>m.student_id===a.student_id))continue;
       for(const q of activity.questions) {const mark=a.marks?.find(m=>m.id===q.id);if(!mark||mark.awarded===null||mark.awarded===undefined)continue;
-        rows.push({studentId:a.student_id,assignmentId:a.assignment_id,questionId:q.id,question:q,topic:activity.topic_key,topicTitle:activity.topic_title,
+        const prefix=activity.topic_key.split(':').slice(0,2).join(':'),topic=q.topic?prefix+':'+q.topic:activity.topic_key;
+        const lesson=typeof window==='object'?window.REVISION_PRACTICE?.lessons.find(l=>l.id===q.lessonId):null;
+        const topicTitle=topic===activity.topic_key?activity.topic_title:lesson?.topicTitle||state.activities.find(v=>v.topic_key===topic)?.topic_title||q.topic;
+        rows.push({studentId:a.student_id,assignmentId:a.assignment_id,questionId:q.id,question:q,topic,topicTitle,
           subtopic:q.subtopic||q.title||activity.topic_title,skill:q.skill||(q.type==='number'?'calculation':q.type==='written'?'exam':'recall'),
           awarded:Number(mark.awarded),max:Number(mark.max_marks||q.marks),submittedAt:a.submitted_at});
       }

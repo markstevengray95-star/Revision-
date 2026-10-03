@@ -73,6 +73,10 @@
       const task = window.REVISION_HOMEWORK_TASKS.types.includes(type);
       $("custom-task-label").hidden = !task;
       $("custom-task-notice").hidden = !task;
+      const resourceTask = ["diagram", "graph", "practical"].includes(type);
+      $("custom-resource-fields").hidden = !resourceTask;
+      $("custom-resource").replaceChildren(new Option("Choose an example / figure", ""),
+        ...window.REVISION_HOMEWORK_RESOURCES.forType(type).map(e => new Option(e.title, e.id)));
       $("custom-prompt-heading").textContent = task ? "Task instruction" : "Question";
       $("custom-solution-heading").textContent = ["matching", "ordering", "gaps"].includes(type)
         ? "Extra marking guidance (optional; answers are generated from the task content)"
@@ -82,11 +86,23 @@
         ordering: "Steps in the correct order · one per line (3–10 steps)",
         gaps: "Paragraph · put missing answers in [square brackets] (1–10 gaps)",
         mistake: "Incorrect statement for students to check",
+        diagram: "Additional instructions about the diagram (optional)",
+        graph: "Data and additional instructions (include text data for accessibility)",
+        practical: "Method, results table or practical scenario",
       }[type] || "";
       $("custom-options-label").hidden = $("custom-type").value !== "choice";
       $("custom-number-fields").hidden = $("custom-type").value !== "number";
       $("custom-marks").value =
-        ["written", "ordering", "mistake"].includes(type) ? "3" : "1";
+        ["written", "ordering", "mistake", "diagram", "graph", "practical"].includes(type) ? "3" : "1";
+    });
+    $("custom-use-example").addEventListener("click", () => {
+      const example = window.REVISION_HOMEWORK_RESOURCES.find($("custom-resource").value);
+      if (!example || example.type !== $("custom-type").value)
+        return context.showNotice("Choose an example for this task type.", "error");
+      $("custom-prompt").value = example.prompt;
+      $("custom-task-content").value = example.content;
+      $("custom-solution").value = example.solution;
+      $("custom-marks").value = example.marks;
     });
     $("custom-add").addEventListener("click", addCustom);
     $("activity-preview").addEventListener("click", (e) => {
@@ -152,6 +168,8 @@
         button("Remove", "remove-preview", q.id),
       );
       card.append(head, el("h3", q.prompt));
+      const figure = ui.taskFigure(q);
+      if (figure) card.append(figure);
       const metadata=el('div',undefined,'workspace-controls'),skillLabel=el('label','Skill'),skill=el('select');
       for(const v of ['recall','calculation','exam','application'])skill.append(new Option(v,v));skill.value=q.skill||(q.type==='number'?'calculation':q.type==='written'?'exam':'recall');skill.onchange=()=>q.skill=skill.value;skillLabel.append(skill);
       const specLabel=el('label','Specification reference (optional)'),spec=el('input');spec.maxLength=100;spec.value=q.specification||'';spec.placeholder='Teacher-verified reference';spec.oninput=()=>q.specification=spec.value;specLabel.append(spec);
@@ -196,6 +214,7 @@
         const tasks = window.REVISION_HOMEWORK_TASKS.build({
           type, prompt, marks, solution: solution.join("\n"),
           content: $("custom-task-content").value,
+          resource: $("custom-resource").value,
           id: "custom_" + crypto.randomUUID().slice(0, 8), seed: seed++,
         });
         if (preview.questions.length + tasks.length > 60)
@@ -204,7 +223,7 @@
           q.subject = preview.subject;
           q.topic = preview.topic;
           q.subtopic = q.title;
-          q.skill = type === "mistake" ? "application" : "recall";
+          q.skill = ["mistake", "graph", "practical"].includes(type) ? "application" : "recall";
         }
         preview.questions.push(...tasks);
         renderPreview();

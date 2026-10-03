@@ -27,7 +27,14 @@
       href.includes("\\")
     )
       return null;
-    return link("Revise this lesson →", href, "resource-link");
+    return link(href.startsWith('courses/homework-assets/') ? "Open task figure →" : "Revise this lesson →", href, "resource-link");
+  }
+  function taskFigure(q) {
+    const resource=window.REVISION_HOMEWORK_RESOURCES?.fromHref(q.lessonHref);
+    if(!resource)return null;
+    const figure=el('figure',undefined,'homework-figure'),img=el('img');
+    img.src=resource.href;img.alt=resource.alt;img.loading='lazy';img.width=640;
+    figure.append(img,el('figcaption',resource.title));return figure;
   }
   function downloadCSV(name, rows) {
     const quote = (v) =>
@@ -55,6 +62,7 @@
     link,
     button,
     lessonLink,
+    taskFigure,
     downloadCSV,
     percent,
   };

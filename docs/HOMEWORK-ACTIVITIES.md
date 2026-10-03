@@ -29,4 +29,12 @@ These tasks use the existing question formats, drafts, assignment transport, stu
 
 Validation: `tests/homework-tasks.cjs` verifies matching keys after shuffling, hidden gap answers, shuffled ordering, correction schemes, authoring validation and public-key stripping. Existing activity and result checks cover the reused student and marking flows.
 
-Later phases remain separate: diagram/graph/practical tasks; corrections and spaced follow-ups based on previous results.
+## Phase 3 — Diagram, graph and practical tasks
+
+The question builder includes diagram tasks, graph interpretation and practical investigations. Choose an example and click **Use this example** to fill editable instructions, content, marks and marking points. Figures are bundled with the app and displayed in both teacher previews and student homework, with accessible descriptions. Graph examples also include text data. The initial library includes a cell diagram, circuit symbols, distance-time graph, amylase investigation and evaluation of repeated rate measurements. Students give written answers; teachers review them. Diagrams support written labels rather than drawing on the image.
+
+Figures use the existing public `lessonHref` field and a fixed local resource allowlist. Drafts, assignment copies and templates preserve that field. External image uploads are not part of this phase. No database migration is needed.
+
+Validation: resource task tests check asset availability, accessible descriptions, validated figure selection, private mark schemes and editable practical examples. Browser checks verified graph and circuit images load and survive draft restoration.
+
+Phase 4 adds corrections and spaced follow-ups based on marked results.

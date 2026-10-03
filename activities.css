@@ -332,3 +332,7 @@
     width: 100%;
   }
 }
+/* Shared task figures remain legible at classroom and mobile widths. */
+.homework-figure { margin: 1rem 0; }
+.homework-figure img { display: block; width: 100%; max-width: 640px; height: auto; border-radius: 12px; background: #f5f9fb; }
+.homework-figure figcaption { margin-top: .5rem; font-size: .9rem; }

@@ -70,6 +70,16 @@ window.REVISION_CATALOG = {
       "summary": "Number, algebra, ratio, geometry, probability and statistics. Textbook chapters, worked examples and practice.",
       "progressKey": "subject-course-progress:maths",
       "href": "courses/subjects/index.html?subject=maths"
+    },
+    {
+      "id": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "title": "GCSE Geography",
+      "spec": "AQA GCSE Geography 8035",
+      "summary": "Physical and human geography, geographical skills, case studies and fieldwork.",
+      "progressKey": "subject-course-progress:geography",
+      "href": "courses/subjects/index.html?subject=geography"
     }
   ],
   "topics": [
@@ -766,6 +776,90 @@ window.REVISION_CATALOG = {
       "lessonCount": 4,
       "search": "Sampling and data collection Averages, spread and frequency tables Charts, scatter graphs and time series Histograms, cumulative frequency and box plots",
       "href": "courses/subjects/index.html?subject=maths&topic=maths-statistics&view=textbook"
+    },
+    {
+      "id": "geography-natural-hazards",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "Natural hazards",
+      "summary": "Tectonic hazards, weather hazards, climate change and contrasting responses.",
+      "lessonCount": 5,
+      "search": "Plate margins and hazard risk Nepal 2015 and Chile 2010 Atmospheric circulation and tropical storms UK extreme weather and Somerset flooding Climate change evidence and responses",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-natural-hazards&view=textbook"
+    },
+    {
+      "id": "geography-the-living-world",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "The living world",
+      "summary": "Ecosystem relationships, tropical rainforests, hot deserts and cold environments.",
+      "lessonCount": 4,
+      "search": "Ecosystems, food webs and nutrient cycles Amazon rainforest structure and deforestation Hot deserts and the Thar Cold environments and Alaska",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-the-living-world&view=textbook"
+    },
+    {
+      "id": "geography-uk-physical-landscapes",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "UK physical landscapes",
+      "summary": "Processes and management of coasts, rivers and glaciated landscapes. Select your school’s two landscape options.",
+      "lessonCount": 5,
+      "search": "Coastal erosion, transport and landforms Coastal management and Holderness River processes, landforms and the Tees Flood hydrographs and river management Glaciation and the Lake District",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-uk-physical-landscapes&view=textbook"
+    },
+    {
+      "id": "geography-urban-issues-and-challenges",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "Urban issues and challenges",
+      "summary": "Urban growth, Rio, London, regeneration and sustainability.",
+      "lessonCount": 3,
+      "search": "Urbanisation and Rio de Janeiro London, migration and regeneration Sustainable urban living",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-urban-issues-and-challenges&view=textbook"
+    },
+    {
+      "id": "geography-the-changing-economic-world",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "The changing economic world",
+      "summary": "Measures of development, the development gap, Nigeria and UK change.",
+      "lessonCount": 4,
+      "search": "Development indicators and demographic change Reducing the development gap and Jamaica Nigeria, industry and global links UK economic change and regional inequality",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-the-changing-economic-world&view=textbook"
+    },
+    {
+      "id": "geography-resource-management",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "Resource management",
+      "summary": "UK resource patterns and global food, water and energy options.",
+      "lessonCount": 4,
+      "search": "UK food, water and energy Global food security and sustainable production Global water security and management Global energy security and sustainable choices",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-resource-management&view=textbook"
+    },
+    {
+      "id": "geography-geographical-skills-and-fieldwork",
+      "course": "gcse-geography",
+      "level": "gcse",
+      "subject": "geography",
+      "code": "",
+      "title": "Geographical skills and fieldwork",
+      "summary": "Maps, graphical skills, investigations, reliability and issue evaluation.",
+      "lessonCount": 4,
+      "search": "Maps, graphs and quantitative skills Designing physical and human investigations Presenting results and evaluating fieldwork Issue evaluation and decision making",
+      "href": "courses/subjects/index.html?subject=geography&topic=geography-geographical-skills-and-fieldwork&view=textbook"
     }
   ]
 };

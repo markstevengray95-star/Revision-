@@ -1,6 +1,6 @@
 # Revision app audit — 3 October 2026
 
-The audit covers the combined GCSE/A-level revision app and integrates the homework changes from main at 1f04cd7891cdcd99f55a0d56ffb272af4bb3de6e. Original imported question-bank wording and diagram hashes remain intact.
+The audit covers the combined GCSE/A-level revision app and integrates the homework changes from main at 5d8b07877c4990e5d5a6b7e92f2f479d5739fceb. Original imported question-bank wording and diagram hashes remain intact.
 
 ## Fixes
 
@@ -21,7 +21,7 @@ The audit covers the combined GCSE/A-level revision app and integrates the homew
 | Equation practice | 272 equation forms; 64,880 rearrangement/conversion cases; browser breakdown, worked example, structured answer and feedback; mobile layout checked |
 | GCSE simulations | All 26 practicals exercised in the browser; 36 model setups and 154 default/boundary/choice cases checked |
 | A-level simulations | All 12 Physics practicals pass model sweeps; animation regressions for practicals 1–6; lab-book integrity and 12 worked examples; practical 1 recording and optional 3D loading checked in browser |
-| Homework and assessment | All six courses and ten assessment presets checked; five newer templates checked across all courses; matching, ordering, gaps, corrections and resource tasks checked. Isolated teacher UI generates 12 auto-marked mixed questions and a 10-question application assessment after switching from weekly revision |
+| Homework and assessment | All six courses and ten assessment presets checked; five newer templates checked across all courses; matching, ordering, gaps, corrections and resource tasks checked. Isolated teacher UI generates 12 auto-marked mixed questions and a 10-question application assessment after switching from weekly revision; graph-task example added with its figure, accessible data and revealed mark scheme |
 | Marking APIs and routes | Real compiled Next server: 11 main pages respond successfully; both GCSE/A-level offline marking award correct/missing-unit results; invalid requests rejected; question generation succeeds |
 | Build and automated checks | npm test, npm run audit (27 extended checks), npm run test:marking (19 regressions) and npm run build pass locally |
 

@@ -5,7 +5,7 @@
   function build({type,prompt,content='',solution='',marks=1,id='task',seed=1,resource=''}){
     if(!types.includes(type))throw Error('Choose a homework task type.');
     prompt=String(prompt||'').trim();content=String(content).trim();solution=String(solution).trim();marks=Number(marks);
-    if(prompt.length<3||prompt.length>2000||content.length>4000||solution.length>4000||!Number.isFinite(marks)||marks<0.5||marks>10||marks%0.5)throw Error('Enter a task instruction and 0.5–10 marks in half-mark steps.');
+    if(prompt.length<3||prompt.length>2000||content.length>4000||prompt.length+content.length>5700||solution.length>4000||!Number.isFinite(marks)||marks<0.5||marks>10||marks%0.5)throw Error('Enter a task instruction, keep the combined task text under 5700 characters, and choose 0.5–10 marks in half-mark steps.');
     const common={type:'written',marks,title:{matching:'Match the terms',ordering:'Put the steps in order',gaps:'Complete the missing words',mistake:'Spot and correct the mistake'}[type]};
     const lines=content.split(/\n/).map(s=>s.trim()).filter(Boolean);
     const unique=values=>new Set(values.map(s=>s.toLowerCase())).size===values.length;

@@ -1,14 +1,23 @@
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.REVISION_HOMEWORK_TASKS=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+(function(root,factory){const api=factory(typeof module==='object'&&module.exports?require('./homework-resources.js'):root.REVISION_HOMEWORK_RESOURCES);if(typeof module==='object'&&module.exports)module.exports=api;else root.REVISION_HOMEWORK_TASKS=api;})(typeof globalThis!=='undefined'?globalThis:this,function(resources){
   'use strict';
-  const types=['matching','ordering','gaps','mistake'];
+  const types=['matching','ordering','gaps','mistake','diagram','graph','practical'];
   function shuffle(values,seed=1){const a=[...values];let z=seed>>>0;for(let i=a.length-1;i>0;i--){z=(Math.imul(z,1664525)+1013904223)>>>0;const j=z%(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
-  function build({type,prompt,content='',solution='',marks=1,id='task',seed=1}){
+  function build({type,prompt,content='',solution='',marks=1,id='task',seed=1,resource=''}){
     if(!types.includes(type))throw Error('Choose a homework task type.');
     prompt=String(prompt||'').trim();content=String(content).trim();solution=String(solution).trim();marks=Number(marks);
     if(prompt.length<3||prompt.length>2000||content.length>4000||solution.length>4000||!Number.isFinite(marks)||marks<0.5||marks>10||marks%0.5)throw Error('Enter a task instruction and 0.5–10 marks in half-mark steps.');
     const common={type:'written',marks,title:{matching:'Match the terms',ordering:'Put the steps in order',gaps:'Complete the missing words',mistake:'Spot and correct the mistake'}[type]};
     const lines=content.split(/\n/).map(s=>s.trim()).filter(Boolean);
     const unique=values=>new Set(values.map(s=>s.toLowerCase())).size===values.length;
+    if(['diagram','graph','practical'].includes(type)){
+      const example=resources.find(resource);
+      if(type!=='practical'&&(!example||example.type!==type||!example.href))throw Error('Choose a diagram or graph from the resource library.');
+      if(!solution||solution.split(/\n+/).filter(Boolean).length>30)throw Error('Add a mark scheme with 1–30 marking points.');
+      if(type==='practical'&&content.length<3)throw Error('Add the practical method, data or scenario.');
+      const question={...common,id,title:example?.type===type?example.title:type==='practical'?'Practical investigation':type==='graph'?'Interpret a graph':'Read a diagram',prompt:prompt+(content?'\n'+content:''),key:{solution:solution.split(/\n+/).filter(Boolean)}};
+      if(type!=='practical')question.lessonHref=example.href;
+      return [question];
+    }
     if(type==='matching'){
       const pairs=lines.map(line=>line.split('|').map(s=>s.trim()));
       if(pairs.length<2||pairs.length>6||pairs.some(p=>p.length!==2||p.some(s=>!s||s.length>500))||!unique(pairs.map(p=>p[0]))||!unique(pairs.map(p=>p[1])))throw Error('Enter 2–6 distinct pairs as term | definition, one per line.');

@@ -39,7 +39,15 @@
     pool.forEach(l=>{const key=l.subject+':'+l.topic;if(!topicWords.has(key))topicWords.set(key,new Set());gapBank.get(l.id).forEach(g=>topicWords.get(key).add(g.answer.toLowerCase()));});
     const vocab=[...new Set([...gapBank.values()].flatMap(items=>items.map(g=>g.answer.toLowerCase())).concat(distractorLessons.filter(l=>l.level===c.l&&(c.s==='all'||l.subject===c.s)&&(c.t==='all'||l.topic===c.t)&&(c.l!=='gcse'||c.p==='triple'||l.scope!=='triple')).flatMap(l=>gaps(l).filter(g=>allowedText(g.sentence)).map(g=>g.answer.toLowerCase()))))];
     for(const l of shuffled(pool,random)) {
-      for(const [i,q] of l.questions.entries()) {if(!allowedText(q.question))continue;const model=q.answer.map(line=>line.split(/(?<=[.!?])\s+/).filter(allowedText).join(' ')).filter(Boolean).join('\n');if(model)banks.written.push({id:`${l.id}:written:${i}`,type:'written',subject:l.subject,topic:l.topicTitle,source:l.href,prompt:q.question+(c.d==='stretch'?' Include a linked scientific explanation and relevant conditions.':''),model});}
+      for(const [i,q] of l.questions.entries()) {
+        if(!allowedText(q.question))continue;
+        const model=q.answer.map(line=>line.split(/(?<=[.!?])\s+/).filter(allowedText).join(' ')).filter(Boolean).join('\n');
+        const item={id:`${l.id}:written:${q.bankId||i}`,subject:l.subject,topic:l.topicTitle,source:l.href,prompt:q.question,model,marks:q.marks,bankType:q.bankType,authored:!!q.authored};
+        if(Array.isArray(q.options)){
+          if(!Number.isInteger(q.correct)||!q.options[q.correct])throw Error('Missing reviewed choice key.');
+          banks.choice.push({...item,type:'choice',expected:q.options[q.correct],options:shuffled(q.options,random)});
+        }else if(model)banks.written.push({...item,type:'written',prompt:q.question+(!q.authored&&c.d==='stretch'?' Include a linked scientific explanation and relevant conditions.':'')});
+      }
       for(const g of gapBank.get(l.id)) {
         const prompt=g.sentence.slice(0,g.start)+'________'+g.sentence.slice(g.start+g.answer.length);
         const item={id:g.id,type:'cloze',subject:l.subject,topic:l.topicTitle,source:l.href,prompt,expected:g.answer,model:g.sentence};
@@ -51,7 +59,12 @@
         if(distractors.length===3)banks.choice.push({...item,id:g.id+':choice',type:'choice',options:shuffled([g.answer,...distractors],random)});
       }
     }
-    for(const k of ['written','choice','cloze'])banks[k]=shuffled(banks[k],random);
+    for(const k of ['written','choice','cloze']){
+      const authored=shuffled(banks[k].filter(q=>q.authored),random),other=shuffled(banks[k].filter(q=>!q.authored),random),mixed=[];
+      // Include original scenarios regularly while retaining the wider lesson bank.
+      while(authored.length||other.length){if(authored.length)mixed.push(authored.pop());for(let i=0;i<2&&other.length;i++)mixed.push(other.pop());}
+      banks[k]=mixed;
+    }
     const equations=E.available({level:c.l,subject:c.s,pathway:c.p,topic:c.t}).filter(d=>c.t!=="all"||!["astrophysics","medical","engineering","turning-points","electronics"].includes(d.topic));
     if(c.k.includes('calculation')&&equations.length) {
       const order=shuffled(equations,random);

@@ -25,6 +25,24 @@
     ['activity-level','activity-subject','activity-pathway','activity-topic'].forEach(id=>move(id,1));
     steps[1].append(select('Subtopic / lesson','work-lesson',[['','All lessons in this topic']]));
     steps[2].append(select('Activity','work-mode',[['lesson','Revision lesson'],['quiz','Quiz'],['flashcards','Flashcards + recall check'],['exam','Exam questions'],['test','Topic test'],['mixed','Mixed assignment']]));
+    const ready=ui.el('section');ready.append(ui.el('h3','Ready-made homework and assessments'),ui.el('p','Choose a task to generate its questions now. Subject-wide tasks use all core topics; other tasks use your selected topic. Review the preview before assigning.','panel-copy'));
+    for(const preset of window.RevisionTaskPresets.presets){
+      const b=ui.button(preset.title,'automatic-preset',preset.id,'teacher-button');b.title=preset.description;b.setAttribute('aria-label',preset.title+'. '+preset.description);
+      b.onclick=()=>{
+        clearPreset();
+        $('work-lesson').value='';
+        if(preset.allTopics){$('activity-topic').value='all';$('activity-topic').dispatchEvent(new Event('change'));}
+        $('activity-format').value=preset.format;$('activity-kind').value=preset.kind;
+        $('activity-kind').dispatchEvent(new Event('change'));$('activity-format').dispatchEvent(new Event('change'));
+        $('activity-count').value=preset.count;$('activity-demand').value=preset.demand;
+        $('activity-writing').checked=['mixed','written','application','practical','analysis'].includes(preset.format);
+        $('work-mode').value=preset.mode;$('work-duration').value=preset.duration;
+        $('activity-feedback').value=preset.feedback;$('activity-attempts').value=preset.attempts||2;
+        $('assignment-type').value=preset.mode==='test'?'test':preset.kind==='revision'?'revision':'homework';
+        $('assignment-title').value=preset.title;$('assignment-notes').value=preset.description;
+        go(4);$('activity-generate').click();
+      };ready.append(b);
+    }steps[2].append(ready);
     const presetLabel=select('Homework preset','work-preset',[['','Custom activity'],...window.REVISION_HOMEWORK_PRESETS.list.map(p=>[p.id,p.title])]);
     steps[2].prepend(presetLabel);
     const description=ui.el('p',undefined,'panel-copy');description.id='work-preset-description';description.setAttribute('aria-live','polite');presetLabel.after(description);

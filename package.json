@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "audit": "node scripts/audit.cjs",
     "dev": "node scripts/build-graph-styles.cjs && node scripts/build.cjs && next dev --webpack",
     "build": "node scripts/build-graph-styles.cjs && node scripts/build.cjs && next build --webpack",
     "start": "next start",
-    "test": "node tests/integration.cjs && node tests/unified-tools.cjs && node tests/graph-practice.cjs && node tests/graph-library.cjs && node tests/question-tools.cjs && node tests/source-question-bank.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs && node tests/activities.cjs && node tests/activity-results.cjs && node tests/auth-session.cjs && node tests/teacher-data.cjs && node tests/homework-presets.cjs && node tests/homework-tasks.cjs && node tests/homework-followups.cjs",
-    "test:marking": "node --experimental-strip-types --test src/modules/alevel/lib/offlineMarker.test.mjs"
+    "test": "node tests/integration.cjs && node tests/unified-tools.cjs && node tests/graph-practice.cjs && node tests/graph-library.cjs && node tests/question-tools.cjs && node tests/source-question-bank.cjs && node courses/gcse/tests/integrity.mjs && node courses/alevel/tests/lesson-slide-design.cjs && node tests/content-review.cjs && node tests/activities.cjs && node tests/activity-results.cjs && node tests/auth-session.cjs && node tests/teacher-data.cjs && node tests/question-expansion.cjs && node tests/homework-presets.cjs && node tests/homework-tasks.cjs && node tests/homework-followups.cjs",
+    "test:marking": "node --experimental-strip-types --test --test-isolation=none src/modules/alevel/lib/offlineMarker.test.mjs src/modules/gcse/lib/offlineMarker.test.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.21.0",

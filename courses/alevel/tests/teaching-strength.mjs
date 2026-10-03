@@ -7,6 +7,7 @@ const curriculum = fs.readFileSync(path.join(root,'curriculum-map.js'),'utf8');
 const deepening = fs.readFileSync(path.join(root,'lesson-deepening.js'),'utf8');
 const specDepth = fs.readFileSync(path.join(root,'lesson-spec-depth.js'),'utf8');
 const phase3 = fs.readFileSync(path.join(root,'lesson-phase3.js'),'utf8');
+const slideDesign = fs.readFileSync(path.join(root,'lesson-slide-design.js'),'utf8');
 
 const lessonRegex = /\bL\('((?:\\.|[^'])*)','((?:\\.|[^'])*)','((?:\\.|[^'])*)','((?:\\.|[^'])*)'/g;
 const decode = value => value.replace(/\\'/g,"'").replace(/\\n/g,' ').replace(/\\\\/g,'\\');
@@ -41,10 +42,13 @@ for(const [label,signal] of requiredPresentationFeatures){
 }
 
 const requiredDeepening = [
-  'Reasoning chain','Second representation','Misconception repair','Claim → Evidence → Reasoning','Defend the physics','Teacher move:'
+  'reasoning:', 'representation:', 'misconception:', 'teacherAnswer:', 'ALEVEL_SLIDE_DESIGN'
 ];
 for(const signal of requiredDeepening){
   if(!deepening.includes(signal)) failures.push(`Deep-teaching layer missing: ${signal}`);
+}
+for(const signal of ['Read the physical model','Spot it. Explain it. Repair it.','Build a clear explanation','Worked example','plenary']){
+  if(!slideDesign.includes(signal)) failures.push(`Current slide engine missing: ${signal}`);
 }
 
 const requiredSpecDepth = [

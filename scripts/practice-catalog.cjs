@@ -1,6 +1,7 @@
 const fs=require('node:fs');
 const path=require('node:path');
 const {loadCourses,root}=require('./course-content.cjs');
+const {attachAdditional}=require('./additional-questions.cjs');
 
 const normaliseAnswer=value=>{
   if(Array.isArray(value))return value.filter(Boolean).map(v=>String(v).trim()).filter(Boolean);
@@ -105,8 +106,9 @@ function generatePractice(){
       addLesson(lessons,{id:`alevel:${subject}:${ref}`,level:'alevel',subject,topic:topic.id,topicTitle:topic.title,title:detail?.title||module.title,ref,scope:'alevel',href:`courses/alevel/subjects/topic-shell.html?${query}`,core:p.core.join(' '),accuracy:p.mis,questions:p.exam.map((question,i)=>({question,answer:p.examAnswers?.[i]||[]})),skillKey:`alevel:${subject}:${ref.split('.').slice(0,2).join('.')}`});
     }
   }
+  attachAdditional(lessons);
   const questionCount=lessons.reduce((sum,l)=>sum+l.questions.length,0);
-  return JSON.parse(JSON.stringify({version:2,questionCount,lessons}));
+  return JSON.parse(JSON.stringify({version:3,questionCount,lessons}));
 }
 
 function writePractice(){

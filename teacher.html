@@ -27,6 +27,7 @@
     <script src="shared/homework-engine.js" defer></script>
     <script src="shared/activity-generator.js" defer></script>
     <script src="shared/activity-ui.js" defer></script>
+    <script src="shared/homework-tasks.js" defer></script>
     <script src="shared/homework-presets.js" defer></script>
     <script src="teacher-activities.js" defer></script>
     <script src="shared/teacher-data.js" defer></script>
@@ -432,10 +433,14 @@
                           <option value="choice">Multiple choice</option>
                           <option value="number">Numerical answer</option>
                           <option value="written">Written answer</option>
+                          <option value="matching">Match terms and definitions · automatically marked</option>
+                          <option value="ordering">Put steps in order · teacher reviewed</option>
+                          <option value="gaps">Complete missing words · teacher reviewed</option>
+                          <option value="mistake">Spot and correct a mistake · teacher reviewed</option>
                         </select></label
                       >
                       <label
-                        >Question<textarea
+                        ><span id="custom-prompt-heading">Question</span><textarea
                           id="custom-prompt"
                           rows="3"
                           maxlength="6000"
@@ -448,6 +453,11 @@
                           maxlength="6000"
                         ></textarea>
                       </label>
+                      <label id="custom-task-label" hidden>
+                        <span id="custom-task-help"></span>
+                        <textarea id="custom-task-content" rows="6" maxlength="4000" aria-describedby="custom-task-help"></textarea>
+                      </label>
+                      <p id="custom-task-notice" class="panel-copy" hidden>Matching adds one question per pair, with the marks below awarded for each match. Other tasks add one teacher-reviewed question. Check the shuffled task and private mark scheme in the preview.</p>
                       <div
                         id="custom-number-fields"
                         class="form-grid two"
@@ -478,7 +488,7 @@
                           value="1"
                       /></label>
                       <label
-                        >Worked solution / mark scheme<textarea
+                        ><span id="custom-solution-heading">Worked solution / mark scheme</span><textarea
                           id="custom-solution"
                           rows="3"
                           maxlength="6000"

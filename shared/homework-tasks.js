@@ -24,7 +24,7 @@
       if(!words.length||words.length>10||words.some(s=>!s||s.length>120)||content.replace(/\[[^\[\]\n]+\]/g,'').match(/[\[\]]/))throw Error('Put 1–10 missing answers in square brackets, for example Current is measured in [amperes].');
       let n=0;return [{...common,id,prompt:prompt+'\n'+content.replace(/\[[^\[\]\n]+\]/g,()=>`____ (${++n})`)+'\nWrite the numbered answers below.',key:{solution:words.map((s,i)=>(i+1)+'. '+s).concat(solution?[solution]:[])}}];
     }
-    if(content.length<3||!solution)throw Error('Enter an incorrect statement and a corrected explanation for the mark scheme.');
+    if(content.length<3||!solution||solution.split(/\n+/).filter(Boolean).length>30)throw Error('Enter an incorrect statement and a corrected explanation with at most 30 marking points.');
     return [{...common,id,prompt:prompt+'\nStatement to check:\n'+content+'\nIdentify the mistake, rewrite the statement correctly and explain why.',key:{solution:solution.split(/\n+/).filter(Boolean)}}];
   }
   return {types,build,shuffle};

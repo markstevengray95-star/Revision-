@@ -69,10 +69,24 @@
     $("assignment-class").addEventListener("change", matchClass);
     $("activity-generate").addEventListener("click", generate);
     $("custom-type").addEventListener("change", () => {
+      const type = $("custom-type").value;
+      const task = window.REVISION_HOMEWORK_TASKS.types.includes(type);
+      $("custom-task-label").hidden = !task;
+      $("custom-task-notice").hidden = !task;
+      $("custom-prompt-heading").textContent = task ? "Task instruction" : "Question";
+      $("custom-solution-heading").textContent = ["matching", "ordering", "gaps"].includes(type)
+        ? "Extra marking guidance (optional; answers are generated from the task content)"
+        : "Worked solution / mark scheme";
+      $("custom-task-help").textContent = {
+        matching: "Pairs · term | definition, one per line (2–6 pairs)",
+        ordering: "Steps in the correct order · one per line (3–10 steps)",
+        gaps: "Paragraph · put missing answers in [square brackets] (1–10 gaps)",
+        mistake: "Incorrect statement for students to check",
+      }[type] || "";
       $("custom-options-label").hidden = $("custom-type").value !== "choice";
       $("custom-number-fields").hidden = $("custom-type").value !== "number";
       $("custom-marks").value =
-        $("custom-type").value === "written" ? "3" : "1";
+        ["written", "ordering", "mistake"].includes(type) ? "3" : "1";
     });
     $("custom-add").addEventListener("click", addCustom);
     $("activity-preview").addEventListener("click", (e) => {
@@ -178,6 +192,28 @@
           .value.trim()
           .split(/\n+/)
           .filter(Boolean);
+      if (window.REVISION_HOMEWORK_TASKS.types.includes(type)) {
+        const tasks = window.REVISION_HOMEWORK_TASKS.build({
+          type, prompt, marks, solution: solution.join("\n"),
+          content: $("custom-task-content").value,
+          id: "custom_" + crypto.randomUUID().slice(0, 8), seed: seed++,
+        });
+        if (preview.questions.length + tasks.length > 60)
+          throw Error("This task would exceed 60 questions. Remove questions first.");
+        for (const q of tasks) {
+          q.subject = preview.subject;
+          q.topic = preview.topic;
+          q.subtopic = q.title;
+          q.skill = type === "mistake" ? "application" : "recall";
+        }
+        preview.questions.push(...tasks);
+        renderPreview();
+        $("custom-prompt").value = "";
+        $("custom-solution").value = "";
+        $("custom-task-content").value = "";
+        context.showNotice(tasks.length + " task question(s) added. Check the preview and mark scheme.");
+        return;
+      }
       if (
         prompt.length < 3 ||
         !solution.length ||
@@ -260,6 +296,7 @@
   }
   function reset() {
     invalidate();
+    $("custom-task-content").value = "";
     lastSuggestedTitle = "";
     $("activity-writing-label").hidden = true;
     matchClass();

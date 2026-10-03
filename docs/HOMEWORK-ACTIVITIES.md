@@ -16,4 +16,17 @@ Mixed assignments retain per-question topic metadata, so topic mastery and inter
 
 Validation: tests/homework-presets.cjs checks all five presets across GCSE and A-level Biology, Chemistry and Physics, question uniqueness, private key stripping, lesson scope, calculation type, topic quotas and invalid selections. tests/teacher-data.cjs checks separate mastery for mixed-topic questions.
 
-Later phases remain separate: new interaction types; diagram/graph/practical tasks; corrections and spaced follow-ups based on previous results.
+## Phase 2 — More homework task types
+
+In Settings and preview, open **Add your own question** after generating a preview. Four new authoring choices are available:
+
+* Matching: enter 2–6 `term | definition` pairs. Each term becomes a multiple-choice question with shuffled definitions and automatic marking. Marks are per match; all pairs count towards the 60-question limit.
+* Ordering: enter 3–10 steps in the correct order. Students see a shuffled list and write the correct sequence. Teachers review it against the private numbered sequence.
+* Missing words: write a paragraph with 1–10 answers in square brackets. Students see numbered gaps and write the answers; teachers review synonyms and spelling using the private answer list.
+* Spot the mistake: enter an incorrect statement and the corrected explanation. Students identify, correct and explain the mistake; teachers review the supplied mark scheme.
+
+These tasks use the existing question formats, drafts, assignment transport, student responses, feedback release, marking and markbook. No database migration is required. Student questions contain only public task text and choices; answers stay in private keys. Teachers can add these tasks to any generated homework preview, remove questions and save the result as a draft or reuse it later. Ordering and missing-word tasks use the existing written answer box rather than drag-and-drop controls.
+
+Validation: `tests/homework-tasks.cjs` verifies matching keys after shuffling, hidden gap answers, shuffled ordering, correction schemes, authoring validation and public-key stripping. Existing activity and result checks cover the reused student and marking flows.
+
+Later phases remain separate: diagram/graph/practical tasks; corrections and spaced follow-ups based on previous results.

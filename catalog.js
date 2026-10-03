@@ -80,6 +80,16 @@ window.REVISION_CATALOG = {
       "summary": "Physical and human geography, geographical skills, case studies and fieldwork.",
       "progressKey": "subject-course-progress:geography",
       "href": "courses/subjects/index.html?subject=geography"
+    },
+    {
+      "id": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "title": "GCSE Computer Science",
+      "spec": "AQA GCSE Computer Science 8525 · first exams 2027",
+      "summary": "Algorithms, programming, data representation, systems, networks, security, databases and digital impacts.",
+      "progressKey": "subject-course-progress:computer-science",
+      "href": "courses/subjects/index.html?subject=computer-science"
     }
   ],
   "topics": [
@@ -860,6 +870,102 @@ window.REVISION_CATALOG = {
       "lessonCount": 4,
       "search": "Maps, graphs and quantitative skills Designing physical and human investigations Presenting results and evaluating fieldwork Issue evaluation and decision making",
       "href": "courses/subjects/index.html?subject=geography&topic=geography-geographical-skills-and-fieldwork&view=textbook"
+    },
+    {
+      "id": "computer-science-algorithms-and-computational-thinking",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Algorithms and computational thinking",
+      "summary": "Decomposition, abstraction, algorithm design, searching and sorting.",
+      "lessonCount": 4,
+      "search": "Decomposition, abstraction and algorithm design Tracing algorithms and logical reasoning Linear and binary searching Bubble and merge sorting",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-algorithms-and-computational-thinking&view=textbook"
+    },
+    {
+      "id": "computer-science-programming-fundamentals",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Programming fundamentals",
+      "summary": "Data types, control flow, collections, subroutines, files and testing.",
+      "lessonCount": 6,
+      "search": "Variables, constants, types and operators Selection and Boolean conditions Count-controlled and condition-controlled loops Strings, lists and two-dimensional data Subroutines, parameters and scope Files, validation, authentication and testing",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-programming-fundamentals&view=textbook"
+    },
+    {
+      "id": "computer-science-data-representation",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Data representation",
+      "summary": "Binary, hexadecimal, character encoding, images, sound and compression.",
+      "lessonCount": 4,
+      "search": "Binary and hexadecimal numbers Binary arithmetic, shifts and storage units Character encoding and bitmap images Sound sampling and compression",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-data-representation&view=textbook"
+    },
+    {
+      "id": "computer-science-computer-systems",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Computer systems",
+      "summary": "CPU operation, memory, storage, embedded systems and software.",
+      "lessonCount": 3,
+      "search": "CPU architecture and the fetch-decode-execute cycle RAM, ROM, secondary storage and embedded systems Operating systems, utilities and language translators",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-computer-systems&view=textbook"
+    },
+    {
+      "id": "computer-science-networks-and-the-internet",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Networks and the internet",
+      "summary": "Connections, protocols, addressing, topology and layered communication.",
+      "lessonCount": 2,
+      "search": "Network types, hardware and topology Packets, protocols, addresses and DNS",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-networks-and-the-internet&view=textbook"
+    },
+    {
+      "id": "computer-science-cyber-security",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Cyber security",
+      "summary": "Threats, defensive controls and secure use of systems.",
+      "lessonCount": 2,
+      "search": "Malware, phishing and social engineering Defence in depth and access control",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-cyber-security&view=textbook"
+    },
+    {
+      "id": "computer-science-relational-databases-and-sql",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Relational databases and SQL",
+      "summary": "Tables, keys, relationships and queries using one or two tables.",
+      "lessonCount": 2,
+      "search": "Database tables, keys and relationships SQL selection, ordering and joins",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-relational-databases-and-sql&view=textbook"
+    },
+    {
+      "id": "computer-science-ethical-legal-and-environmental-impacts",
+      "course": "gcse-computer-science",
+      "level": "gcse",
+      "subject": "computer-science",
+      "code": "",
+      "title": "Ethical, legal and environmental impacts",
+      "summary": "Evidence-based discussion of digital systems and responsible data use.",
+      "lessonCount": 2,
+      "search": "Privacy, ownership and digital law Environmental impact, accessibility and digital change",
+      "href": "courses/subjects/index.html?subject=computer-science&topic=computer-science-ethical-legal-and-environmental-impacts&view=textbook"
     }
   ]
 };

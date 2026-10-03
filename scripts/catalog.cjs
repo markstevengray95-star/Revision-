@@ -2,6 +2,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const root=path.resolve(__dirname,'..');
+const {readCourses}=require('./subject-courses.cjs');
 function generateCatalog(){
   const context=vm.createContext({window:{location:{search:''}},document:{querySelector(){return null},readyState:'loading',addEventListener(){}},URLSearchParams,console});
   const load=file=>vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),context,{filename:file});
@@ -23,6 +24,11 @@ function generateCatalog(){
       const lessons=(context.window.ALEVEL_LESSONS||[]).filter(l=>l.topicId===topic.id);
       catalog.topics.push({id:topic.id,course:id,level:'alevel',subject:subject.id,code:topic.code,title:topic.title,summary:topic.description,year:topic.year,moduleCount:topic.modules.length,search:topic.modules.map(m=>[m.title||m.label,m.summary,...(m.focus||[])].filter(Boolean).join(' ')).join(' ')+' '+lessons.map(l=>l.title).join(' '),href:`courses/alevel/index.html?subject=${subject.id}&view=course&topic=${topic.id}&module=0`});
     }
+  }
+  for(const {meta,data}of readCourses()){
+    const id=`gcse-${meta.id}`,href=`courses/subjects/index.html?subject=${meta.id}`;
+    catalog.courses.push({id,level:'gcse',subject:meta.id,title:`GCSE ${meta.title}`,spec:meta.spec,summary:meta.description,progressKey:`subject-course-progress:${meta.id}`,href});
+    for(const t of data.topics)catalog.topics.push({id:t.id,course:id,level:'gcse',subject:meta.id,code:t.code||'',title:t.title,summary:t.summary,lessonCount:t.lessons.length,option:t.option,search:t.lessons.map(l=>l.title).join(' '),href:href+'&topic='+t.id+'&view=textbook'});
   }
   return JSON.parse(JSON.stringify(catalog));
 }

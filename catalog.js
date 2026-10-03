@@ -60,6 +60,16 @@ window.REVISION_CATALOG = {
       "summary": "Physical, inorganic and organic chemistry, step by step.",
       "progressKey": "alevel-chemistry-progress-v1",
       "href": "courses/alevel/index.html?subject=chemistry"
+    },
+    {
+      "id": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "title": "GCSE Mathematics",
+      "spec": "AQA GCSE Mathematics 8300",
+      "summary": "Number, algebra, ratio, geometry, probability and statistics. Textbook chapters, worked examples and practice.",
+      "progressKey": "subject-course-progress:maths",
+      "href": "courses/subjects/index.html?subject=maths"
     }
   ],
   "topics": [
@@ -684,6 +694,78 @@ window.REVISION_CATALOG = {
       "moduleCount": 16,
       "search": "Introduction to organic chemistry Introduction to organic chemistry, aligned to AQA 3.3.1. Master the core knowledge and terminology in 3.3.1. Apply introduction to organic chemistry to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Alkanes Alkanes, aligned to AQA 3.3.2. Master the core knowledge and terminology in 3.3.2. Apply alkanes to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Halogenoalkanes Halogenoalkanes, aligned to AQA 3.3.3. Master the core knowledge and terminology in 3.3.3. Apply halogenoalkanes to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Alkenes Alkenes, aligned to AQA 3.3.4. Master the core knowledge and terminology in 3.3.4. Apply alkenes to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Alcohols Alcohols, aligned to AQA 3.3.5. Master the core knowledge and terminology in 3.3.5. Apply alcohols to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Organic analysis Organic analysis, aligned to AQA 3.3.6. Master the core knowledge and terminology in 3.3.6. Apply organic analysis to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Optical isomerism Optical isomerism, aligned to AQA 3.3.7. Master the core knowledge and terminology in 3.3.7. Apply optical isomerism to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Aldehydes and ketones Aldehydes and ketones, aligned to AQA 3.3.8. Master the core knowledge and terminology in 3.3.8. Apply aldehydes and ketones to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Carboxylic acids and derivatives Carboxylic acids and derivatives, aligned to AQA 3.3.9. Master the core knowledge and terminology in 3.3.9. Apply carboxylic acids and derivatives to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Aromatic chemistry Aromatic chemistry, aligned to AQA 3.3.10. Master the core knowledge and terminology in 3.3.10. Apply aromatic chemistry to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Amines Amines, aligned to AQA 3.3.11. Master the core knowledge and terminology in 3.3.11. Apply amines to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Polymers Polymers, aligned to AQA 3.3.12. Master the core knowledge and terminology in 3.3.12. Apply polymers to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Amino acids, proteins and DNA Amino acids, proteins and DNA, aligned to AQA 3.3.13. Master the core knowledge and terminology in 3.3.13. Apply amino acids, proteins and dna to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Organic synthesis Organic synthesis, aligned to AQA 3.3.14. Master the core knowledge and terminology in 3.3.14. Apply organic synthesis to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Nuclear magnetic resonance spectroscopy Nuclear magnetic resonance spectroscopy, aligned to AQA 3.3.15. Master the core knowledge and terminology in 3.3.15. Apply nuclear magnetic resonance spectroscopy to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. Chromatography Chromatography, aligned to AQA 3.3.16. Master the core knowledge and terminology in 3.3.16. Apply chromatography to data, practical and exam-style contexts. Connect this section to the wider A-Level Chemistry course. ",
       "href": "courses/alevel/index.html?subject=chemistry&view=course&topic=chem-organic&module=0"
+    },
+    {
+      "id": "maths-number",
+      "course": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "code": "",
+      "title": "Number",
+      "summary": "Build fluency with signed numbers, fractions, powers, accuracy and financial calculations.",
+      "lessonCount": 7,
+      "search": "Integers, decimals and order of operations Factors, multiples and primes Fractions and mixed numbers Percentages and financial mathematics Indices and standard form Rounding, estimation and bounds Surds, fractional indices and exact values",
+      "href": "courses/subjects/index.html?subject=maths&topic=maths-number&view=textbook"
+    },
+    {
+      "id": "maths-algebra",
+      "course": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "code": "",
+      "title": "Algebra",
+      "summary": "Manipulate expressions, solve equations, interpret graphs and explain relationships.",
+      "lessonCount": 9,
+      "search": "Expressions, substitution and formulae Expanding and factorising Linear equations and inequalities Sequences and nth terms Coordinates and straight-line graphs Quadratics and simultaneous equations Higher equations, functions and iteration Graph shapes, transformations and rates Algebraic fractions and proof",
+      "href": "courses/subjects/index.html?subject=maths&topic=maths-algebra&view=textbook"
+    },
+    {
+      "id": "maths-ratio-and-proportion",
+      "course": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "code": "",
+      "title": "Ratio and proportion",
+      "summary": "Connect ratios, rates, percentages, scales and changing quantities.",
+      "lessonCount": 4,
+      "search": "Ratio, sharing and scale Rates, units and best buys Direct and inverse proportion Growth, decay and proportional modelling",
+      "href": "courses/subjects/index.html?subject=maths&topic=maths-ratio-and-proportion&view=textbook"
+    },
+    {
+      "id": "maths-geometry-and-measures",
+      "course": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "code": "",
+      "title": "Geometry and measures",
+      "summary": "Reason about shapes, construction, trigonometry, vectors and measures.",
+      "lessonCount": 7,
+      "search": "Angles, polygons and reasoning Constructions, loci and bearings Perimeter, area and circles Volume, surface area and similarity Pythagoras and right-angle trigonometry Transformations and vectors Circle theorems and non-right triangles",
+      "href": "courses/subjects/index.html?subject=maths&topic=maths-geometry-and-measures&view=textbook"
+    },
+    {
+      "id": "maths-probability",
+      "course": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "code": "",
+      "title": "Probability",
+      "summary": "Describe uncertainty, combine events and distinguish independent from conditional events.",
+      "lessonCount": 4,
+      "search": "Probability models and relative frequency Sample spaces, tables and Venn diagrams Tree diagrams and combined events Conditional probability and independence",
+      "href": "courses/subjects/index.html?subject=maths&topic=maths-probability&view=textbook"
+    },
+    {
+      "id": "maths-statistics",
+      "course": "gcse-maths",
+      "level": "gcse",
+      "subject": "maths",
+      "code": "",
+      "title": "Statistics",
+      "summary": "Collect representative data, choose summaries and interpret diagrams critically.",
+      "lessonCount": 4,
+      "search": "Sampling and data collection Averages, spread and frequency tables Charts, scatter graphs and time series Histograms, cumulative frequency and box plots",
+      "href": "courses/subjects/index.html?subject=maths&topic=maths-statistics&view=textbook"
     }
   ]
 };

@@ -5,11 +5,12 @@ const vm=require('node:vm');
 const {generateCatalog}=require('../scripts/catalog.cjs');
 const root=path.resolve(__dirname,'..');
 const catalog=generateCatalog();
-assert.equal(catalog.courses.length,6);
-assert.equal(catalog.topics.length,44);
-assert.equal(catalog.topics.filter(t=>t.level==='gcse').length,25);
+const science=catalog.courses.filter(c=>['biology','chemistry','physics'].includes(c.subject));
+assert.equal(science.length,6);
+assert.equal(catalog.topics.filter(t=>['biology','chemistry','physics'].includes(t.subject)).length,44);
+assert.equal(catalog.topics.filter(t=>t.level==='gcse'&&['biology','chemistry','physics'].includes(t.subject)).length,25);
 assert.equal(catalog.topics.filter(t=>t.level==='alevel').length,19);
-assert.equal(new Set(catalog.topics.map(t=>`${t.course}:${t.id}`)).size,44);
+assert.equal(new Set(catalog.topics.map(t=>`${t.course}:${t.id}`)).size,catalog.topics.length);
 for(const item of [...catalog.courses,...catalog.topics]){
   const url=new URL(item.href,'http://localhost');assert.ok(fs.existsSync(path.join(root,url.pathname)),`Broken catalog link: ${item.href}`);
 }

@@ -14,10 +14,11 @@ assert.throws(()=>tasks.build({...settings,type:'ordering',content:'A\nB\nC',mar
 for(const q of [...match,order,gap,mistake]){const {key,...publicQ}=q;assert.ok(!('key' in publicQ));assert.ok(q.prompt.length<=6000);}
 console.log('Homework tasks passed: correct matching keys after shuffling, ordering, gaps, mistake schemes, invalid authoring and public question privacy.');
 const resources=require('../shared/homework-resources.js'),fs=require('node:fs'),path=require('node:path');
-for(const e of resources.examples){
+for(const e of require('../shared/homework-examples.js').examples){
  const q=tasks.build({...e,id:'example',resource:e.id})[0];assert.equal(q.type,'written');assert.equal(q.marks,e.marks);assert.deepEqual(q.key.solution,e.solution.split('\n'));assert.ok(q.prompt.length<=6000);
  if(e.href){assert.equal(q.lessonHref,e.href);assert.ok(fs.existsSync(path.join(__dirname,'..',e.href)));assert.ok(!fs.readFileSync(path.join(__dirname,'..',e.href),'utf8').includes('<script'));assert.ok(e.alt.length>20);}
 }
+assert.ok(resources.examples.every(e=>!('solution' in e)&&!('prompt' in e)),'Student figure metadata must not contain example marking schemes.');
 assert.throws(()=>tasks.build({...settings,type:'diagram',resource:'../secret',solution:'answer'}),/resource library/);
 assert.throws(()=>tasks.build({...settings,type:'graph',resource:'cell',solution:'answer'}),/resource library/);
 assert.throws(()=>tasks.build({...settings,type:'practical',content:'Measure time',solution:''}),/mark scheme/);

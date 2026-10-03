@@ -1,4 +1,4 @@
-# Homework activities — Phase 1
+# Homework activities — completed phases 1–4
 
 Set Work now offers five editable homework presets:
 
@@ -37,4 +37,14 @@ Figures use the existing public `lessonHref` field and a fixed local resource al
 
 Validation: resource task tests check asset availability, accessible descriptions, validated figure selection, private mark schemes and editable practical examples. Browser checks verified graph and circuit images load and survive draft restoration.
 
-Phase 4 adds corrections and spaced follow-ups based on marked results.
+## Phase 4 — Corrections and spaced retrieval
+
+In **Insights → Corrections and spaced retrieval**, select source homework and students with fully marked latest attempts. Choose corrections, spaced retrieval or both. Teachers review every task, marking scheme and release/due date, then press **Approve and schedule follow-ups**.
+
+Corrections release immediately and are due on the first retrieval date. They include up to 12 questions with lost marks and the student's own previous response. Students write a corrected answer and explain their reasoning; teachers review the result. Fully successful students receive no correction tasks.
+
+Retrieval schedules three tasks at 08:00 on the chosen first date, 6 days later and 20 days later (normally 1, 7 and 21 days from planning), each due two days after release. Each deliberately revisits up to six original questions, prioritising lost marks. Choice options rotate while correct option IDs and numerical keys remain stable. These are repeated retrieval questions, not newly generated assessments. Diagram and graph resources are retained.
+
+Every assignment targets one source-class student. Students awaiting review or outside the source recipients are excluded. A changed source, recipient selection, schedule or refreshed result invalidates the preview. Assignment creation uses the existing atomic, idempotent `revision_assign_followups` RPC and existing start-date visibility. Plans above its 250-assignment limit are rejected before submission. No database migration is required.
+
+Validation: follow-up tests cover latest attempts, marked-only recipient scope, weak/strong students, private corrections, option-key stability, future dates, invalid dates, server capacity and changed-result signatures. Browser checks verified a sample marked student receives one correction task plus three scheduled retrieval tasks, while the pending student is excluded. Student homework displayed its graph with unreleased worked solutions; both teacher and student checks produced no console errors in the sample fixture.

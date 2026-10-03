@@ -1,12 +1,13 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.REVISION_HOMEWORK_FOLLOWUPS=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
  'use strict';
  function latest(attempts,sourceId,studentId){return attempts.filter(a=>a.assignment_id===sourceId&&a.student_id===studentId).sort((a,b)=>Number(b.attempt_no)-Number(a.attempt_no))[0];}
- function eligible(state,source){return state.members.filter(m=>m.class_id===source.class_id&&m.status==='joined'&&(!source.recipient_ids||source.recipient_ids.includes(m.student_id))).map(member=>({member,attempt:latest(state.attempts,source.id,member.student_id)})).filter(({attempt})=>attempt?.review_state==='complete'&&Number.isFinite(Number(attempt.score))&&Number(attempt.total_max)>0);}
+ function eligible(state,source){return state.members.filter(m=>m.class_id===source.class_id&&m.status==='joined'&&(!source.recipient_ids||source.recipient_ids.includes(m.student_id))).map(member=>({member,attempt:latest(state.attempts,source.id,member.student_id)})).filter(({attempt})=>attempt?.review_state==='complete'&&attempt.score!==null&&attempt.score!==undefined&&Number.isFinite(Number(attempt.score))&&Number(attempt.total_max)>0);}
  function signature(state,source){return JSON.stringify({source:source.id,classId:source.class_id,recipients:source.recipient_ids,results:eligible(state,source).map(({member,attempt})=>[member.student_id,attempt.id,attempt.attempt_no,attempt.score,attempt.total_max,attempt.marks])});}
  function dateAt(day,offset,hour){const d=new Date(day+'T00:00:00');d.setDate(d.getDate()+offset);d.setHours(hour,0,0,0);return d;}
  function build({state,source,template,studentIds,mode='both',firstDate,now=new Date()}){
   if(!['both','corrections','spaced'].includes(mode))throw Error('Choose corrections, spaced retrieval or both.');
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(firstDate||'')||!Number.isFinite(dateAt(firstDate,0,8).getTime())||dateAt(firstDate,0,8)<=now)throw Error('Choose a first retrieval date in the future.');
+  const start=dateAt(firstDate,0,8),canonical=Number.isFinite(start.getTime())?[start.getFullYear(),String(start.getMonth()+1).padStart(2,'0'),String(start.getDate()).padStart(2,'0')].join('-'):'';
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(firstDate||'')||canonical!==firstDate||start<=now)throw Error('Choose a valid first retrieval date in the future.');
   if(!template?.questions?.length||template.questions.some(q=>!q.key?.solution?.length))throw Error('The teacher question template and mark schemes are required.');
   const allowed=eligible(state,source),chosen=new Set(studentIds||[]);
   if(!chosen.size||[...chosen].some(id=>!allowed.some(r=>r.member.student_id===id)))throw Error('Select students with fully marked latest attempts from this assignment.');

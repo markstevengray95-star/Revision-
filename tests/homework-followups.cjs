@@ -10,6 +10,10 @@ const correction=result.plan[0];assert.deepEqual(correction.meta.recipient_ids,[
 const stages=result.plan.filter(p=>p.student.student_id==='s1'&&p.label!=='Corrections');assert.deepEqual(stages.map(p=>new Date(p.meta.start_at).getDate()),[5,11,25]);assert.ok(stages.every(p=>new Date(p.meta.due_at)>new Date(p.meta.start_at)));assert.deepEqual(stages[0].activity.questions[0].key,questions[0].key);assert.notDeepEqual(stages[0].activity.questions[0].options,questions[0].options);
 assert.equal(F.build({...input,mode:'corrections',studentIds:['s3']}).plan.length,0);
 assert.throws(()=>F.build({...input,studentIds:['s2']}),/fully marked/);assert.throws(()=>F.build({...input,studentIds:['outside']}),/fully marked/);assert.throws(()=>F.build({...input,firstDate:'2026-10-01'}),/future/);
+assert.throws(()=>F.build({...input,firstDate:'2026-02-31'}),/valid/);
+const largeState={members:[],attempts:[]};for(let i=0;i<64;i++){const student_id='large'+i;largeState.members.push({student_id,class_id:'c',status:'joined'});largeState.attempts.push(attempt(student_id,'largeAttempt'+i,1,'complete'));}
+assert.throws(()=>F.build({...input,state:largeState,source:{...source,recipient_ids:null},studentIds:largeState.members.map(m=>m.student_id)}),/250/);
+const nullGrade={...state,attempts:[attempt('s1','null',3,'complete')]};nullGrade.attempts[0].score=null;assert.equal(F.eligible(nullGrade,source).length,0);
 const signed=F.signature(state,source);state.attempts.find(a=>a.id==='latest').marks[0].awarded=1;assert.notEqual(F.signature(state,source),signed);
 assert.equal(template.questions[0].id,'q1');assert.deepEqual(template.questions[0].options,questions[0].options);
 console.log('Homework follow-ups passed: latest marked recipients, private corrections, strong-student exclusion, scheduled retrieval, stable keys, no template mutations and stale-result signatures.');

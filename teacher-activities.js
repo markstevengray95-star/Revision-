@@ -76,7 +76,7 @@
       const resourceTask = ["diagram", "graph", "practical"].includes(type);
       $("custom-resource-fields").hidden = !resourceTask;
       $("custom-resource").replaceChildren(new Option("Choose an example / figure", ""),
-        ...window.REVISION_HOMEWORK_RESOURCES.forType(type).map(e => new Option(e.title, e.id)));
+        ...window.REVISION_HOMEWORK_EXAMPLES.forType(type).map(e => new Option(e.title, e.id)));
       $("custom-prompt-heading").textContent = task ? "Task instruction" : "Question";
       $("custom-solution-heading").textContent = ["matching", "ordering", "gaps"].includes(type)
         ? "Extra marking guidance (optional; answers are generated from the task content)"
@@ -96,7 +96,7 @@
         ["written", "ordering", "mistake", "diagram", "graph", "practical"].includes(type) ? "3" : "1";
     });
     $("custom-use-example").addEventListener("click", () => {
-      const example = window.REVISION_HOMEWORK_RESOURCES.find($("custom-resource").value);
+      const example = window.REVISION_HOMEWORK_EXAMPLES.find($("custom-resource").value);
       if (!example || example.type !== $("custom-type").value)
         return context.showNotice("Choose an example for this task type.", "error");
       $("custom-prompt").value = example.prompt;
